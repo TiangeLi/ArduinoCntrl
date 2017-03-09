@@ -63,17 +63,21 @@ class GUI_CameraDisplay(QWidget):
             self.readyQ.put(array_ind)
 
     def begin(self):
-        for proc in self.procs:
-            proc.start()
+        [proc.start() for proc in self.procs]
 
 if __name__ == '__main__':
-    #mp.freeze_support()
+    mp.freeze_support()
 
     app = QApplication(sys.argv)
+    main_window = QWidget()
+    grid = QGridLayout()
+
 
     cmr = GUI_CameraDisplay()
-
-
+    grid.addWidget(cmr, 0, 0)
+    main_window.setLayout(grid)
+    main_window.show()
     cmr.begin()
+
     app.exec_()
 
