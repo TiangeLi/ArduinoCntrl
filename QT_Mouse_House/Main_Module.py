@@ -3,13 +3,10 @@
 """PyQt4 Version of Mouse House"""
 
 
-import sys
-from copy import deepcopy
 from Dirs_Settings import *
-from Misc_Functions import *
 from Custom_Qt_Widgets import *
 import multiprocessing as mp
-from PyQt4 import QtGui, QtCore
+from PyQt4 import QtGui
 
 
 class GUI_Master(QtGui.QMainWindow):
