@@ -113,7 +113,7 @@ if __name__ == '__main__':  # Always run Main_Module.py as primary script
     # Add Freeze Support for Executable Files
     mp.freeze_support()
 
-    # Set up Directories and Save FIles
+    # Set up Directories and Save Files
     dirs = Directories()
     dirs.load()
 
