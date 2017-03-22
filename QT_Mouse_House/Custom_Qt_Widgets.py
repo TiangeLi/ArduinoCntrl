@@ -2,7 +2,6 @@
 
 """Qt Widget Blocks for implementation into a QMainWindow"""
 
-from copy import deepcopy
 from Misc_Functions import *
 from Custom_Qt_Tools import *
 
@@ -26,15 +25,15 @@ class GUI_ProgressBar(qg.QGraphicsView):
         # Setup Graphics Scene
         self.setScene(self.scene)
         self.setRenderHint(qg.QPainter.Antialiasing)
-        self.setMaximumWidth(1054)
-        self.setMaximumHeight(284)
+        self.setMaximumWidth(1056)
+        self.setMaximumHeight(288)
 
     # -- Static Background -- #
     def init_static_background(self):
         """Sets up the static backdrop"""
         bg_group = GUI_SimpleGroup()
         # Main Background Shapes
-        bg_group.add(qg.QGraphicsRectItem(0, 0, 1052, 280), brush=black)
+        bg_group.add(qg.QGraphicsRectItem(0, 0, 1052, 284), brush=black)
         bg_group.add(qg.QGraphicsLineItem(0, 20, 1052, 20), pen=white)
         bg_group.add(qg.QGraphicsLineItem(0, 40, 1052, 40), pen=white)
         bg_group.add(qg.QGraphicsLineItem(0, 160, 1052, 160), pen=white)
@@ -88,21 +87,56 @@ class GUI_ProgressBar(qg.QGraphicsView):
             self.scene.addItem(group)
 
     def set_dynamic_background(self):
-        """Sets dynamic background to new data"""
-        self.get_ard_data()
+        """Sets dynamic background using data from settings.ard_last_used"""
+        self.reset_dynamic_background()
         self.set_vert_spacers()
         self.set_ard_bars()
-        self.set_timers_and_anims()
+        #self.set_timers_and_anims()
 
-    def get_ard_data(self, destroy=False, load=None):
-        """Obtain Arduino Data from Saves"""
-        if load:
-            load = self.dirs.settings.ard_presets[load]
-            self.dirs.settings.ard_last_used = deepcopy(load)
-        if destroy:
-            for group in self.dynamic_bg_groups:
-                for item in group.childItems():
-                    group.removeFromGroup(item)
+    def reset_dynamic_background(self):
+        """Resets the dynamic background before creating new ones"""
+        for group in self.dynamic_bg_groups:
+            for item in group.childItems():
+                group.removeFromGroup(item)
+
+    def set_vert_spacers(self):
+        """Sets up dynamic vertical spacers for Progress Bar"""
+        ms_time = self.dirs.settings.ard_last_used['packet'][3]
+        # Main Variables for Determining Spacer Setup
+        gap_size = 5 + 5 * int(ms_time / 300000)  # Factors into size of gaps between spacers
+        num_spacers = float(ms_time / 1000) / gap_size  # Number of spacers to implement
+        pos_raw = 1000.0 / num_spacers  # Position of 1st Spacer and True inter-spacer gap size.
+        # Generating Spacers
+        for i in range(int(round(num_spacers))):
+            i += 1  # Such that i is in [1, ..., num_spacers] instead of [0, ..., num_spacers - 1]
+            # -- Generic Object Pointers -- #
+            tiny_line = qg.QGraphicsLineItem(i * pos_raw, 260, i * pos_raw, 265)
+            short_line = qg.QGraphicsLineItem(i * pos_raw, 20, i * pos_raw, 260)
+            long_line = qg.QGraphicsLineItem(i * pos_raw, 20, i * pos_raw, 265)
+            time_text = qg.QGraphicsTextItem(format_secs(gap_size * i))
+            # -- Creation Parameters -- #
+            odd_spacer = (i % 2 != 0)
+            even_spacer = (i % 2 == 0)
+            final_spacer = (i == int(round(num_spacers)))
+            undershoot = (i * pos_raw < 1000)
+            at_end_of_bar = (i * pos_raw == 1000)
+            # -- Create Spacers based on Creation Parameters -- #
+            if odd_spacer:
+                if (not final_spacer) or (final_spacer and undershoot):
+                    self.v_bars.add(short_line, pen=white)
+                elif final_spacer and at_end_of_bar:
+                    self.v_bars.add(tiny_line, pen=white)
+            elif even_spacer:
+                if (not final_spacer) or (final_spacer and undershoot):
+                    self.v_bars.add(long_line, pen=white)
+                    self.bar_times.add(time_text, pos_x=i * pos_raw - 20, pos_y=262, color=white)
+                elif final_spacer and at_end_of_bar:
+                    self.v_bars.add(tiny_line, pen=white)
+                    self.bar_times.add(time_text, pos_x=i * pos_raw - 20, pos_y=262, color=white)
+
+    def set_ard_bars(self):
+        """Creates Visual Indicators for Arduino Stimuli based on config data"""
+
 
     # -- Animation Objects, Timers, Functions -- #
     def init_anim_gfx_objects(self):

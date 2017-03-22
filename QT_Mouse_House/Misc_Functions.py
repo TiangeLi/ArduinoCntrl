@@ -63,3 +63,9 @@ def format_daytime(option, use_as_save, dayformat='/', timeformat=':'):
         return clock
     elif option == 'daytime':
         return '{}--{}'.format(day, clock)
+
+
+# Data Functions
+def ard_decode_data(dirs, name, data_source):
+    """Read Packed Arduino Data and Returns a Readable Format"""
+
