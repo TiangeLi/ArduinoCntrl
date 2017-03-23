@@ -2,6 +2,7 @@
 
 """Qt Widget Blocks for implementation into a QMainWindow"""
 
+from operator import itemgetter
 from Misc_Functions import *
 from Custom_Qt_Tools import *
 
@@ -11,13 +12,12 @@ class GUI_ProgressBar(qg.QGraphicsView):
     def __init__(self, dirs):
         qg.QGraphicsView.__init__(self)
         self.dirs = dirs
-        self.start_time = qc.QTime()
+        self.exp_start_time = qc.QTime()
         self.scene = qg.QGraphicsScene(self)
         # Initialize Objects
         self.init_static_background()
         self.init_dynamic_background()
         self.init_anim_gfx_objects()
-        self.set_timers_and_anims()
         self.set_dynamic_background()
         # Experiment Running Booleans
         self.bar_gfx_running = False
@@ -87,11 +87,16 @@ class GUI_ProgressBar(qg.QGraphicsView):
             self.scene.addItem(group)
 
     def set_dynamic_background(self):
-        """Sets dynamic background using data from settings.ard_last_used"""
+        """
+        Sets dynamic background using data from settings.ard_last_used
+        Any changes to ard settings should be done to settings.ard_last_used before calling this!
+        """
+        data_source = self.dirs.settings.ard_last_used
         self.reset_dynamic_background()
-        self.set_vert_spacers()
-        self.set_ard_bars()
-        #self.set_timers_and_anims()
+        self.set_vert_spacers(ms_time=data_source['packet'][3])
+        self.set_ard_bars(data_source=data_source)
+        # We also update animation timers to correspond with new background
+        self.set_timers_and_anims()
 
     def reset_dynamic_background(self):
         """Resets the dynamic background before creating new ones"""
@@ -99,10 +104,8 @@ class GUI_ProgressBar(qg.QGraphicsView):
             for item in group.childItems():
                 group.removeFromGroup(item)
 
-    def set_vert_spacers(self):
+    def set_vert_spacers(self, ms_time):
         """Sets up dynamic vertical spacers for Progress Bar"""
-        ms_time = self.dirs.settings.ard_last_used['packet'][3]
-        # Main Variables for Determining Spacer Setup
         gap_size = 5 + 5 * int(ms_time / 300000)  # Factors into size of gaps between spacers
         num_spacers = float(ms_time / 1000) / gap_size  # Number of spacers to implement
         pos_raw = 1000.0 / num_spacers  # Position of 1st Spacer and True inter-spacer gap size.
@@ -134,9 +137,86 @@ class GUI_ProgressBar(qg.QGraphicsView):
                     self.v_bars.add(tiny_line, pen=white)
                     self.bar_times.add(time_text, pos_x=i * pos_raw - 20, pos_y=262, color=white)
 
-    def set_ard_bars(self):
+    def set_ard_bars(self, data_source):
         """Creates Visual Indicators for Arduino Stimuli based on config data"""
+        ms_time = data_source['packet'][3]
+        # -- Create bars for Tone if exist -- #
+        if len(data_source['tone_pack']) != 0:
+            self.create_bar_from_ard_data('tone', data_source['tone_pack'], ms_time)
+        if len(data_source['out_pack']) != 0:
+            self.create_bar_from_ard_data('output', data_source['out_pack'], ms_time)
+        if len(data_source['pwm_pack']) != 0:
+            self.create_bar_from_ard_data('pwm', data_source['pwm_pack'], ms_time)
 
+    def create_bar_from_ard_data(self, data_type, data, ms_time):
+        """Reads packed arduino commands and turns into progress bar elements"""
+        # -- Indicate where to get time data -- #
+        if data_type == 'tone':
+            start_index, off_index = 1, 2
+        elif data_type == 'pwm':
+            start_index, off_index = 2, 3
+        elif data_type == 'output':
+            start_index, off_index = 1, 2
+            # -- Simple Output requires combining packed instructions -- #
+            # Lists to save processed data
+            indiv_trigs, indiv_times = [], []  # corresponding lists of every time a pin is triggered
+            pins_and_times = {}  # {pin: [list_of_trigger_times]}
+            final_intv = []  # List of lists of final data
+            # Create mirror lists of each time a pin is triggered and the time of trigger
+            for instruction in data:
+                time, pins = instruction[1], instruction[2]
+                triggers = check_binary(pins, 'D')
+                for trigger in triggers:
+                    indiv_trigs.append(trigger)
+                    indiv_times.append(time)
+            # Create a dictionary of {pin: [list of trigger times]}
+            for trig_index in range(len(indiv_trigs)):
+                pin = indiv_trigs[trig_index]
+                try:
+                    pins_and_times[pin].append(indiv_times[trig_index])
+                except KeyError:
+                    pins_and_times[pin] = [indiv_times[trig_index]]
+            # Create list of lists containing [pin, on time, off time]
+            for pin in pins_and_times:
+                for time_index in range(len(pins_and_times[pin])):
+                    if time_index % 2 == 0:
+                        final_intv.append([pin,
+                                           pins_and_times[pin][time_index],
+                                           pins_and_times[pin][time_index + 1]])
+            final_intv = sorted(final_intv, key=itemgetter(1))
+            data = final_intv
+        # -- Return arduino data in readable list -- #
+        for instruction in data:
+            start_point = (float(instruction[start_index]) / ms_time) * 1000.0
+            on_duration = (float(instruction[off_index]) / ms_time) * 1000.0 - start_point
+            # Export Data
+            start_time = format_secs(instruction[start_index] / 1000)
+            off_time = format_secs(instruction[off_index] / 1000)
+            # -- Create TONE Bars -- #
+            if data_type == 'tone':
+                tone_freq = instruction[3]
+                self.tone_bars.add(qg.QGraphicsRectItem(start_point, 20, on_duration, 20), brush=yellow, pen=blue,
+                                   tooltip='{} - {}\n{} Hz'.format(start_time, off_time, tone_freq))
+            # -- Create PWM Bars -- #
+            elif data_type == 'pwm':
+                pin = check_binary(instruction[5], 'B')[0]
+                freq = instruction[4]
+                duty_cycle = instruction[7]
+                phase_shift = instruction[6]
+                pin_ids = range(8, 14)
+                pin_ids.remove(10)
+                y_pos = 160 + (pin_ids.index(pin)) * 20
+                self.pwm_bars.add(qg.QGraphicsRectItem(start_point, y_pos, on_duration, 20), brush=yellow, pen=blue,
+                                  tooltip='{} - {}\nPin {}\nFreq: {}Hz\nDuty Cycle: {}%\nPhase Shift:{}'
+                                          '' + u'\u00b0'.format(start_time, off_time,
+                                                                pin, freq, duty_cycle, phase_shift))
+            # -- Create OUTPUT Bars -- #
+            elif data_type == 'output':
+                pin = instruction[0]
+                pin_ids = range(2, 8)
+                y_pos = 40 + (pin_ids.index(pin)) * 20
+                self.out_bars.add(qg.QGraphicsRectItem(start_point, y_pos, on_duration, 20), brush=yellow, pen=blue,
+                                  tooltip='{} - {}\nPin {}'.format(start_time, off_time, pin))
 
     # -- Animation Objects, Timers, Functions -- #
     def init_anim_gfx_objects(self):
@@ -151,6 +231,7 @@ class GUI_ProgressBar(qg.QGraphicsView):
         self.scene.addItem(self.bar_gfx)
 
     def set_timers_and_anims(self):
+        """Sets duration and frames of progress bar animation"""
         self.duration = self.dirs.settings.ard_last_used['packet'][3]
         # Timer objects
         self.time_gfx_timer = qc.QTimeLine(self.duration)
@@ -176,9 +257,14 @@ class GUI_ProgressBar(qg.QGraphicsView):
         """Called by bar_gfx_timer; runs this every time timer goes up by 1"""
         # -- Animations for Time Indicator -- #
         # Update Time
-        ms_elapsed = self.start_time.elapsed() / 1000.0
+        ms_elapsed = self.exp_start_time.elapsed() / 1000.0
         ms_elapsed = format_secs(ms_elapsed, 'with_ms')
         self.time_gfx.setPlainText(ms_elapsed)
+        # Make sure Progress Bar booleans are set correctly
+        if not self.bar_gfx_running:  # Bar runs entire duration, so use as running marker
+            self.bar_gfx_running = True
+        if abs(self.bar_gfx_timer.currentFrame()) >= self.duration * 1000:
+            self.bar_gfx_running = False
         # Move the Time Indicator by 1 increment
         if not self.time_gfx_running \
             and abs(self.bar_gfx_timer.currentFrame()) > self.duration * 31 \
@@ -190,8 +276,15 @@ class GUI_ProgressBar(qg.QGraphicsView):
             self.time_gfx_timer.stop()
 
     # -- Progress Bar On/Off -- #
-    def run_bar(self):
+    def start_bar(self):
         """Starts Progress Bar"""
         self.time_gfx.setPos(0, 0)
         self.bar_gfx_timer.start()
-        self.start_time.start()
+        self.exp_start_time.start()
+
+    def stop_bar(self):
+        """Stops Progress Bar"""
+        self.time_gfx_timer.stop()
+        self.bar_gfx_timer.stop()
+        self.bar_gfx_running = False
+        self.time_gfx_running = False

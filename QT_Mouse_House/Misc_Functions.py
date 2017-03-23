@@ -65,7 +65,16 @@ def format_daytime(option, use_as_save, dayformat='/', timeformat=':'):
         return '{}--{}'.format(day, clock)
 
 
-# Data Functions
-def ard_decode_data(dirs, name, data_source):
-    """Read Packed Arduino Data and Returns a Readable Format"""
-
+# Arduino Functions
+def check_binary(num, register):
+    """Given any number and an arduino register, return set of corresponding arduino pins"""
+    dicts = {'binary': 'pin_num'}
+    if register == 'D':
+        dicts = {1: 0, 2: 1, 4: 2, 8: 3, 16: 4, 32: 5, 64: 6, 128: 7}
+    elif register == 'B':
+        dicts = {1: 8, 2: 9, 4: 10, 8: 11, 16: 12, 32: 13}
+    store = []
+    for i in dicts:
+        if num & i > 0:
+            store.append(dicts[i])
+    return store
