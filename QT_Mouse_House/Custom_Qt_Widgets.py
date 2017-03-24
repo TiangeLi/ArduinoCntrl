@@ -3,6 +3,7 @@
 """Qt Widget Blocks for implementation into a QMainWindow"""
 
 from operator import itemgetter
+import multiprocessing as mp
 from Misc_Functions import *
 from Custom_Qt_Tools import *
 
@@ -25,8 +26,8 @@ class GUI_ProgressBar(qg.QGraphicsView):
         # Setup Graphics Scene
         self.setScene(self.scene)
         self.setRenderHint(qg.QPainter.Antialiasing)
-        self.setMaximumWidth(1056)
-        self.setMaximumHeight(288)
+        self.setMinimumSize(1056, 288)
+        self.setMaximumSize(1056, 288)
 
     # -- Static Background -- #
     def init_static_background(self):
@@ -288,3 +289,87 @@ class GUI_ProgressBar(qg.QGraphicsView):
         self.bar_gfx_timer.stop()
         self.bar_gfx_running = False
         self.time_gfx_running = False
+
+
+class GUI_CameraDisplay(qg.QWidget):
+    """Displays Video feeds from Cameras"""
+    def __init__(self, dirs):
+        qg.QWidget.__init__(self)
+        self.ready_queue = mp.Queue()
+        self.dirs = dirs
+        self.grid = qg.QGridLayout()
+        self.setLayout(self.grid)
+        # Display Configs
+        self.image_size = (240, 320)
+        self.num_cmrs = self.dirs.settings.num_cmrs
+        # Image data holders
+        self.arrays, self.images, self.labels, self.procs = [], [], [], []
+        self.groupboxes = []
+        # Setup Displays
+        self.render_displays()
+
+    def render_displays(self):
+        """Creates Display Feeds Based on Number of Cameras"""
+        self.terminate_old_processes()
+        self.create_data_containers()
+        self.setup_groupboxes()
+        timer = qc.QTimer(self)
+        timer.timeout.connect(self.update)
+        timer.start()
+
+    def terminate_old_processes(self):
+        """Kills old video processes before starting new ones"""
+        if len(self.procs) != 0:
+            for proc in self.procs:
+                proc.terminate()
+        for i in reversed(range(self.grid.count())):
+            self.grid.itemAt(i).widget().setParent(None)
+
+    def create_data_containers(self):
+        """Generates shared data buffers and other objects for image display"""
+        # mp.Array can be shared across buffers; np.Array turns mp.Array into readable format
+        # -- Make tuples of (mp.Array, np.Array) that ref. the same underlying data buffers
+        mp_arrays = (mp.Array('I', int(np.prod(self.image_size)), lock=mp.Lock()) for _ in range(self.num_cmrs))
+        self.arrays = [(m_array, np.frombuffer(m_array.get_obj(), dtype='I').reshape(self.image_size))
+                       for m_array in mp_arrays]
+        # -- Video displaying data containers -- #
+        self.images = [qg.QImage(n.data, n.shape[1], n.shape[0], qg.QImage.Format_RGB32) for m, n in self.arrays]
+        self.labels = [qg.QLabel(self) for _ in self.arrays]
+        # -- Each video feed runs on a separate process -- #
+        self.procs = [mp.Process(target=frame_stream, args=(i, m, self.ready_queue, self.image_size))
+                      for i, (m, n) in enumerate(self.arrays)]
+        for index in range(len(self.procs)):
+            self.procs[index].daemon = True
+            self.procs[index].name = 'cmr_stream_proc_#{}'.format(index)
+
+    def setup_groupboxes(self):
+        """Creates individual labeled boxes for each camera display"""
+        num_columns = 1 + self.num_cmrs // 4
+        num_empty = num_columns * 4 - self.num_cmrs
+        self.groupboxes = []
+        for i in range(num_columns * 4):
+            self.groupboxes.append(qg.QGroupBox())
+        for cmr_index in range(self.num_cmrs):
+            grid = qg.QGridLayout()
+            grid.addWidget(self.labels[cmr_index])
+            self.groupboxes[cmr_index].setTitle('Camera #{}'.format(cmr_index + 1))
+            self.groupboxes[cmr_index].setLayout(grid)
+            col = num_columns - cmr_index // 4
+            row = cmr_index - (cmr_index // 4) * 4
+            self.grid.addWidget(self.groupboxes[cmr_index], row, col)
+        for empty in range(num_empty):
+            empty += self.num_cmrs
+            self.groupboxes[empty].setTitle('No Camera Available')
+            col = num_columns - empty // 4
+            row = empty - (empty // 4) * 4
+            self.grid.addWidget(self.groupboxes[empty], row, col)
+
+    def update(self):
+        """Updates Image Pixel Map"""
+        # Get index of array that was newly updated
+        index = self.ready_queue.get()
+        # Get array
+        m, n = self.arrays[index]
+        # Turn array into image
+        self.labels[index].setPixmap(qg.QPixmap.fromImage(self.images[index]))
+        m.release()

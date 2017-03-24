@@ -67,6 +67,7 @@ class Settings(object):
     def __init__(self):
         self.ser_port = ''  # Arduino Serial Port
         self.save_dir = ''  # Last Used Save Directory
+        self.num_cmrs = 0  # Number of Live Feed Cameras to Use
         # Last Used Settings
         self.fp_last_used = {'ch_num': [], 'main_freq': 0, 'isos_freq': 0}
         self.lj_last_used = {'ch_num': [], 'scan_freq': 0}
@@ -82,6 +83,7 @@ class Settings(object):
             self.ser_port = 'COM4'
         else:
             self.ser_port = '/dev/tty.usbmodem1421'
+        self.num_cmrs = 2
         # Last Used Settings
         self.fp_last_used = {'ch_num': [8, 12, 13], 'main_freq': 211, 'isos_freq': 531}
         self.lj_last_used = {'ch_num': [8, 12, 13], 'scan_freq': 6250}

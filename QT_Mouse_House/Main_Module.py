@@ -26,8 +26,11 @@ class GUI_Master(qg.QWidget):
         """Adds all GUI Modules"""
         # Create Widget Objects
         self.progbar = GUI_ProgressBar(dirs)
+        self.cameras = GUI_CameraDisplay(dirs)
+        [proc.start() for proc in self.cameras.procs]
         # Add Widgets to Grid
-        self.grid.addWidget(self.progbar, 0, 0)
+        self.grid.addWidget(self.progbar, 0, 1)
+        self.grid.addWidget(self.cameras, 0, 0, 4, 1)
         # Finish Layout
         self.setLayout(self.grid)
 

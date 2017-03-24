@@ -4,6 +4,8 @@
 
 
 # Imports
+import random
+import numpy as np
 from datetime import datetime
 
 
@@ -78,3 +80,20 @@ def check_binary(num, register):
         if num & i > 0:
             store.append(dicts[i])
     return store
+
+
+# Camera Functions
+def frame_stream(array_ind, mp_array, ready_queue, image_size):
+    """Stream image frames from camera to GUI"""
+    while True:
+        mp_array.acquire()
+        np_array = np.frombuffer(mp_array.get_obj(), dtype='I').reshape(image_size)
+        if array_ind % 2:
+            for i, y in enumerate(np_array):
+                if i % 2:
+                    y.fill(random.randrange(0x7f7f7f))
+        else:
+            for y in np_array:
+                y.fill(random.randrange(0xffffff))
+        # Image Acquisition Ends
+        ready_queue.put(array_ind)
