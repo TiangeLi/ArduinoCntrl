@@ -291,6 +291,44 @@ class GUI_ProgressBar(qg.QGraphicsView):
         self.time_gfx_running = False
 
 
+class GUI_ExpControls(qg.QWidget):
+    """Settings and Buttons for Configuring the Experiment"""
+    def __init__(self, dirs, gui_progbar):
+        qg.QWidget.__init__(self)
+        self.dirs = dirs
+        self.gui_progbar = gui_progbar
+        self.grid = qg.QGridLayout()
+        self.setLayout(self.grid)
+        self.init_start_stop_buttons()
+        self.add_to_grid()
+
+    #
+
+    # -- Start and Stop Buttons -- #
+    def init_start_stop_buttons(self):
+        """Creates and Connects Start Stop Buttons"""
+        self.start_btn = qg.QPushButton('START')
+        self.start_btn.setStyleSheet('background-color: cyan')
+        self.stop_btn = qg.QPushButton('STOP')
+        self.stop_btn.setStyleSheet('background-color: orange')
+        self.start_btn.clicked.connect(self.start_exp)
+        self.stop_btn.clicked.connect(self.stop_exp)
+
+    def start_exp(self):
+        """Starts the experiment"""
+        self.gui_progbar.start_bar()
+
+    def stop_exp(self):
+        """Stops the experiment"""
+        self.gui_progbar.stop_bar()
+
+    # -- Finalize -- #
+    def add_to_grid(self):
+        """Add buttons to GUI grid"""
+        self.grid.addWidget(self.start_btn, 0, 0)
+        self.grid.addWidget(self.stop_btn, 0, 1)
+
+
 class GUI_CameraDisplay(qg.QWidget):
     """Displays Video feeds from Cameras"""
     def __init__(self, dirs):
