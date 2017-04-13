@@ -1,9 +1,21 @@
-# coding=utf-8
-"""for testing"""
+import pyximea as xi
+import os
+import sys
 
-from Misc_Functions_Old import ard_decode_data
-from Dirs_Settings import *
 
-dirs = Directories()
-dirs.load()
-print ard_decode_data(dirs, 'output', dirs.settings.ard_presets['example']['out_pack'])
+dnull = open(os.devnull, 'w')
+s = sys.stderr
+sys.stderr = dnull
+
+
+try:
+    cam = xi.Xi_Camera(DevID=1)
+    cam.get_image()
+    cam.close()
+    print('good')
+except xi.ximea.XI_Error:
+    print('bad')
+
+
+sys.stderr = s
+dnull.close()

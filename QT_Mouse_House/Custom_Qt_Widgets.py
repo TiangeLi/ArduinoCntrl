@@ -2,10 +2,16 @@
 
 """Qt Widget Blocks for implementation into a QMainWindow"""
 
+import os
+import sys
+import math
 from operator import itemgetter
-import multiprocessing as mp
+from Misc_Classes import *
 from Misc_Functions import *
 from Custom_Qt_Tools import *
+import Camera_Procs as cp
+import flycapture2a as fc
+import pyximea as xi
 
 
 class GUI_ProgressBar(qg.QGraphicsView):
@@ -333,81 +339,133 @@ class GUI_CameraDisplay(qg.QWidget):
     """Displays Video feeds from Cameras"""
     def __init__(self, dirs):
         qg.QWidget.__init__(self)
-        self.ready_queue = mp.Queue()
         self.dirs = dirs
         self.grid = qg.QGridLayout()
         self.setLayout(self.grid)
         # Display Configs
         self.image_size = (240, 320)
-        self.num_cmrs = self.dirs.settings.num_cmrs
+        self.num_cmrs = 0
         # Image data holders
         self.arrays, self.images, self.labels, self.procs = [], [], [], []
+        # GUI Organization parameters
         self.groupboxes = []
+        # Sync w/ Camera Processes
+        self.cameras = []
+        self.sync_events = []
         # Setup Displays
-        self.render_displays()
+        self.initialize()
 
-    def render_displays(self):
-        """Creates Display Feeds Based on Number of Cameras"""
-        self.terminate_old_processes()
+    def initialize(self):
+        """Cleans up old processes and sets up cameras"""
+        self.clean_up()
+        self.detect_cameras()
         self.create_data_containers()
+        self.create_processes()
         self.setup_groupboxes()
-        timer = qc.QTimer(self)
-        timer.timeout.connect(self.update)
-        timer.start()
+        self.set_update_timer()
+        self.start_procs()
 
-    def terminate_old_processes(self):
-        """Kills old video processes before starting new ones"""
-        if len(self.procs) != 0:
+    def clean_up(self):
+        """Terminates old processes"""
+        if len(self.procs) > 0:
             for proc in self.procs:
-                proc.terminate()
-        for i in reversed(range(self.grid.count())):
-            self.grid.itemAt(i).widget().setParent(None)
+                proc.stop()
+                proc.join()
+        for index in reversed(range(self.grid.count())):
+            self.grid.itemAt(index).widget().setParent(None)
+
+    def detect_cameras(self):
+        """Detects number of cameras of each type"""
+        num_attempts = 10  # We'll try to detect up to 10 cameras
+        # -- Try to detect PT Grey Firefly Cameras -- #
+        temp_ff_context = fc.Context()
+        for i in range(num_attempts):
+            try:
+                temp_ff_context.get_camera_from_index(i)
+                self.cameras.append(('ff', i))
+                num_attempts -= 1
+            except fc.ApiError:
+                pass
+        temp_ff_context.disconnect()
+        # -- Try to detect Mini Microscopes -- #
+        # Disable extraneous error messages
+        devnull = open(os.devnull, 'w')
+        stderr = sys.stderr
+        sys.stderr = devnull
+        # Check for mini microscopes
+        for i in range(num_attempts):
+            try:
+                cam = xi.Xi_Camera(DevID=i)
+                cam.get_image()
+                cam.close()
+                self.cameras.append(('mm', i))
+                num_attempts -= 1
+            except xi.ximea.XI_Error:
+                pass
+        # Reinstate Error Messages
+        sys.stderr = stderr
+        devnull.close()
+        # Finalize number of cameras across processes
+        self.dirs.settings.num_cmrs = len(self.cameras)
+        self.num_cmrs = self.dirs.settings.num_cmrs
 
     def create_data_containers(self):
-        """Generates shared data buffers and other objects for image display"""
-        # mp.Array can be shared across buffers; np.Array turns mp.Array into readable format
-        # -- Make tuples of (mp.Array, np.Array) that ref. the same underlying data buffers
-        mp_arrays = (mp.Array('I', int(np.prod(self.image_size)), lock=mp.Lock()) for _ in range(self.num_cmrs))
+        """Generates shared data buffers and containers for image display"""
+        # -- mp.Array can be shared across processes; np.Array is a readable format -- #
+        # -- We make tuples of (mp.Array, np.Array) that ref. the same underlying data buffers -- #
+        m_arrays = (mp.Array('I', int(np.prod(self.image_size)), lock=mp.Lock()) for _ in range(self.num_cmrs))
         self.arrays = [(m_array, np.frombuffer(m_array.get_obj(), dtype='I').reshape(self.image_size))
-                       for m_array in mp_arrays]
-        # -- Video displaying data containers -- #
+                       for m_array in m_arrays]
+        # -- self.images contains image data to be displayed on self.labels -- #
         self.images = [qg.QImage(n.data, n.shape[1], n.shape[0], qg.QImage.Format_RGB32) for m, n in self.arrays]
         self.labels = [qg.QLabel(self) for _ in self.arrays]
-        # -- Each video feed runs on a separate process -- #
-        self.procs = [mp.Process(target=frame_stream, args=(i, m, self.ready_queue, self.image_size))
-                      for i, (m, n) in enumerate(self.arrays)]
-        for index in range(len(self.procs)):
-            self.procs[index].daemon = True
-            self.procs[index].name = 'cmr_stream_proc_#{}'.format(index)
+
+    def create_processes(self):
+        """Generates separate processes for each camera stream"""
+        for index, (m_array, n) in enumerate(self.arrays):
+            self.sync_events.append(mp.Event())
+            self.procs.append(cp.Camera(self.dirs, index, m_array, self.image_size, self.sync_events[index],
+                                        self.cameras[index][0], self.cameras[index][1]))
+            self.procs[index].name = 'cmr_stream_proc_#{} - [type {} id {}]'.format(index,
+                                                                                    self.cameras[index][0],
+                                                                                    self.cameras[index][1])
 
     def setup_groupboxes(self):
         """Creates individual labeled boxes for each camera display"""
-        num_columns = 1 + self.num_cmrs // 4
-        num_empty = num_columns * 4 - self.num_cmrs
+        max_per_col = 3  # Max number of cameras we'll render per column
+        num_columns = int(math.ceil(float(self.num_cmrs) / max_per_col))
+        num_empty = num_columns * max_per_col - self.num_cmrs
         self.groupboxes = []
-        for i in range(num_columns * 4):
+        for i in range(num_columns * max_per_col):
             self.groupboxes.append(qg.QGroupBox())
         for cmr_index in range(self.num_cmrs):
             grid = qg.QGridLayout()
             grid.addWidget(self.labels[cmr_index])
             self.groupboxes[cmr_index].setTitle('Camera #{}'.format(cmr_index + 1))
             self.groupboxes[cmr_index].setLayout(grid)
-            col = num_columns - cmr_index // 4
-            row = cmr_index - (cmr_index // 4) * 4
+            col = num_columns - cmr_index // max_per_col
+            row = cmr_index - (cmr_index // max_per_col) * max_per_col
             self.grid.addWidget(self.groupboxes[cmr_index], row, col)
         for empty in range(num_empty):
             empty += self.num_cmrs
             self.groupboxes[empty].setTitle('No Camera Available')
-            col = num_columns - empty // 4
-            row = empty - (empty // 4) * 4
+            col = num_columns - empty // max_per_col
+            row = empty - (empty // max_per_col) * max_per_col
             self.grid.addWidget(self.groupboxes[empty], row, col)
 
-    def update(self):
+    def set_update_timer(self):
+        """Creates a timer that periodically updates the camera displays"""
+        update_timer = qc.QTimer(self)
+        update_timer.timeout.connect(self.update_displays)
+        update_timer.start(5)
+
+    def start_procs(self):
+        """Starts camera processes"""
+        [proc.start() for proc in self.procs]
+
+    def update_displays(self):
         """Updates Image Pixel Map"""
-        # Get index of array that was newly updated
-        index = self.ready_queue.get()
-        # Get array
-        m, n = self.arrays[index]
-        # Turn array into image
-        self.labels[index].setPixmap(qg.QPixmap.fromImage(self.images[index]))
-        m.release()
+        for index in range(self.num_cmrs):
+            if self.sync_events[index].is_set():
+                self.labels[index].setPixmap(qg.QPixmap.fromImage(self.images[index]))
+                self.sync_events[index].clear()

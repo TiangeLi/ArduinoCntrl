@@ -4,7 +4,6 @@
 
 from Dirs_Settings import *
 from Custom_Qt_Widgets import *
-import multiprocessing as mp
 
 
 class GUI_Master(qg.QWidget):
@@ -14,11 +13,10 @@ class GUI_Master(qg.QWidget):
         super(GUI_Master, self).__init__(parent)
         # Main Window Configs
         self.setWindowTitle('Mouse House')
-        self.setMinimumWidth(1280)
-        self.setMinimumHeight(700)
         # Add Module Components
         self.grid = qg.QGridLayout()
         self.render_widgets()
+        self.set_window_size()
         # Finish and Show Window
         self.show()
 
@@ -27,14 +25,36 @@ class GUI_Master(qg.QWidget):
         # Create Widget Objects
         self.progbar = GUI_ProgressBar(dirs)
         self.cameras = GUI_CameraDisplay(dirs)
-        [proc.start() for proc in self.cameras.procs]
         self.exp_cntrls = GUI_ExpControls(dirs, self.progbar)
         # Add Widgets to Grid
-        self.grid.addWidget(self.progbar, 0, 0)
-        self.grid.addWidget(self.cameras, 1, 0)
+        self.grid.addWidget(self.progbar, 0, 1)
+        self.grid.addWidget(self.cameras, 0, 0, 4, 1)
         self.grid.addWidget(self.exp_cntrls, 1, 1)
         # Finish Layout
         self.setLayout(self.grid)
+
+    def set_window_size(self):
+        """Generates sizing parameters for main window"""
+        # Window size is based on number of cameras we have
+        max_per_col = 3
+        num_cmrs = dirs.settings.num_cmrs
+        num_columns = int(math.ceil(float(num_cmrs) / max_per_col))
+        # -- Width -- #
+        base_width = 1050  # This accounts for Progress Bar and Bordering
+        if num_columns > 1:
+            width = base_width + num_columns * 375
+        else:
+            width = base_width + num_columns * 400
+        # -- Height -- #
+        if num_cmrs < 3:
+            height = 700
+        else:
+            height = 900
+        # -- Set Window Size -- #
+        self.setMinimumHeight(height)
+        self.setMaximumHeight(height)
+        self.setMinimumWidth(width)
+        self.setMaximumWidth(width)
 
     def closeEvent(self, QCloseEvent):
         """Reimplements self.closeEvent to exit iff experiment not running"""
