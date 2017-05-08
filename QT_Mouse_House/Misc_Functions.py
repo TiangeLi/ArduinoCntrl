@@ -64,7 +64,30 @@ def format_daytime(option, use_as_save, dayformat='/', timeformat=':'):
     elif option == 'time':
         return clock
     elif option == 'daytime':
-        return '{}--{}'.format(day, clock)
+        return '{}_{}'.format(day, clock)
+
+
+def time_convert(ms=None, hhmmss=None):
+    """Converts ms to hhmmss, or hhmmss to ms"""
+    if ms and isinstance(ms, int):
+        ms //= 1000
+        hh = ms // 3600
+        mm = (ms - hh * 3600) // 60
+        ss = (ms - hh * 3600 - mm * 60)
+        return hh, mm, ss
+    elif hhmmss and isinstance(hhmmss, str) and len(hhmmss) == 6:
+        hh, mm, ss = int(hhmmss[:2]), int(hhmmss[2:4]), int(hhmmss[4:6])
+        ms = ss + mm * 60 + hh * 3600
+        ms *= 1000
+        return ms
+    elif ms and not isinstance(ms, int):
+        raise ValueError('[ms] Parameter must be integer!')
+    elif hhmmss and not isinstance(hhmmss, str):
+        raise ValueError('[hhmmss] Parameter must be string!')
+    elif hhmmss and isinstance(hhmmss, str) and not len(hhmmss) == 6:
+        raise ValueError('[hhmmss] string must be a length of 6!')
+    else:
+        raise ValueError('Check appropriate entries configured')
 
 
 # Arduino Functions
@@ -80,20 +103,3 @@ def check_binary(num, register):
         if num & i > 0:
             store.append(dicts[i])
     return store
-
-
-# Camera Functions
-def frame_stream(array_ind, mp_array, ready_queue, image_size):
-    """Stream image frames from camera to GUI"""
-    while True:
-        mp_array.acquire()
-        np_array = np.frombuffer(mp_array.get_obj(), dtype='I').reshape(image_size)
-        if array_ind % 2:
-            for i, y in enumerate(np_array):
-                if i % 2:
-                    y.fill(random.randrange(0x7f7f7f))
-        else:
-            for y in np_array:
-                y.fill(random.randrange(0xffffff))
-        # Image Acquisition Ends
-        ready_queue.put(array_ind)

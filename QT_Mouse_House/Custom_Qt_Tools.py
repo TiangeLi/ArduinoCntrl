@@ -3,17 +3,9 @@
 """Re-implementations of certain Qt widgets to include custom functions"""
 
 
+from Names import *
 import PyQt4.QtGui as qg
 import PyQt4.QtCore as qc
-
-
-# Quick pointers to Qt specific objects
-# Colors
-black = qg.QColor(0, 0, 0)
-white = qg.QColor(255, 255, 255)
-yellow = qg.QColor(255, 255, 0)
-blue = qg.QColor(0, 0, 255)
-red = qg.QColor(255, 0, 0)
 
 
 class GUI_SimpleGroup(qg.QGraphicsItemGroup):

@@ -5,6 +5,7 @@
 import os
 import sys
 import math
+from Names import *
 from operator import itemgetter
 from Misc_Classes import *
 from Misc_Functions import *
@@ -12,6 +13,8 @@ from Custom_Qt_Tools import *
 import Camera_Procs as cp
 import flycapture2a as fc
 import pyximea as xi
+import PyQt4.QtGui as qg
+import PyQt4.QtCore as qc
 
 
 class GUI_ProgressBar(qg.QGraphicsView):
@@ -302,15 +305,15 @@ class GUI_ExpControls(qg.QWidget):
     def __init__(self, dirs, gui_progbar):
         qg.QWidget.__init__(self)
         self.dirs = dirs
+        self.exp_start_event = EXP_START_EVENT
+        self.proc_handler_queue = PROC_HANDLER_QUEUE
         self.gui_progbar = gui_progbar
         self.grid = qg.QGridLayout()
         self.setLayout(self.grid)
         self.init_start_stop_buttons()
+        self.init_time_entries()
         self.add_to_grid()
 
-    #
-
-    # -- Start and Stop Buttons -- #
     def init_start_stop_buttons(self):
         """Creates and Connects Start Stop Buttons"""
         self.start_btn = qg.QPushButton('START')
@@ -320,12 +323,48 @@ class GUI_ExpControls(qg.QWidget):
         self.start_btn.clicked.connect(self.start_exp)
         self.stop_btn.clicked.connect(self.stop_exp)
 
+    def init_time_entries(self):
+        """Creates and Connects time config entries"""
+        text_metrics = qg.QFontMetrics(qg.QApplication.font())
+        self.entries = []
+        entry_types = [hh, mm, ss]
+        hhmmss = time_convert(ms=self.dirs.settings.ard_last_used[packet][3])
+        # Entries and Buttons (Signal Emitters)
+        for index, entry_type in enumerate(entry_types):
+            self.entries.append(qg.QLineEdit())
+            self.entries[index].setMaximumWidth(text_metrics.width('00000'))
+            self.entries[index].setText(str(hhmmss[index]))
+        self.ttl_time_confirm_btn = qg.QPushButton('\nConfirm\n')
+        # Static Labels
+        static_labels = ['Hour', 'Min', 'Sec', ':', ':']
+        for index, name in enumerate(static_labels):
+            static_labels[index] = qg.QLabel(name)
+            static_labels[index].setAlignment(qc.Qt.AlignCenter)
+        # Keep time entries contained in its own frame
+        self.time_entry_frame = qg.QGroupBox()
+        self.time_entry_frame.setTitle('Total Experiment Time:')
+        self.time_entry_frame.setMaximumWidth(320)
+        grid = qg.QGridLayout()
+        self.time_entry_frame.setLayout(grid)
+        # Add components to frame
+        grid.addWidget(self.ttl_time_confirm_btn, 0, 5, 2, 1)
+        for index, entry in enumerate(self.entries):
+            grid.addWidget(static_labels[index], 0, index * 2)
+            grid.addWidget(entry, 1, index * 2)
+            if index < 2:
+                grid.addWidget(static_labels[index + 3], 1, index * 2 + 1)
+
     def start_exp(self):
         """Starts the experiment"""
+        print(mp.active_children())
+        self.proc_handler_queue.put_nowait('{}{}'.format(RUN_EXP_HEADER, 'simple_name'))
+        # Wait until proc_handler sends the synchronized signal
+        self.exp_start_event.wait()
         self.gui_progbar.start_bar()
 
     def stop_exp(self):
         """Stops the experiment"""
+        self.proc_handler_queue.put_nowait(HARDSTOP_HEADER)
         self.gui_progbar.stop_bar()
 
     # -- Finalize -- #
@@ -333,6 +372,7 @@ class GUI_ExpControls(qg.QWidget):
         """Add buttons to GUI grid"""
         self.grid.addWidget(self.start_btn, 0, 0)
         self.grid.addWidget(self.stop_btn, 0, 1)
+        self.grid.addWidget(self.time_entry_frame, 1, 0, 1, 2)
 
 
 class GUI_CameraDisplay(qg.QWidget):
@@ -346,12 +386,13 @@ class GUI_CameraDisplay(qg.QWidget):
         self.image_size = (240, 320)
         self.num_cmrs = 0
         # Image data holders
-        self.arrays, self.images, self.labels, self.procs = [], [], [], []
+        self.arrays, self.images, self.labels, self.camera_procs = [], [], [], []
         # GUI Organization parameters
         self.groupboxes = []
         # Sync w/ Camera Processes
         self.cameras = []
         self.sync_events = []
+        self.msg_pipes = []
         # Setup Displays
         self.initialize()
 
@@ -367,8 +408,8 @@ class GUI_CameraDisplay(qg.QWidget):
 
     def clean_up(self):
         """Terminates old processes"""
-        if len(self.procs) > 0:
-            for proc in self.procs:
+        if len(self.camera_procs) > 0:
+            for proc in self.camera_procs:
                 proc.stop()
                 proc.join()
         for index in reversed(range(self.grid.count())):
@@ -382,7 +423,7 @@ class GUI_CameraDisplay(qg.QWidget):
         for i in range(num_attempts):
             try:
                 temp_ff_context.get_camera_from_index(i)
-                self.cameras.append(('ff', i))
+                self.cameras.append((FireFly_Camera, i))
                 num_attempts -= 1
             except fc.ApiError:
                 pass
@@ -398,7 +439,7 @@ class GUI_CameraDisplay(qg.QWidget):
                 cam = xi.Xi_Camera(DevID=i)
                 cam.get_image()
                 cam.close()
-                self.cameras.append(('mm', i))
+                self.cameras.append((Mini_Microscope, i))
                 num_attempts -= 1
             except xi.ximea.XI_Error:
                 pass
@@ -423,25 +464,28 @@ class GUI_CameraDisplay(qg.QWidget):
     def create_processes(self):
         """Generates separate processes for each camera stream"""
         for index, (m_array, n) in enumerate(self.arrays):
+            self.msg_pipes.append(mp.Pipe())
             self.sync_events.append(mp.Event())
-            self.procs.append(cp.Camera(self.dirs, index, m_array, self.image_size, self.sync_events[index],
-                                        self.cameras[index][0], self.cameras[index][1]))
-            self.procs[index].name = 'cmr_stream_proc_#{} - [type {} id {}]'.format(index,
-                                                                                    self.cameras[index][0],
-                                                                                    self.cameras[index][1])
+            cmr_type, cmr_id = self.cameras[index][0], self.cameras[index][1]
+            main_pipe_end, cmr_pipe_end = self.msg_pipes[index]
+            self.camera_procs.append(cp.Camera(self.dirs, index, m_array, self.image_size, self.sync_events[index],
+                                               cmr_pipe_end, cmr_type, cmr_id))
+            self.camera_procs[index].name = 'cmr_stream_proc_#{} - [type {} id {}]'.format(index,
+                                                                                           self.cameras[index][0],
+                                                                                           self.cameras[index][1])
 
     def setup_groupboxes(self):
         """Creates individual labeled boxes for each camera display"""
         max_per_col = 3  # Max number of cameras we'll render per column
-        num_columns = int(math.ceil(float(self.num_cmrs) / max_per_col))
+        num_columns = max(int(math.ceil(float(self.num_cmrs) / max_per_col)), 1)
         num_empty = num_columns * max_per_col - self.num_cmrs
         self.groupboxes = []
         for i in range(num_columns * max_per_col):
             self.groupboxes.append(qg.QGroupBox())
-        for cmr_index in range(self.num_cmrs):
+        for cmr_index, cmr in enumerate(self.cameras):
             grid = qg.QGridLayout()
             grid.addWidget(self.labels[cmr_index])
-            self.groupboxes[cmr_index].setTitle('Camera #{}'.format(cmr_index + 1))
+            self.groupboxes[cmr_index].setTitle('{} - {} #{}'.format(cmr_index, cmr[0], cmr[1]))
             self.groupboxes[cmr_index].setLayout(grid)
             col = num_columns - cmr_index // max_per_col
             row = cmr_index - (cmr_index // max_per_col) * max_per_col
@@ -461,7 +505,7 @@ class GUI_CameraDisplay(qg.QWidget):
 
     def start_procs(self):
         """Starts camera processes"""
-        [proc.start() for proc in self.procs]
+        [proc.start() for proc in self.camera_procs]
 
     def update_displays(self):
         """Updates Image Pixel Map"""

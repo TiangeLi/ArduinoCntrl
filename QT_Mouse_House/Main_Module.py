@@ -4,6 +4,7 @@
 
 from Dirs_Settings import *
 from Custom_Qt_Widgets import *
+from Concurrency_Handlers import *
 
 
 class GUI_Master(qg.QWidget):
@@ -17,8 +18,19 @@ class GUI_Master(qg.QWidget):
         self.grid = qg.QGridLayout()
         self.render_widgets()
         self.set_window_size()
+        # Concurrency
+        self.setup_proc_handler()
         # Finish and Show Window
         self.show()
+
+    def setup_proc_handler(self):
+        """Passes necessary objects to a new ProcessHandler instance"""
+        cameras = self.cameras.cameras
+        main_pipe_ends = []
+        for main_pipe_end, cmr_pipe_end in self.cameras.msg_pipes:
+            main_pipe_ends.append(main_pipe_end)
+        self.proc_handler = ProcessHandler(cameras, main_pipe_ends)
+        self.proc_handler.start()
 
     def render_widgets(self):
         """Adds all GUI Modules"""
@@ -38,7 +50,7 @@ class GUI_Master(qg.QWidget):
         # Window size is based on number of cameras we have
         max_per_col = 3
         num_cmrs = dirs.settings.num_cmrs
-        num_columns = int(math.ceil(float(num_cmrs) / max_per_col))
+        num_columns = max(int(math.ceil(float(num_cmrs) / max_per_col)), 1)
         # -- Width -- #
         base_width = 1050  # This accounts for Progress Bar and Bordering
         if num_columns > 1:
@@ -46,10 +58,14 @@ class GUI_Master(qg.QWidget):
         else:
             width = base_width + num_columns * 400
         # -- Height -- #
+        height = 900
+        """
+        # Dynamically adjust height depending on num of imgs to display
         if num_cmrs < 3:
             height = 700
         else:
             height = 900
+        """
         # -- Set Window Size -- #
         self.setMinimumHeight(height)
         self.setMaximumHeight(height)
