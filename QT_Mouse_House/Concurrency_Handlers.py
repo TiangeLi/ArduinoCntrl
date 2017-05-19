@@ -16,9 +16,9 @@ else:
 
 class ProcessHandler(StoppableProcess):
     """Handles Communication between Main GUI and Devices"""
-    def __init__(self, cameras, main_pipe_ends):
+    def __init__(self, dirs, cameras, main_pipe_ends):
         super(ProcessHandler, self).__init__(callable_fn=None, args=None)
-        self.daemon = True
+        self.dirs = dirs
         self.name = 'Process Handler'
         # Message Handling
         self.master_dump_queue = MASTER_DUMP_QUEUE
@@ -51,7 +51,7 @@ class ProcessHandler(StoppableProcess):
     def run(self):
         """Periodically checks and processes instructions from Main Process"""
         while self.running:
-            time.sleep(10.0/1000.0)
+            time.sleep(5.0/1000.0)
             try:
                 msg = self.proc_handler_queue.get_nowait()
             except Queue.Empty:
@@ -70,54 +70,71 @@ class ProcessHandler(StoppableProcess):
                     cmr_ind = int(msg.replace(CMR_ERROR_EXIT, '', 1))
                     self.cameras_running[cmr_ind] = False
                     self.use_cameras[cmr_ind] = False
+                elif msg.startswith(TTL_TIME_HEADER) or msg.startswith(DIR_TO_USE_HEADER):
+                    self.set_device_params(msg)
             if self.exp_running:
-                devices_to_check = []
-                for cmr in self.use_cameras:
-                    if self.use_cameras[cmr]:
-                        devices_to_check.append(self.cameras_running[cmr])
+                devices_to_check = [self.cameras_running[cmr] for cmr in self.use_cameras if self.use_cameras[cmr]]
                 if not any(devices_to_check):
                     self.exp_start_event.clear()
                     self.exp_running = False
+                    self.master_dump_queue.put_nowait(EXP_END_HEADER)
+
+    def set_device_params(self, msg):
+        """Sets the total run time in device processes"""
+        for index, cmr_pipe in enumerate(self.camera_pipes):
+            if self.use_cameras[index]:
+                cmr_pipe.send(msg)
 
     def run_experiment(self, msg):
         """Checks device availability; Sends run command to in-use devices"""
         self.save_file_name = msg.replace(RUN_EXP_HEADER, '', 1)
+        # If no devices are enabled, there's no point in starting an exp so we exit
+        devices_to_use = [self.use_cameras[cmr] for cmr in self.use_cameras if self.use_cameras[cmr]]
+        if len(devices_to_use) == 0:
+            return
         # Devices should have been created in Main GUI; we just need to check connections
-        if len(self.check_connections()) == 0:
+        if self.check_connections():
             for index, cmr_pipe in enumerate(self.camera_pipes):
                 if self.use_cameras[index]:
                     cmr_pipe.send('{}{}'.format(RUN_EXP_HEADER, self.save_file_name))
                     cmr_pipe.recv()  # Just so we don't begin until everyone is ready
                     self.cameras_running[index] = True
             # Release the start event seen by all processes to begin experiment
-            time.sleep(0.5)
             self.exp_start_event.set()
             self.exp_running = True
+            self.master_dump_queue.put_nowait(EXP_STARTED_HEADER)
         else:
             self.master_dump_queue.put_nowait('{}*** Failed to initialize the '
                                               'selected devices.'.format(FAILED_INIT_HEADER))
 
     def check_connections(self):
         """Check if indicated devices are connected and responsive"""
-        nonresponsive_devices = []
+        any_nonresponsive_devices = False
         for index, cmr_pipe in enumerate(self.camera_pipes):
             if self.use_cameras[index]:
-                cmr_type, cmr_id = self.cameras[index][0], self.cameras[index][1]
                 cmr_pipe.send(DEVICE_CHECK_CONN)
-                if cmr_pipe.poll(2):
+                if cmr_pipe.poll(3):
                     if not cmr_pipe.recv():
-                        nonresponsive_devices.append('{} #{}'.format(cmr_type, cmr_id))
+                        any_nonresponsive_devices = True
                 else:
-                    nonresponsive_devices.append('{} #{}'.format(cmr_type, cmr_id))
-        return nonresponsive_devices
+                    any_nonresponsive_devices = True
+        return not any_nonresponsive_devices
 
     def hardstop(self):
         """Forces a premature exit from experiment"""
         for index, cmr_pipe in enumerate(self.camera_pipes):
             if self.use_cameras[index]:
                 cmr_pipe.send(HARDSTOP_HEADER)
-                self.cameras_running[index] = True
+                cmr_pipe.recv()
+                self.cameras_running[index] = False
         self.exp_start_event.clear()
         self.exp_running = False
+        self.master_dump_queue.put_nowait(EXP_END_HEADER)
 
-    # def close_devices(self):
+    def close_devices(self):
+        """Safely closes device connections and processes"""
+        for index, cmr_pipe in enumerate(self.camera_pipes):
+            if self.use_cameras[index]:
+                cmr_pipe.send(EXIT_HEADER)
+                cmr_pipe.recv()
+        self.master_dump_queue.put_nowait(EXIT_HEADER)

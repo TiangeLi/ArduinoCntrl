@@ -47,9 +47,11 @@ class Camera(StoppableProcess):
         # This way cameras can continuously get frames without delay
         self.frame_buffer = None
         # Operation Parameters
+        self.save_dir = self.dirs.settings.last_used_save_dir
+        self.ttl_time = self.dirs.settings.ttl_time()
         self.curr_frame = 0
         self.ttl_num_frames = 0
-        self.ready_to_record = False
+        self.hard_stopped_rec = False
         self.recording = False
         self.connected = False
         self.save_file_name = ''
@@ -98,18 +100,25 @@ class Camera(StoppableProcess):
         while self.connected:
             msg = ''  # Reset msg so we don't perform instructions multiple times
             time.sleep(1.0/1000.0)
-            # We don't want the thread to block indefinitely if no messages come from the pipe.
-            if self.cmr_pipe.poll(2):
+            # We don't want the thread to block indefinitely if no messages come from the pipe,
+            # In case we exited and self.connected = False
+            if self.cmr_pipe.poll(1.0):
                 msg = self.cmr_pipe.recv()
             # Message actions
             if msg == DEVICE_CHECK_CONN:
                 self.cmr_pipe.send(self.check_connection())
             elif msg.startswith(RUN_EXP_HEADER):
                 self.save_file_name = msg.replace(RUN_EXP_HEADER, '', 1)
-                self.recording = True
-                self.cmr_pipe.send(CAMERA_READY)
+                self.setup_for_record()
             elif msg == HARDSTOP_HEADER:
                 self.curr_frame = self.ttl_num_frames + 1
+                self.hard_stopped_rec = True
+            elif msg.startswith(TTL_TIME_HEADER):
+                self.ttl_time = float(msg.replace(TTL_TIME_HEADER, '', 1))
+            elif msg.startswith(DIR_TO_USE_HEADER):
+                self.save_dir = (msg.replace(DIR_TO_USE_HEADER, '', 1))
+            elif msg == EXIT_HEADER:
+                self.stop()
 
     def submit_frames(self):
         """Run on Separate thread. Sends new frames to shared mp_array of GUI from internal buffer"""
@@ -143,10 +152,13 @@ class Camera(StoppableProcess):
         """Starts the Camera Process"""
         self.initialize()
         self.np_array = np.frombuffer(self.mp_array.get_obj(), dtype='I').reshape(self.image_size)
-        send_frames = tr.Thread(target=self.submit_frames)
-        polling = tr.Thread(target=self.msg_polling)
+        # Threading
+        send_frame_tr, polling_tr = 'frames', 'polling'
+        send_frames = tr.Thread(target=self.submit_frames, name=send_frame_tr)
+        polling = tr.Thread(target=self.msg_polling, name=polling_tr)
         send_frames.start()
         polling.start()
+        # Main Camera Loop
         while self.connected:
             if not self.img_to_gui_sync_event.is_set():
                 self.get_frame()
@@ -155,6 +167,12 @@ class Camera(StoppableProcess):
             if self.stopped():
                 self.connected = False
                 self.close()
+                while True:
+                    time.sleep(5.0/1000.0)
+                    threads = [thr.name for thr in tr.enumerate()]
+                    if send_frame_tr not in threads and polling_tr not in threads:
+                        break
+                self.cmr_pipe.send(EXIT_HEADER)
 
     def get_frame(self):
         """Acquires 1 Image per call."""
@@ -167,10 +185,6 @@ class Camera(StoppableProcess):
                 self.report_cmr_error()
         # Gets a Single Frame and Appends to a Video File
         elif self.recording:
-            if not self.ready_to_record:
-                self.setup_for_record()
-                # Since this is the first time through the recording loop, we wait to begin.
-                self.exp_start_event.wait()
             if self.curr_frame <= self.ttl_num_frames:
                 try:
                     data = self.record_vid_method()
@@ -203,10 +217,11 @@ class Camera(StoppableProcess):
             file_fmt = '.avi'
         elif self.cmr_type == Mini_Microscope:
             file_fmt = '.mkv'
-        save_name = '{}[{}]--{}-[{}#{}]{}'.format(self.dirs.main_save_dir, self.save_file_name,
-                                                  format_daytime(option='daytime', use_as_save=True),
-                                                  self.cmr_type, self.cmr_id, file_fmt)
-        self.ttl_num_frames = int(self.dirs.settings.ard_last_used['packet'][3] * 30) // 1000
+        save_name = '{}\\{}_[{}]_[{}#{}]{}'.format(self.save_dir,
+                                                   format_daytime(option='time', use_as_save=True),
+                                                   self.save_file_name,
+                                                   self.cmr_type, self.cmr_id, file_fmt)
+        self.ttl_num_frames = int(self.ttl_time * 30) // 1000
         if self.cmr_type == FireFly_Camera:
             save_name = save_name.encode()
             self.fc_context.openAVI(save_name, 30, 1000000)
@@ -215,12 +230,14 @@ class Camera(StoppableProcess):
             self.mini_mic_video_writer = imageio.get_writer(save_name, mode='I', fps=30, codec='ffv1', quality=10,
                                                             pixelformat='yuv420p', macro_block_size=None,
                                                             ffmpeg_log_level='error')
-        self.ready_to_record = True
+        # Ready to Record
+        self.cmr_pipe.send(CAMERA_READY)  # Let Proc_Handler know we are ready
+        self.exp_start_event.wait()  # Wait for Proc_Handler to setup other processes
+        self.recording = True  # We are ready to record. The main loop will now enter recording
 
     def finish_record(self):
         """Finishes recording and resets recording parameters"""
         self.recording = False
-        self.ready_to_record = False
         self.curr_frame = 0
         if self.cmr_type == FireFly_Camera:
             self.fc_context.closeAVI()
@@ -230,7 +247,12 @@ class Camera(StoppableProcess):
                 pass
         elif self.cmr_type == Mini_Microscope:
             self.mini_mic_video_writer.close()
-        self.proc_handler_queue.put_nowait('{}{}'.format(CMR_REC_FALSE, self.stream_ind))
+        # Notify proc_handler that we are done
+        if self.hard_stopped_rec:
+            self.cmr_pipe.send(CMR_REC_FALSE)
+            self.hard_stopped_rec = False
+        else:
+            self.proc_handler_queue.put_nowait('{}{}'.format(CMR_REC_FALSE, self.stream_ind))
 
     def mini_mic_rec_to_file(self):
         """Writes frames from Mini Microscope to a Video File"""

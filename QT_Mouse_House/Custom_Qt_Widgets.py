@@ -15,15 +15,18 @@ import flycapture2a as fc
 import pyximea as xi
 import PyQt4.QtGui as qg
 import PyQt4.QtCore as qc
+from copy import deepcopy
 
 
 class GUI_ProgressBar(qg.QGraphicsView):
     """Progress Bar to Monitor Experiment and Arduino Status"""
-    def __init__(self, dirs):
+    def __init__(self, parent, dirs):
         qg.QGraphicsView.__init__(self)
         self.dirs = dirs
+        self.parent = parent
         self.exp_start_time = qc.QTime()
         self.scene = qg.QGraphicsScene(self)
+        self.scene.selectionChanged.connect(self.highlight_selected)
         # Initialize Objects
         self.init_static_background()
         self.init_dynamic_background()
@@ -37,6 +40,47 @@ class GUI_ProgressBar(qg.QGraphicsView):
         self.setRenderHint(qg.QPainter.Antialiasing)
         self.setMinimumSize(1056, 288)
         self.setMaximumSize(1056, 288)
+
+    #  -- Item Selection Operations -- #
+    def ard_stim_bars(self):
+        """Returns list of arduino stimulation prog bars"""
+        return [items for items in self.scene.items() if isinstance(items, GUI_ArdBar)]
+
+    def highlight_selected(self):
+        """Highlights the selected items"""
+        # Reset Previous Highlights
+        for item in self.ard_stim_bars():
+            item.setBrush(yellow)
+        # Highlight currently selected items
+        selected = self.scene.selectedItems()
+        if len(selected) > 0:
+            for item in selected:
+                item.setBrush(blue)
+
+    def keyPressEvent(self, event):
+        """If we have selected a prog_bar component and press the delete or backspace key, we delete the bar"""
+        # We delete the prog_bar component with either a Delete or Backspace buttons
+        if event.key() in (qc.Qt.Key_Delete, qc.Qt.Key_Backspace):
+            self.delete_selected()
+
+    def delete_selected(self):
+        """Checks if the selected items can be deleted, and deletes it"""
+        configs = self.dirs.settings.ard_last_used.configs
+        # We will only visually remove an item from the GUI scene if we can remove its associated data first
+        for item in self.scene.selectedItems():
+            if item.data in configs:
+                configs.remove(item.data)  # Remove data associated with the GUI item
+                self.set_dynamic_background()  # Then reset the backgronud using the new configs
+        # This way, we are certain that a visual deletion corresponds with a backend deletion
+        # such that we don't have orphaned data still acting on the system
+
+    def set_ard_bars_selectable(self, selectable):
+        """Sets bars to be selectable or not, useful during experiments (no disturb settings)"""
+        for bar in self.ard_stim_bars():
+            if selectable:
+                bar.setFlag(qg.QGraphicsItem.ItemIsSelectable, enabled=True)
+            elif not selectable:
+                bar.setFlag(qg.QGraphicsItem.ItemIsSelectable, enabled=False)
 
     # -- Static Background -- #
     def init_static_background(self):
@@ -83,16 +127,10 @@ class GUI_ProgressBar(qg.QGraphicsView):
     # -- Dynamic Background -- #
     def init_dynamic_background(self):
         """Sets up dynamic background objects when called"""
-        # Each type of dynamic object is grouped together
+        # Non-selectable dynamic items
         self.v_bars = GUI_SimpleGroup()
         self.bar_times = GUI_SimpleGroup()
-        self.tone_bars = GUI_SimpleGroup()
-        self.out_bars = GUI_SimpleGroup()
-        self.pwm_bars = GUI_SimpleGroup()
-        self.dynamic_bg_groups = [self.v_bars, self.bar_times,
-                                  self.tone_bars, self.out_bars,
-                                  self.pwm_bars]
-        # Add objects/groups to scene
+        self.dynamic_bg_groups = [self.v_bars, self.bar_times]
         for group in self.dynamic_bg_groups:
             self.scene.addItem(group)
 
@@ -101,21 +139,27 @@ class GUI_ProgressBar(qg.QGraphicsView):
         Sets dynamic background using data from settings.ard_last_used
         Any changes to ard settings should be done to settings.ard_last_used before calling this!
         """
-        data_source = self.dirs.settings.ard_last_used
         self.reset_dynamic_background()
-        self.set_vert_spacers(ms_time=data_source['packet'][3])
-        self.set_ard_bars(data_source=data_source)
+        self.set_vert_spacers()
+        self.set_ard_bars()
         # We also update animation timers to correspond with new background
         self.set_timers_and_anims()
 
     def reset_dynamic_background(self):
         """Resets the dynamic background before creating new ones"""
+        # For non-selectable items, we just clear out the groups containing each item
         for group in self.dynamic_bg_groups:
             for item in group.childItems():
                 group.removeFromGroup(item)
+        # Selectable items have individual identifiers within the scene
+        # So we must remove them one by one from the scene itself
+        # Finally we need to clear out the list holding the item addresses so old items aren't added again
+        for item in self.ard_stim_bars():
+            self.scene.removeItem(item)
 
-    def set_vert_spacers(self, ms_time):
+    def set_vert_spacers(self):
         """Sets up dynamic vertical spacers for Progress Bar"""
+        ms_time = self.dirs.settings.ttl_time()
         gap_size = 5 + 5 * int(ms_time / 300000)  # Factors into size of gaps between spacers
         num_spacers = float(ms_time / 1000) / gap_size  # Number of spacers to implement
         pos_raw = 1000.0 / num_spacers  # Position of 1st Spacer and True inter-spacer gap size.
@@ -147,86 +191,41 @@ class GUI_ProgressBar(qg.QGraphicsView):
                     self.v_bars.add(tiny_line, pen=white)
                     self.bar_times.add(time_text, pos_x=i * pos_raw - 20, pos_y=262, color=white)
 
-    def set_ard_bars(self, data_source):
+    def set_ard_bars(self):
         """Creates Visual Indicators for Arduino Stimuli based on config data"""
-        ms_time = data_source['packet'][3]
-        # -- Create bars for Tone if exist -- #
-        if len(data_source['tone_pack']) != 0:
-            self.create_bar_from_ard_data('tone', data_source['tone_pack'], ms_time)
-        if len(data_source['out_pack']) != 0:
-            self.create_bar_from_ard_data('output', data_source['out_pack'], ms_time)
-        if len(data_source['pwm_pack']) != 0:
-            self.create_bar_from_ard_data('pwm', data_source['pwm_pack'], ms_time)
+        ms_time = self.dirs.settings.ttl_time()
+        data_src = self.dirs.settings.ard_last_used.configs
+        # Create Bars
+        for data in data_src:
+            self.create_bar_from_ard_data(data, ms_time)
 
-    def create_bar_from_ard_data(self, data_type, data, ms_time):
-        """Reads packed arduino commands and turns into progress bar elements"""
-        # -- Indicate where to get time data -- #
-        if data_type == 'tone':
-            start_index, off_index = 1, 2
-        elif data_type == 'pwm':
-            start_index, off_index = 2, 3
-        elif data_type == 'output':
-            start_index, off_index = 1, 2
-            # -- Simple Output requires combining packed instructions -- #
-            # Lists to save processed data
-            indiv_trigs, indiv_times = [], []  # corresponding lists of every time a pin is triggered
-            pins_and_times = {}  # {pin: [list_of_trigger_times]}
-            final_intv = []  # List of lists of final data
-            # Create mirror lists of each time a pin is triggered and the time of trigger
-            for instruction in data:
-                time, pins = instruction[1], instruction[2]
-                triggers = check_binary(pins, 'D')
-                for trigger in triggers:
-                    indiv_trigs.append(trigger)
-                    indiv_times.append(time)
-            # Create a dictionary of {pin: [list of trigger times]}
-            for trig_index in range(len(indiv_trigs)):
-                pin = indiv_trigs[trig_index]
-                try:
-                    pins_and_times[pin].append(indiv_times[trig_index])
-                except KeyError:
-                    pins_and_times[pin] = [indiv_times[trig_index]]
-            # Create list of lists containing [pin, on time, off time]
-            for pin in pins_and_times:
-                for time_index in range(len(pins_and_times[pin])):
-                    if time_index % 2 == 0:
-                        final_intv.append([pin,
-                                           pins_and_times[pin][time_index],
-                                           pins_and_times[pin][time_index + 1]])
-            final_intv = sorted(final_intv, key=itemgetter(1))
-            data = final_intv
-        # -- Return arduino data in readable list -- #
-        for instruction in data:
-            start_point = (float(instruction[start_index]) / ms_time) * 1000.0
-            on_duration = (float(instruction[off_index]) / ms_time) * 1000.0 - start_point
-            # Export Data
-            start_time = format_secs(instruction[start_index] / 1000)
-            off_time = format_secs(instruction[off_index] / 1000)
-            # -- Create TONE Bars -- #
-            if data_type == 'tone':
-                tone_freq = instruction[3]
-                self.tone_bars.add(qg.QGraphicsRectItem(start_point, 20, on_duration, 20), brush=yellow, pen=blue,
-                                   tooltip='{} - {}\n{} Hz'.format(start_time, off_time, tone_freq))
-            # -- Create PWM Bars -- #
-            elif data_type == 'pwm':
-                pin = check_binary(instruction[5], 'B')[0]
-                freq = instruction[4]
-                duty_cycle = instruction[7]
-                phase_shift = instruction[6]
-                pin_ids = range(8, 14)
-                pin_ids.remove(10)
-                y_pos = 160 + (pin_ids.index(pin)) * 20
-                self.pwm_bars.add(qg.QGraphicsRectItem(start_point, y_pos, on_duration, 20), brush=yellow, pen=blue,
-                                  tooltip='{} - {}\nPin {}\nFreq: {}Hz\nDuty Cycle: {}%\nPhase Shift:{}'
-                                          '' + u'\u00b0'.format(start_time, off_time,
-                                                                pin, freq, duty_cycle, phase_shift))
-            # -- Create OUTPUT Bars -- #
-            elif data_type == 'output':
-                pin = instruction[0]
-                pin_ids = range(2, 8)
-                y_pos = 40 + (pin_ids.index(pin)) * 20
-                self.out_bars.add(qg.QGraphicsRectItem(start_point, y_pos, on_duration, 20), brush=yellow, pen=blue,
-                                  tooltip='{} - {}\nPin {}'.format(start_time, off_time, pin))
+    def create_bar_from_ard_data(self, data, ms_time):
+        """Reads Arduino Stim instructions and turns into selectable GUI Progbar elements"""
+        # Physical Dimensions
+        start_point = (float(data.time_on_ms) / ms_time) * 1000.0
+        on_duration = (float(data.time_off_ms) / ms_time) * 1000.0 - start_point
+        # Time Tooltips
+        tltp_start_time = format_secs(data.time_on_ms / 1000)
+        tltp_off_time = format_secs(data.time_off_ms / 1000)
+        # Type Specific Settings
+        if data.types == tone:
+            y_pos = 20
+            tooltip = '{} - {}\n{} Hz'.format(tltp_start_time, tltp_off_time, data.freq)
+        elif data.types == output:
+            y_pos = 40 + (output_pins.index(data.pin)) * 20
+            tooltip = '{} - {}\nPin {}'.format(tltp_start_time, tltp_off_time, data.pin)
+        elif data.types == pwm:
+            freq = data.freq
+            duty_cycle = data.duty_cycle
+            phase_shift = data.phase_shift
+            y_pos = 160 + (pwm_pins.index(data.pin)) * 20
+            tooltip = '{} - {}\nPin {}\nFreq: {}Hz\n' \
+                      'Duty Cycle: {}%\nPhase Shift: {}{}'.format(tltp_start_time, tltp_off_time,
+                                                                  data.pin, freq, duty_cycle, phase_shift,
+                                                                  u'\u00b0')
+        # Generate Bars and add to Scene
+        bar = GUI_ArdBar(start_point, y_pos, on_duration, 20, tooltip, data=data)
+        self.scene.addItem(bar)
 
     # -- Animation Objects, Timers, Functions -- #
     def init_anim_gfx_objects(self):
@@ -236,13 +235,16 @@ class GUI_ProgressBar(qg.QGraphicsView):
         self.time_gfx.setDefaultTextColor(white)
         self.bar_gfx = qg.QGraphicsLineItem(0, 22, 0, 258)
         self.bar_gfx.setPen(red)
+        # Stacking
+        self.time_gfx.setZValue(1)  # So the animated objects are stacked on top of background objects
+        self.bar_gfx.setZValue(1)  # Regardless of insertion order
         # Add objects to scene
         self.scene.addItem(self.time_gfx)
         self.scene.addItem(self.bar_gfx)
 
     def set_timers_and_anims(self):
         """Sets duration and frames of progress bar animation"""
-        self.duration = self.dirs.settings.ard_last_used['packet'][3]
+        self.duration = self.dirs.settings.ttl_time()
         # Timer objects
         self.time_gfx_timer = qc.QTimeLine(self.duration)
         self.bar_gfx_timer = qc.QTimeLine(self.duration)
@@ -300,81 +302,6 @@ class GUI_ProgressBar(qg.QGraphicsView):
         self.time_gfx_running = False
 
 
-class GUI_ExpControls(qg.QWidget):
-    """Settings and Buttons for Configuring the Experiment"""
-    def __init__(self, dirs, gui_progbar):
-        qg.QWidget.__init__(self)
-        self.dirs = dirs
-        self.exp_start_event = EXP_START_EVENT
-        self.proc_handler_queue = PROC_HANDLER_QUEUE
-        self.gui_progbar = gui_progbar
-        self.grid = qg.QGridLayout()
-        self.setLayout(self.grid)
-        self.init_start_stop_buttons()
-        self.init_time_entries()
-        self.add_to_grid()
-
-    def init_start_stop_buttons(self):
-        """Creates and Connects Start Stop Buttons"""
-        self.start_btn = qg.QPushButton('START')
-        self.start_btn.setStyleSheet('background-color: cyan')
-        self.stop_btn = qg.QPushButton('STOP')
-        self.stop_btn.setStyleSheet('background-color: orange')
-        self.start_btn.clicked.connect(self.start_exp)
-        self.stop_btn.clicked.connect(self.stop_exp)
-
-    def init_time_entries(self):
-        """Creates and Connects time config entries"""
-        text_metrics = qg.QFontMetrics(qg.QApplication.font())
-        self.entries = []
-        entry_types = [hh, mm, ss]
-        hhmmss = time_convert(ms=self.dirs.settings.ard_last_used[packet][3])
-        # Entries and Buttons (Signal Emitters)
-        for index, entry_type in enumerate(entry_types):
-            self.entries.append(qg.QLineEdit())
-            self.entries[index].setMaximumWidth(text_metrics.width('00000'))
-            self.entries[index].setText(str(hhmmss[index]))
-        self.ttl_time_confirm_btn = qg.QPushButton('\nConfirm\n')
-        # Static Labels
-        static_labels = ['Hour', 'Min', 'Sec', ':', ':']
-        for index, name in enumerate(static_labels):
-            static_labels[index] = qg.QLabel(name)
-            static_labels[index].setAlignment(qc.Qt.AlignCenter)
-        # Keep time entries contained in its own frame
-        self.time_entry_frame = qg.QGroupBox()
-        self.time_entry_frame.setTitle('Total Experiment Time:')
-        self.time_entry_frame.setMaximumWidth(320)
-        grid = qg.QGridLayout()
-        self.time_entry_frame.setLayout(grid)
-        # Add components to frame
-        grid.addWidget(self.ttl_time_confirm_btn, 0, 5, 2, 1)
-        for index, entry in enumerate(self.entries):
-            grid.addWidget(static_labels[index], 0, index * 2)
-            grid.addWidget(entry, 1, index * 2)
-            if index < 2:
-                grid.addWidget(static_labels[index + 3], 1, index * 2 + 1)
-
-    def start_exp(self):
-        """Starts the experiment"""
-        print(mp.active_children())
-        self.proc_handler_queue.put_nowait('{}{}'.format(RUN_EXP_HEADER, 'simple_name'))
-        # Wait until proc_handler sends the synchronized signal
-        self.exp_start_event.wait()
-        self.gui_progbar.start_bar()
-
-    def stop_exp(self):
-        """Stops the experiment"""
-        self.proc_handler_queue.put_nowait(HARDSTOP_HEADER)
-        self.gui_progbar.stop_bar()
-
-    # -- Finalize -- #
-    def add_to_grid(self):
-        """Add buttons to GUI grid"""
-        self.grid.addWidget(self.start_btn, 0, 0)
-        self.grid.addWidget(self.stop_btn, 0, 1)
-        self.grid.addWidget(self.time_entry_frame, 1, 0, 1, 2)
-
-
 class GUI_CameraDisplay(qg.QWidget):
     """Displays Video feeds from Cameras"""
     def __init__(self, dirs):
@@ -394,6 +321,7 @@ class GUI_CameraDisplay(qg.QWidget):
         self.sync_events = []
         self.msg_pipes = []
         # Setup Displays
+        self.setMinimumWidth(366)
         self.initialize()
 
     def initialize(self):
@@ -447,8 +375,7 @@ class GUI_CameraDisplay(qg.QWidget):
         sys.stderr = stderr
         devnull.close()
         # Finalize number of cameras across processes
-        self.dirs.settings.num_cmrs = len(self.cameras)
-        self.num_cmrs = self.dirs.settings.num_cmrs
+        self.num_cmrs = len(self.cameras)
 
     def create_data_containers(self):
         """Generates shared data buffers and containers for image display"""
@@ -513,3 +440,152 @@ class GUI_CameraDisplay(qg.QWidget):
             if self.sync_events[index].is_set():
                 self.labels[index].setPixmap(qg.QPixmap.fromImage(self.images[index]))
                 self.sync_events[index].clear()
+
+
+class GUI_LiveScrollingGraph(qg.QWidget):
+    """Plots graphs; number depends on number of LJ channels enabled"""
+    def __init__(self, dirs):
+        qg.QWidget.__init__(self)
+        self.dirs = dirs
+        self.grid = qg.QGridLayout()
+        self.setLayout(self.grid)
+        self.color_scheme = [(51, 204, 153), (51, 179, 204), (153, 51, 204), (216, 100, 239),
+                             (179, 204, 51), (204, 153, 51), (204, 77, 51), (102, 204, 51)]
+        self.ch_num = []
+        frame = qg.QGroupBox('LabJack Live Stream')
+        self.inner_grid = qg.QGridLayout()
+        frame.setLayout(self.inner_grid)
+        self.grid.addWidget(frame)
+
+    def create_plots(self):
+        """Creates number of plots equal to number of LJ channels enabled"""
+        self.ch_num = deepcopy(self.dirs.settings.lj_last_used.ch_num)
+        self.labels = {i: qg.QLabel(str(i)) for i in self.ch_num}
+        self.plots = {i: GUI_SinglePlot(self.color_scheme[self.ch_num.index(i)]) for i in self.ch_num}
+        [self.inner_grid.addWidget(self.labels[i], i, 0) for i in self.ch_num]
+        [self.inner_grid.addWidget(self.plots[i], i, 1) for i in self.ch_num]
+
+    def reset_plots(self):
+        """Reset plots to display updated labjack channels"""
+        for ch in self.ch_num:
+            self.labels[ch].close()
+            self.plots[ch].update_timer.stop()
+            self.plots[ch].close()
+        self.create_plots()
+
+
+class GUI_LJDataReport(qg.QWidget):
+    """A simple table that collects and reports LabJack operation data"""
+    def __init__(self):
+        qg.QWidget.__init__(self)
+        self.grid = qg.QGridLayout()
+        self.setLayout(self.grid)
+        self.initialize()
+
+    def initialize(self):
+        """Sets up the table and table headings"""
+        frame = qg.QGroupBox('Post Experiment LabJack Report')
+        grid = qg.QGridLayout()
+        frame.setLayout(grid)
+        self.grid.addWidget(frame)
+        for i in range(5):
+            grid.addWidget(qg.QLabel(''), i, 0)
+
+
+# NOTE NOTE NOTE NOTE
+# to help with converting to ard readable format (do not do this in gui! do it in separate arduino process)
+class ArduinoDataOld(object):
+    """Structure for Arduino Config"""
+    def __init__(self):
+        self.packet = []  # [header, pinsD, pinsB, ttl_time_ms, num_tones, num_outd07, num_pwmb813]
+        self.tone_pack = []  # [header, time_tone_on, time_tone_off, freq]
+        self.out_pack = []  # [header, time_to_trigger, pins]
+        self.pwm_pack = []  # [header, startMillis=0, time_on, time_off, freq, pin, phase_shift, duty_cycle]
+        # self.pwm_pack will need to be converted before sending to arduino! as so:
+        # [header, startMillis, time_on, time_off, cycleTimeOn, cycleTimeOff, pins, timePhaseShift]
+
+    def load_blank(self):
+        """Blank Config"""
+        self.packet = ['<BBLHHH', 0, 0, 20000, 0, 0, 0]
+        self.tone_pack = []
+        self.out_pack = []
+        self.pwm_pack = []
+
+    def load_example(self):
+        """Example Preset Config"""
+        self.packet = ['<BBLHHH', 255, 255, 180000, 1, 2, 0]
+        self.tone_pack = [['<LLH', 120000, 150000, 2800]]
+        self.out_pack = [['<LB', 148000, 4], ['<LB', 150000, 4]]
+        self.pwm_pack = []
+        return self
+
+    # from gui progbar
+    def create_bar_from_ard_data(self, data_type, data, ms_time):
+        """Reads packed arduino commands and turns into progress bar elements"""
+        # -- Indicate where to get time data -- #
+        if data_type == tone:
+            start_index, off_index = 1, 2
+        elif data_type == pwm:
+            start_index, off_index = 2, 3
+        elif data_type == output:
+            start_index, off_index = 1, 2
+            # -- Simple Output requires combining packed instructions -- #
+            # Lists to save processed data
+            indiv_trigs, indiv_times = [], []  # corresponding lists of every time a pin is triggered
+            pins_and_times = {}  # {pin: [list_of_trigger_times]}
+            final_intv = []  # List of lists of final data
+            # Create mirror lists of each time a pin is triggered and the time of trigger
+            for instruction in data:
+                time, pins = instruction[1], instruction[2]
+                triggers = check_binary(pins, 'D')
+                for trigger in triggers:
+                    indiv_trigs.append(trigger)
+                    indiv_times.append(time)
+            # Create a dictionary of {pin: [list of trigger times]}
+            for trig_index in range(len(indiv_trigs)):
+                pin = indiv_trigs[trig_index]
+                try:
+                    pins_and_times[pin].append(indiv_times[trig_index])
+                except KeyError:
+                    pins_and_times[pin] = [indiv_times[trig_index]]
+            # Create list of lists containing [pin, on time, off time]
+            for pin in pins_and_times:
+                for time_index in range(len(pins_and_times[pin])):
+                    if time_index % 2 == 0:
+                        final_intv.append([pin,
+                                           pins_and_times[pin][time_index],
+                                           pins_and_times[pin][time_index + 1]])
+            final_intv = sorted(final_intv, key=itemgetter(1))
+            data = final_intv
+        # -- Return arduino data in readable list -- #
+        for instruction in data:
+            start_point = (float(instruction[start_index]) / ms_time) * 1000.0
+            on_duration = (float(instruction[off_index]) / ms_time) * 1000.0 - start_point
+            # Export Data
+            start_time = format_secs(instruction[start_index] / 1000)
+            off_time = format_secs(instruction[off_index] / 1000)
+            # -- Create TONE Bars -- #
+            if data_type == tone:
+                tone_freq = instruction[3]
+                self.tone_bars.add(qg.QGraphicsRectItem(start_point, 20, on_duration, 20), brush=yellow, pen=blue,
+                                   tooltip='{} - {}\n{} Hz'.format(start_time, off_time, tone_freq))
+            # -- Create PWM Bars -- #
+            elif data_type == pwm:
+                pin = check_binary(instruction[5], 'B')[0]
+                freq = instruction[4]
+                duty_cycle = instruction[7]
+                phase_shift = instruction[6]
+                pin_ids = range(8, 14)
+                pin_ids.remove(10)
+                y_pos = 160 + (pin_ids.index(pin)) * 20
+                self.pwm_bars.add(qg.QGraphicsRectItem(start_point, y_pos, on_duration, 20), brush=yellow, pen=blue,
+                                  tooltip='{} - {}\nPin {}\nFreq: {}Hz\nDuty Cycle: {}%\nPhase Shift:{}'
+                                          '' + u'\u00b0'.format(start_time, off_time,
+                                                                pin, freq, duty_cycle, phase_shift))
+            # -- Create OUTPUT Bars -- #
+            elif data_type == output:
+                pin = instruction[0]
+                pin_ids = range(2, 8)
+                y_pos = 40 + (pin_ids.index(pin)) * 20
+                self.out_bars.add(qg.QGraphicsRectItem(start_point, y_pos, on_duration, 20), brush=yellow, pen=blue,
+                                  tooltip='{} - {}\nPin {}'.format(start_time, off_time, pin))
