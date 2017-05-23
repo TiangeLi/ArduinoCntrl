@@ -40,9 +40,9 @@ labjack = 'LABJACK'
 
 
 # Arduino Parameters
-tone = 'tone'
-output = 'output'
-pwm = 'pwm'
+tone = 'Tone'
+output = 'Output'
+pwm = 'PWM'
 # Pins
 tone_pin = 10
 output_pins = list(range(2, 8))
@@ -54,6 +54,9 @@ ard_setup_hdr = '<BBLHHH'
 ard_tone_hdr = '<LLH'
 ard_output_hdr = '<LB'
 ard_pwm_hdr = '<LLLfBBf'
+# Defaults
+default_phaseshift = 0
+default_dutycycle = 50
 
 
 # GUI Pointers

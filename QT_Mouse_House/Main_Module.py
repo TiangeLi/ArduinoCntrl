@@ -70,6 +70,9 @@ class GUI_Master(qg.QWidget):
         self.progbar = GUI_ProgressBar(self, self.dirs)
         self.cameras = GUI_CameraDisplay(self.dirs)
         self.exp_cntrls = GUI_ExpControls(self.dirs, self.progbar)
+        #   We pass the arduino and time config widgets to the progbar for progbar functions to adjust
+        self.progbar.ard_widget = self.exp_cntrls.ard_config_widget
+        self.progbar.time_config_widget = self.exp_cntrls.time_config_widget
         # Add Widgets to Grid
         self.grid.addWidget(self.progbar, 0, 1)
         self.grid.addWidget(self.cameras, 0, 0, 4, 1)

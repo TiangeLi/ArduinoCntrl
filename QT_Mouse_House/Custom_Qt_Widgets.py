@@ -27,6 +27,11 @@ class GUI_ProgressBar(qg.QGraphicsView):
         self.exp_start_time = qc.QTime()
         self.scene = qg.QGraphicsScene(self)
         self.scene.selectionChanged.connect(self.highlight_selected)
+        # Due to some initialization ordering issues
+        # We pass the ard and time config widgets to the progbar in main_module.py
+        # after all other widgets have been setup
+        self.ard_widget = None
+        self.time_config_widget = None
         # Initialize Objects
         self.init_static_background()
         self.init_dynamic_background()
@@ -56,6 +61,11 @@ class GUI_ProgressBar(qg.QGraphicsView):
         if len(selected) > 0:
             for item in selected:
                 item.setBrush(blue)
+        # Set arduino config widget entries
+        if len(selected) != 1:
+            self.ard_widget.load_from_ard_bar(data=None)
+        if len(selected) == 1:
+            self.ard_widget.load_from_ard_bar(data=selected[0].data)
 
     def keyPressEvent(self, event):
         """If we have selected a prog_bar component and press the delete or backspace key, we delete the bar"""
@@ -81,6 +91,11 @@ class GUI_ProgressBar(qg.QGraphicsView):
                 bar.setFlag(qg.QGraphicsItem.ItemIsSelectable, enabled=True)
             elif not selectable:
                 bar.setFlag(qg.QGraphicsItem.ItemIsSelectable, enabled=False)
+
+    def reset_selection(self):
+        """Reset all selected bars to be unselected"""
+        self.set_ard_bars_selectable(selectable=False)
+        self.set_ard_bars_selectable(selectable=True)
 
     # -- Static Background -- #
     def init_static_background(self):
@@ -139,6 +154,16 @@ class GUI_ProgressBar(qg.QGraphicsView):
         Sets dynamic background using data from settings.ard_last_used
         Any changes to ard settings should be done to settings.ard_last_used before calling this!
         """
+        # First we check if we need to update the total time depending on new progbars added
+        ttl_time = max([self.dirs.settings.ttl_time()]
+                       + [config.time_off_ms for config in self.dirs.settings.ard_last_used.configs])
+        self.dirs.settings.set_ttl_time(ttl_time)
+        if self.time_config_widget:
+            # time_config_widget = None when self.initialize()
+            # however, immediately after self.initialize() the main_module will pass the correct widget to this param
+            # and we can use it to set the time in the time config widget.
+            self.time_config_widget.set_text_in_entries()
+        # Then we set the background
         self.reset_dynamic_background()
         self.set_vert_spacers()
         self.set_ard_bars()
@@ -481,6 +506,7 @@ class GUI_LJDataReport(qg.QWidget):
         self.grid = qg.QGridLayout()
         self.setLayout(self.grid)
         self.initialize()
+        self.setMaximumHeight(self.sizeHint().height())
 
     def initialize(self):
         """Sets up the table and table headings"""
@@ -490,6 +516,28 @@ class GUI_LJDataReport(qg.QWidget):
         self.grid.addWidget(frame)
         for i in range(5):
             grid.addWidget(qg.QLabel(''), i, 0)
+
+
+class GUI_StatusBars(qg.QWidget):
+    """A set of status bars to report current application/device statuses"""
+    def __init__(self):
+        qg.QWidget.__init__(self)
+        self.grid = qg.QGridLayout()
+        self.setLayout(self.grid)
+        self.labels = ['Ard', 'LJk', 'Cmr', 'Sys']
+        self.labels = [qg.QLabel(label) for label in self.labels]
+        [label.setMaximumSize(label.sizeHint()) for label in self.labels]
+        self.initialize()
+
+    def initialize(self):
+        """Sets up the labels and status bars"""
+        self.status_bars = {}
+        for index, label in enumerate(self.labels):
+            s = label.text()
+            self.status_bars[s] = qg.QLabel('null')
+            self.status_bars[s].setFrameStyle(qg.QFrame.Sunken | qg.QFrame.StyledPanel)
+            self.grid.addWidget(label, index, 0)
+            self.grid.addWidget(self.status_bars[s], index, 1)
 
 
 # NOTE NOTE NOTE NOTE

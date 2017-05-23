@@ -2,17 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7986eef5-b708-4e99-87e5-b06475972a6b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/QT_Mouse_House/Qt_Exp_Controls.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/QT_Mouse_House/text.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets_Old.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings_Old.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/QT_Mouse_House/Main_Module_Old.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/QT_Mouse_House/Misc_Functions_Old.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/QT_Mouse_House/temp.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/QT_Mouse_House/text.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Camera_Procs.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Camera_Procs.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Concurrency_Handlers.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Concurrency_Handlers.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Tools.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Tools.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Main_Module.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Main_Module.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Names.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Names.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Qt_Exp_Controls.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Qt_Exp_Controls.py" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,7 +29,7 @@
     <SUITE FILE_PATH="coverage/ArduinoCntrl$Mouse_House.coverage" NAME="Mouse House Coverage Results" MODIFIED="1492101559544" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Past Versions/Tkinter GUI" />
     <SUITE FILE_PATH="coverage/ArduinoCntrl$temp.coverage" NAME="temp Coverage Results" MODIFIED="1492033586054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/QT_Mouse_House" />
     <SUITE FILE_PATH="coverage/ArduinoCntrl$text.coverage" NAME="text Coverage Results" MODIFIED="1495207726584" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/QT_Mouse_House" />
-    <SUITE FILE_PATH="coverage/ArduinoCntrl$Main_Module.coverage" NAME="Main_Module Coverage Results" MODIFIED="1495217686261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/QT_Mouse_House" />
+    <SUITE FILE_PATH="coverage/ArduinoCntrl$Main_Module.coverage" NAME="Main_Module Coverage Results" MODIFIED="1495563718638" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/QT_Mouse_House" />
     <SUITE FILE_PATH="coverage/ArduinoCntrl$Main_Module_Old.coverage" NAME="Main_Module_Old Coverage Results" MODIFIED="1491838250901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/QT_Mouse_House" />
     <SUITE FILE_PATH="coverage/ArduinoCntrl$test.coverage" NAME="test Coverage Results" MODIFIED="1489680964307" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/QT_Mouse_House" />
   </component>
@@ -43,11 +45,11 @@
       <file leaf-file-name="Main_Module.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Main_Module.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2667">
-              <caret line="152" column="23" lean-forward="false" selection-start-line="152" selection-start-column="23" selection-end-line="152" selection-end-column="23" />
+            <state relative-caret-position="1449">
+              <caret line="72" column="12" lean-forward="false" selection-start-line="72" selection-start-column="12" selection-end-line="72" selection-end-column="12" />
               <folding>
                 <element signature="e#51#78#0" expanded="true" />
-                <element signature="e#4183#5088#0" expanded="false" />
+                <element signature="e#4431#5336#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -56,25 +58,33 @@
       <file leaf-file-name="Qt_Exp_Controls.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Qt_Exp_Controls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2310">
-              <caret line="641" column="0" lean-forward="true" selection-start-line="641" selection-start-column="0" selection-end-line="641" selection-end-column="0" />
+            <state relative-caret-position="105">
+              <caret line="5" column="19" lean-forward="true" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
               <folding>
-                <element signature="e#68#77#0" expanded="true" />
-                <element signature="e#416#3846#0" expanded="false" />
-                <element signature="e#4709#4970#0" expanded="false" />
-                <element signature="e#5006#5671#0" expanded="false" />
-                <element signature="e#5712#6322#0" expanded="false" />
-                <element signature="e#6362#6623#0" expanded="false" />
-                <element signature="e#8793#14745#0" expanded="false" />
-                <element signature="e#11392#12118#0" expanded="false" />
-                <element signature="e#12173#12875#0" expanded="false" />
-                <element signature="e#14789#19536#0" expanded="false" />
-                <element signature="e#19580#22327#0" expanded="false" />
-                <element signature="e#20261#20677#0" expanded="false" />
-                <element signature="e#20718#20969#0" expanded="false" />
-                <element signature="e#21339#21514#0" expanded="false" />
-                <element signature="e#22368#25350#0" expanded="false" />
-                <element signature="e#25391#27636#0" expanded="false" />
+                <element signature="e#432#3985#0" expanded="false" />
+                <element signature="e#6154#6764#0" expanded="false" />
+                <element signature="e#7110#7371#0" expanded="false" />
+                <element signature="e#9739#21615#0" expanded="false" />
+                <element signature="e#9838#10126#0" expanded="false" />
+                <element signature="e#10162#12582#0" expanded="false" />
+                <element signature="e#12642#13804#0" expanded="false" />
+                <element signature="e#13859#14561#0" expanded="false" />
+                <element signature="e#14601#16470#0" expanded="false" />
+                <element signature="e#16515#17632#0" expanded="false" />
+                <element signature="e#17696#18887#0" expanded="false" />
+                <element signature="e#18936#19447#0" expanded="false" />
+                <element signature="e#19488#20413#0" expanded="false" />
+                <element signature="e#20462#21615#0" expanded="false" />
+                <element signature="e#21659#26406#0" expanded="false" />
+                <element signature="e#26450#29197#0" expanded="false" />
+                <element signature="e#27131#27547#0" expanded="false" />
+                <element signature="e#27588#27839#0" expanded="false" />
+                <element signature="e#28209#28384#0" expanded="false" />
+                <element signature="e#29238#32870#0" expanded="false" />
+                <element signature="e#29347#29615#0" expanded="false" />
+                <element signature="e#29653#31177#0" expanded="false" />
+                <element signature="e#32782#32870#0" expanded="false" />
+                <element signature="e#32911#35156#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -83,33 +93,34 @@
       <file leaf-file-name="Custom_Qt_Widgets.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="491" column="32" lean-forward="false" selection-start-line="491" selection-start-column="32" selection-end-line="491" selection-end-column="32" />
+            <state relative-caret-position="378">
+              <caret line="31" column="49" lean-forward="false" selection-start-line="31" selection-start-column="49" selection-end-line="31" selection-end-column="49" />
               <folding>
                 <element signature="e#78#87#0" expanded="true" />
-                <element signature="e#446#14881#0" expanded="false" />
-                <element signature="e#3415#6085#0" expanded="false" />
-                <element signature="e#6167#6487#0" expanded="false" />
-                <element signature="e#6535#6931#0" expanded="false" />
-                <element signature="e#6981#7587#0" expanded="false" />
-                <element signature="e#7629#9624#0" expanded="false" />
-                <element signature="e#9662#9951#0" expanded="false" />
-                <element signature="e#10016#11480#0" expanded="false" />
-                <element signature="e#11578#12143#0" expanded="false" />
-                <element signature="e#12189#13336#0" expanded="false" />
-                <element signature="e#13379#14485#0" expanded="false" />
-                <element signature="e#14548#14679#0" expanded="false" />
-                <element signature="e#14713#14881#0" expanded="false" />
-                <element signature="e#14925#21133#0" expanded="false" />
-                <element signature="e#15929#16215#0" expanded="false" />
-                <element signature="e#16255#17473#0" expanded="false" />
-                <element signature="e#17521#18297#0" expanded="false" />
-                <element signature="e#18339#19214#0" expanded="false" />
-                <element signature="e#19256#20480#0" expanded="false" />
-                <element signature="e#20754#20836#0" expanded="false" />
-                <element signature="e#20877#21133#0" expanded="false" />
-                <element signature="e#23308#28396#0" expanded="false" />
-                <element signature="e#23932#24088#0" expanded="false" />
+                <element signature="e#4099#6769#0" expanded="false" />
+                <element signature="e#6851#7171#0" expanded="false" />
+                <element signature="e#8352#8958#0" expanded="false" />
+                <element signature="e#9000#10995#0" expanded="false" />
+                <element signature="e#11033#11322#0" expanded="false" />
+                <element signature="e#11387#12851#0" expanded="false" />
+                <element signature="e#12949#13514#0" expanded="false" />
+                <element signature="e#13560#14707#0" expanded="false" />
+                <element signature="e#14750#15856#0" expanded="false" />
+                <element signature="e#15919#16050#0" expanded="false" />
+                <element signature="e#16084#16252#0" expanded="false" />
+                <element signature="e#16296#22504#0" expanded="false" />
+                <element signature="e#17300#17586#0" expanded="false" />
+                <element signature="e#17626#18844#0" expanded="false" />
+                <element signature="e#18892#19668#0" expanded="false" />
+                <element signature="e#19710#20585#0" expanded="false" />
+                <element signature="e#20627#21851#0" expanded="false" />
+                <element signature="e#22125#22207#0" expanded="false" />
+                <element signature="e#22248#22504#0" expanded="false" />
+                <element signature="e#22553#23932#0" expanded="false" />
+                <element signature="e#23975#24568#0" expanded="false" />
+                <element signature="e#24609#25469#0" expanded="false" />
+                <element signature="e#25633#30721#0" expanded="false" />
+                <element signature="e#26257#26413#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -118,16 +129,16 @@
       <file leaf-file-name="Custom_Qt_Tools.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Tools.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-595">
-              <caret line="45" column="16" lean-forward="false" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
+            <state relative-caret-position="1302">
+              <caret line="140" column="50" lean-forward="false" selection-start-line="140" selection-start-column="50" selection-end-line="140" selection-end-column="50" />
               <folding>
                 <element signature="e#93#112#0" expanded="true" />
                 <element signature="e#258#1037#0" expanded="false" />
-                <element signature="e#1084#1459#0" expanded="false" />
-                <element signature="e#2199#2382#0" expanded="false" />
-                <element signature="e#2423#3263#0" expanded="false" />
-                <element signature="e#3321#3893#0" expanded="false" />
-                <element signature="e#3942#4706#0" expanded="false" />
+                <element signature="e#2162#2504#0" expanded="false" />
+                <element signature="e#2553#3317#0" expanded="false" />
+                <element signature="e#2622#2687#0" expanded="false" />
+                <element signature="e#3691#3874#0" expanded="false" />
+                <element signature="e#3915#5076#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -136,8 +147,8 @@
       <file leaf-file-name="Concurrency_Handlers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Concurrency_Handlers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="98" column="78" lean-forward="false" selection-start-line="98" selection-start-column="64" selection-end-line="98" selection-end-column="78" />
+            <state relative-caret-position="315">
+              <caret line="19" column="61" lean-forward="false" selection-start-line="19" selection-start-column="57" selection-end-line="19" selection-end-column="61" />
               <folding>
                 <element signature="e#99#109#0" expanded="true" />
               </folding>
@@ -148,8 +159,8 @@
       <file leaf-file-name="Misc_Functions.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Misc_Functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="89" column="58" lean-forward="false" selection-start-line="89" selection-start-column="58" selection-end-line="89" selection-end-column="58" />
+            <state relative-caret-position="903">
+              <caret line="69" column="37" lean-forward="false" selection-start-line="69" selection-start-column="33" selection-end-line="69" selection-end-column="37" />
               <folding>
                 <element signature="e#188#1144#0" expanded="false" />
               </folding>
@@ -160,14 +171,14 @@
       <file leaf-file-name="Dirs_Settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="43" column="68" lean-forward="false" selection-start-line="43" selection-start-column="68" selection-end-line="43" selection-end-column="68" />
+            <state relative-caret-position="3318">
+              <caret line="183" column="29" lean-forward="false" selection-start-line="183" selection-start-column="29" selection-end-line="183" selection-end-column="29" />
               <folding>
                 <element signature="e#120#129#0" expanded="true" />
                 <element signature="e#3163#3589#0" expanded="false" />
                 <element signature="e#3623#3706#0" expanded="false" />
                 <element signature="e#3748#3826#0" expanded="false" />
-                <element signature="e#5563#5860#0" expanded="false" />
+                <element signature="e#5633#5930#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -176,8 +187,8 @@
       <file leaf-file-name="Names.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Names.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="74" column="66" lean-forward="false" selection-start-line="74" selection-start-column="66" selection-end-line="74" selection-end-column="66" />
+            <state relative-caret-position="1176">
+              <caret line="58" column="22" lean-forward="false" selection-start-line="58" selection-start-column="22" selection-end-line="58" selection-end-column="22" />
               <folding>
                 <element signature="e#58#82#0" expanded="true" />
               </folding>
@@ -196,14 +207,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>sort</find>
-      <find>messagebox</find>
-      <find>parent</find>
-      <find>universa</find>
-      <find>confirm</find>
-      <find>setenabled</find>
-      <find>combo</find>
-      <find>intonly</find>
       <find>num_cha</find>
       <find>lj_widget</find>
       <find>load_from_preset</find>
@@ -221,11 +224,19 @@
       <find>save_</find>
       <find>save_dir</find>
       <find>save_file</find>
-      <find>self.save_file</find>
       <find>run_exp</find>
       <find>date</find>
       <find>date_st</find>
       <find>date_stamped</find>
+      <find>panel</find>
+      <find>ard_wid</find>
+      <find>dropdown</find>
+      <find>phase_shift</find>
+      <find>self.save_file</find>
+      <find>lower</find>
+      <find>capitalize</find>
+      <find>None</find>
+      <find>lowleb</find>
     </findStrings>
     <replaceStrings>
       <replace>self.exp_start_time</replace>
@@ -256,14 +267,14 @@
         <option value="$PROJECT_DIR$/Past Versions/Tkinter GUI/DeviceGUIs.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/Qt_Popup_Configs.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/Concurrency_Handlers.py" />
-        <option value="$PROJECT_DIR$/QT_Mouse_House/Names.py" />
-        <option value="$PROJECT_DIR$/QT_Mouse_House/Main_Module.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/text.py" />
-        <option value="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py" />
+        <option value="$PROJECT_DIR$/QT_Mouse_House/Camera_Procs.py" />
+        <option value="$PROJECT_DIR$/QT_Mouse_House/Names.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Tools.py" />
+        <option value="$PROJECT_DIR$/QT_Mouse_House/Main_Module.py" />
+        <option value="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/Qt_Exp_Controls.py" />
-        <option value="$PROJECT_DIR$/QT_Mouse_House/Camera_Procs.py" />
       </list>
     </option>
   </component>
@@ -287,57 +298,6 @@
             <id />
           </State>
           <State>
-            <id>Assignment issuesJavaScript</id>
-          </State>
-          <State>
-            <id>Bitwise operation issuesJavaScript</id>
-          </State>
-          <State>
-            <id>CSS</id>
-          </State>
-          <State>
-            <id>Code quality toolsCSS</id>
-          </State>
-          <State>
-            <id>Code quality toolsJavaScript</id>
-          </State>
-          <State>
-            <id>Control flow issuesJavaScript</id>
-          </State>
-          <State>
-            <id>Data flow issuesJavaScript</id>
-          </State>
-          <State>
-            <id>ECMAScript 6 migration aidsJavaScript</id>
-          </State>
-          <State>
-            <id>Error handlingJavaScript</id>
-          </State>
-          <State>
-            <id>General</id>
-          </State>
-          <State>
-            <id>GeneralJavaScript</id>
-          </State>
-          <State>
-            <id>Internationalization issues</id>
-          </State>
-          <State>
-            <id>JavaScript</id>
-          </State>
-          <State>
-            <id>JavaScript function metricsJavaScript</id>
-          </State>
-          <State>
-            <id>JavaScript validity issuesJavaScript</id>
-          </State>
-          <State>
-            <id>Potentially confusing code constructsJavaScript</id>
-          </State>
-          <State>
-            <id>Probable bugsJavaScript</id>
-          </State>
-          <State>
             <id>Pyramid</id>
           </State>
           <State>
@@ -350,6 +310,11 @@
             <id>TypeScript</id>
           </State>
         </expanded-state>
+        <selected-state>
+          <State>
+            <id>JavaScript</id>
+          </State>
+        </selected-state>
       </profile-state>
     </entry>
   </component>
@@ -371,7 +336,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$USER_HOME$/Anaconda3/python.exe" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
   </component>
@@ -758,31 +723,38 @@
       <option name="project" value="LOCAL" />
       <updated>1494257704919</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="most gui work finished; need to implement devices.">
+      <created>1495217767051</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1495217767051</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299923" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15628415" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17923497" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299923" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18360655" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32786885" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30054644" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3989071" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32786885" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -807,55 +779,46 @@
     <MESSAGE value="new progress bar class" />
     <MESSAGE value="backup before Qt5" />
     <MESSAGE value="backup before Settings rework" />
-    <option name="LAST_COMMIT_MESSAGE" value="backup before Settings rework" />
+    <MESSAGE value="most gui work finished; need to implement devices." />
+    <option name="LAST_COMMIT_MESSAGE" value="most gui work finished; need to implement devices." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="10" />
+      <option name="time" value="25" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Main_Module.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="44" column="15" lean-forward="false" selection-start-line="44" selection-start-column="15" selection-end-line="44" selection-end-column="15" />
-          <folding>
-            <element signature="e#51#78#0" expanded="true" />
-            <element signature="e#4183#5088#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#78#87#0" expanded="true" />
-            <element signature="e#446#14881#0" expanded="false" />
-            <element signature="e#3415#6085#0" expanded="false" />
-            <element signature="e#6167#6487#0" expanded="false" />
-            <element signature="e#6535#6931#0" expanded="false" />
-            <element signature="e#6981#7587#0" expanded="false" />
-            <element signature="e#7629#9624#0" expanded="false" />
-            <element signature="e#9662#9951#0" expanded="false" />
-            <element signature="e#10016#11480#0" expanded="false" />
-            <element signature="e#11578#12143#0" expanded="false" />
-            <element signature="e#12189#13336#0" expanded="false" />
-            <element signature="e#13379#14485#0" expanded="false" />
-            <element signature="e#14548#14679#0" expanded="false" />
-            <element signature="e#14713#14881#0" expanded="false" />
-            <element signature="e#14925#21133#0" expanded="false" />
-            <element signature="e#15929#16215#0" expanded="false" />
-            <element signature="e#16255#17473#0" expanded="false" />
-            <element signature="e#17521#18297#0" expanded="false" />
-            <element signature="e#18339#19214#0" expanded="false" />
-            <element signature="e#19256#20480#0" expanded="false" />
-            <element signature="e#20754#20836#0" expanded="false" />
-            <element signature="e#20877#21133#0" expanded="false" />
-            <element signature="e#23308#28396#0" expanded="false" />
-            <element signature="e#23932#24088#0" expanded="false" />
+            <element signature="e#4099#6769#0" expanded="false" />
+            <element signature="e#6851#7171#0" expanded="false" />
+            <element signature="e#8352#8958#0" expanded="false" />
+            <element signature="e#9000#10995#0" expanded="false" />
+            <element signature="e#11033#11322#0" expanded="false" />
+            <element signature="e#11387#12851#0" expanded="false" />
+            <element signature="e#12949#13514#0" expanded="false" />
+            <element signature="e#13560#14707#0" expanded="false" />
+            <element signature="e#14750#15856#0" expanded="false" />
+            <element signature="e#15919#16050#0" expanded="false" />
+            <element signature="e#16084#16252#0" expanded="false" />
+            <element signature="e#16296#22504#0" expanded="false" />
+            <element signature="e#17300#17586#0" expanded="false" />
+            <element signature="e#17626#18844#0" expanded="false" />
+            <element signature="e#18892#19668#0" expanded="false" />
+            <element signature="e#19710#20585#0" expanded="false" />
+            <element signature="e#20627#21851#0" expanded="false" />
+            <element signature="e#22125#22207#0" expanded="false" />
+            <element signature="e#22248#22504#0" expanded="false" />
+            <element signature="e#22553#23932#0" expanded="false" />
+            <element signature="e#23975#24568#0" expanded="false" />
+            <element signature="e#24609#25469#0" expanded="false" />
+            <element signature="e#25633#30721#0" expanded="false" />
+            <element signature="e#26257#26413#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -866,6 +829,12 @@
           <caret line="15" column="25" lean-forward="false" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
           <folding>
             <element signature="e#93#112#0" expanded="true" />
+            <element signature="e#258#1037#0" expanded="false" />
+            <element signature="e#2162#2504#0" expanded="false" />
+            <element signature="e#2553#3317#0" expanded="false" />
+            <element signature="e#2622#2687#0" expanded="false" />
+            <element signature="e#3691#3874#0" expanded="false" />
+            <element signature="e#3915#5076#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -875,11 +844,7 @@
         <state relative-caret-position="464">
           <caret line="80" column="0" lean-forward="false" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
           <folding>
-            <element signature="e#50#63#0" expanded="false" />
             <element signature="e#188#1144#0" expanded="false" />
-            <element signature="e#1223#2351#0" expanded="false" />
-            <element signature="e#2398#3265#0" expanded="false" />
-            <element signature="e#3322#3734#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -893,7 +858,7 @@
             <element signature="e#3163#3589#0" expanded="false" />
             <element signature="e#3623#3706#0" expanded="false" />
             <element signature="e#3748#3826#0" expanded="false" />
-            <element signature="e#5563#5860#0" expanded="false" />
+            <element signature="e#5633#5930#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -925,7 +890,7 @@
           <caret line="26" column="31" lean-forward="false" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
           <folding>
             <element signature="e#51#78#0" expanded="true" />
-            <element signature="e#4183#5088#0" expanded="false" />
+            <element signature="e#4431#5336#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -936,29 +901,30 @@
           <caret line="73" column="38" lean-forward="false" selection-start-line="73" selection-start-column="38" selection-end-line="73" selection-end-column="38" />
           <folding>
             <element signature="e#78#87#0" expanded="true" />
-            <element signature="e#446#14881#0" expanded="false" />
-            <element signature="e#3415#6085#0" expanded="false" />
-            <element signature="e#6167#6487#0" expanded="false" />
-            <element signature="e#6535#6931#0" expanded="false" />
-            <element signature="e#6981#7587#0" expanded="false" />
-            <element signature="e#7629#9624#0" expanded="false" />
-            <element signature="e#9662#9951#0" expanded="false" />
-            <element signature="e#10016#11480#0" expanded="false" />
-            <element signature="e#11578#12143#0" expanded="false" />
-            <element signature="e#12189#13336#0" expanded="false" />
-            <element signature="e#13379#14485#0" expanded="false" />
-            <element signature="e#14548#14679#0" expanded="false" />
-            <element signature="e#14713#14881#0" expanded="false" />
-            <element signature="e#14925#21133#0" expanded="false" />
-            <element signature="e#15929#16215#0" expanded="false" />
-            <element signature="e#16255#17473#0" expanded="false" />
-            <element signature="e#17521#18297#0" expanded="false" />
-            <element signature="e#18339#19214#0" expanded="false" />
-            <element signature="e#19256#20480#0" expanded="false" />
-            <element signature="e#20754#20836#0" expanded="false" />
-            <element signature="e#20877#21133#0" expanded="false" />
-            <element signature="e#23308#28396#0" expanded="false" />
-            <element signature="e#23932#24088#0" expanded="false" />
+            <element signature="e#4099#6769#0" expanded="false" />
+            <element signature="e#6851#7171#0" expanded="false" />
+            <element signature="e#8352#8958#0" expanded="false" />
+            <element signature="e#9000#10995#0" expanded="false" />
+            <element signature="e#11033#11322#0" expanded="false" />
+            <element signature="e#11387#12851#0" expanded="false" />
+            <element signature="e#12949#13514#0" expanded="false" />
+            <element signature="e#13560#14707#0" expanded="false" />
+            <element signature="e#14750#15856#0" expanded="false" />
+            <element signature="e#15919#16050#0" expanded="false" />
+            <element signature="e#16084#16252#0" expanded="false" />
+            <element signature="e#16296#22504#0" expanded="false" />
+            <element signature="e#17300#17586#0" expanded="false" />
+            <element signature="e#17626#18844#0" expanded="false" />
+            <element signature="e#18892#19668#0" expanded="false" />
+            <element signature="e#19710#20585#0" expanded="false" />
+            <element signature="e#20627#21851#0" expanded="false" />
+            <element signature="e#22125#22207#0" expanded="false" />
+            <element signature="e#22248#22504#0" expanded="false" />
+            <element signature="e#22553#23932#0" expanded="false" />
+            <element signature="e#23975#24568#0" expanded="false" />
+            <element signature="e#24609#25469#0" expanded="false" />
+            <element signature="e#25633#30721#0" expanded="false" />
+            <element signature="e#26257#26413#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -969,6 +935,12 @@
           <caret line="15" column="25" lean-forward="false" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
           <folding>
             <element signature="e#93#112#0" expanded="true" />
+            <element signature="e#258#1037#0" expanded="false" />
+            <element signature="e#2162#2504#0" expanded="false" />
+            <element signature="e#2553#3317#0" expanded="false" />
+            <element signature="e#2622#2687#0" expanded="false" />
+            <element signature="e#3691#3874#0" expanded="false" />
+            <element signature="e#3915#5076#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -978,11 +950,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#50#63#0" expanded="false" />
             <element signature="e#188#1144#0" expanded="false" />
-            <element signature="e#1223#2351#0" expanded="false" />
-            <element signature="e#2398#3265#0" expanded="false" />
-            <element signature="e#3322#3734#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -996,7 +964,7 @@
             <element signature="e#3163#3589#0" expanded="false" />
             <element signature="e#3623#3706#0" expanded="false" />
             <element signature="e#3748#3826#0" expanded="false" />
-            <element signature="e#5563#5860#0" expanded="false" />
+            <element signature="e#5633#5930#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1007,7 +975,7 @@
           <caret line="126" column="19" lean-forward="false" selection-start-line="126" selection-start-column="19" selection-end-line="126" selection-end-column="19" />
           <folding>
             <element signature="e#51#78#0" expanded="true" />
-            <element signature="e#4183#5088#0" expanded="false" />
+            <element signature="e#4431#5336#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1018,29 +986,30 @@
           <caret line="829" column="69" lean-forward="false" selection-start-line="829" selection-start-column="69" selection-end-line="829" selection-end-column="69" />
           <folding>
             <element signature="e#78#87#0" expanded="true" />
-            <element signature="e#446#14881#0" expanded="false" />
-            <element signature="e#3415#6085#0" expanded="false" />
-            <element signature="e#6167#6487#0" expanded="false" />
-            <element signature="e#6535#6931#0" expanded="false" />
-            <element signature="e#6981#7587#0" expanded="false" />
-            <element signature="e#7629#9624#0" expanded="false" />
-            <element signature="e#9662#9951#0" expanded="false" />
-            <element signature="e#10016#11480#0" expanded="false" />
-            <element signature="e#11578#12143#0" expanded="false" />
-            <element signature="e#12189#13336#0" expanded="false" />
-            <element signature="e#13379#14485#0" expanded="false" />
-            <element signature="e#14548#14679#0" expanded="false" />
-            <element signature="e#14713#14881#0" expanded="false" />
-            <element signature="e#14925#21133#0" expanded="false" />
-            <element signature="e#15929#16215#0" expanded="false" />
-            <element signature="e#16255#17473#0" expanded="false" />
-            <element signature="e#17521#18297#0" expanded="false" />
-            <element signature="e#18339#19214#0" expanded="false" />
-            <element signature="e#19256#20480#0" expanded="false" />
-            <element signature="e#20754#20836#0" expanded="false" />
-            <element signature="e#20877#21133#0" expanded="false" />
-            <element signature="e#23308#28396#0" expanded="false" />
-            <element signature="e#23932#24088#0" expanded="false" />
+            <element signature="e#4099#6769#0" expanded="false" />
+            <element signature="e#6851#7171#0" expanded="false" />
+            <element signature="e#8352#8958#0" expanded="false" />
+            <element signature="e#9000#10995#0" expanded="false" />
+            <element signature="e#11033#11322#0" expanded="false" />
+            <element signature="e#11387#12851#0" expanded="false" />
+            <element signature="e#12949#13514#0" expanded="false" />
+            <element signature="e#13560#14707#0" expanded="false" />
+            <element signature="e#14750#15856#0" expanded="false" />
+            <element signature="e#15919#16050#0" expanded="false" />
+            <element signature="e#16084#16252#0" expanded="false" />
+            <element signature="e#16296#22504#0" expanded="false" />
+            <element signature="e#17300#17586#0" expanded="false" />
+            <element signature="e#17626#18844#0" expanded="false" />
+            <element signature="e#18892#19668#0" expanded="false" />
+            <element signature="e#19710#20585#0" expanded="false" />
+            <element signature="e#20627#21851#0" expanded="false" />
+            <element signature="e#22125#22207#0" expanded="false" />
+            <element signature="e#22248#22504#0" expanded="false" />
+            <element signature="e#22553#23932#0" expanded="false" />
+            <element signature="e#23975#24568#0" expanded="false" />
+            <element signature="e#24609#25469#0" expanded="false" />
+            <element signature="e#25633#30721#0" expanded="false" />
+            <element signature="e#26257#26413#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1112,7 +1081,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3402">
           <caret line="113" column="4" lean-forward="false" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1120,7 +1088,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="98">
           <caret line="83" column="11" lean-forward="false" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1128,9 +1095,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-20127">
           <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="e#171#181#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1138,19 +1102,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="528">
           <caret line="1033" column="61" lean-forward="false" selection-start-line="1033" selection-start-column="61" selection-end-line="1033" selection-end-column="61" />
-          <folding>
-            <element signature="e#358#5997#0" expanded="false" />
-            <element signature="e#6027#15618#0" expanded="false" />
-            <element signature="e#16578#18614#0" expanded="false" />
-            <element signature="e#18649#21941#0" expanded="false" />
-            <element signature="e#21979#25112#0" expanded="false" />
-            <element signature="e#25157#26199#0" expanded="false" />
-            <element signature="e#26289#39944#0" expanded="false" />
-            <element signature="e#39997#40225#0" expanded="false" />
-            <element signature="e#40348#46194#0" expanded="false" />
-            <element signature="e#46302#47924#0" expanded="false" />
-            <element signature="e#47959#48797#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1158,9 +1109,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="14" column="24" lean-forward="false" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
-          <folding>
-            <element signature="e#46#68#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1168,7 +1116,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="484">
           <caret line="794" column="4" lean-forward="false" selection-start-line="794" selection-start-column="4" selection-end-line="794" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1176,23 +1123,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1533">
           <caret line="73" column="8" lean-forward="false" selection-start-line="73" selection-start-column="8" selection-end-line="73" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Qt_Popup_Configs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Qt_Popup_Configs.py" />
     <entry file="file://$USER_HOME$/.PyCharm2017.1/system/python_stubs/1302300086/PyQt4/QtGui/QFrame.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="235" column="4" lean-forward="false" selection-start-line="235" selection-start-column="4" selection-end-line="235" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1200,7 +1138,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2429">
           <caret line="127" column="13" lean-forward="false" selection-start-line="127" selection-start-column="13" selection-end-line="127" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1208,7 +1145,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-42">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1216,111 +1152,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
           <caret line="12" column="6" lean-forward="false" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Main_Module.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2667">
-          <caret line="152" column="23" lean-forward="false" selection-start-line="152" selection-start-column="23" selection-end-line="152" selection-end-column="23" />
-          <folding>
-            <element signature="e#51#78#0" expanded="true" />
-            <element signature="e#4183#5088#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="491" column="32" lean-forward="false" selection-start-line="491" selection-start-column="32" selection-end-line="491" selection-end-column="32" />
-          <folding>
-            <element signature="e#78#87#0" expanded="true" />
-            <element signature="e#446#14881#0" expanded="false" />
-            <element signature="e#3415#6085#0" expanded="false" />
-            <element signature="e#6167#6487#0" expanded="false" />
-            <element signature="e#6535#6931#0" expanded="false" />
-            <element signature="e#6981#7587#0" expanded="false" />
-            <element signature="e#7629#9624#0" expanded="false" />
-            <element signature="e#9662#9951#0" expanded="false" />
-            <element signature="e#10016#11480#0" expanded="false" />
-            <element signature="e#11578#12143#0" expanded="false" />
-            <element signature="e#12189#13336#0" expanded="false" />
-            <element signature="e#13379#14485#0" expanded="false" />
-            <element signature="e#14548#14679#0" expanded="false" />
-            <element signature="e#14713#14881#0" expanded="false" />
-            <element signature="e#14925#21133#0" expanded="false" />
-            <element signature="e#15929#16215#0" expanded="false" />
-            <element signature="e#16255#17473#0" expanded="false" />
-            <element signature="e#17521#18297#0" expanded="false" />
-            <element signature="e#18339#19214#0" expanded="false" />
-            <element signature="e#19256#20480#0" expanded="false" />
-            <element signature="e#20754#20836#0" expanded="false" />
-            <element signature="e#20877#21133#0" expanded="false" />
-            <element signature="e#23308#28396#0" expanded="false" />
-            <element signature="e#23932#24088#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Tools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-595">
-          <caret line="45" column="16" lean-forward="false" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
-          <folding>
-            <element signature="e#93#112#0" expanded="true" />
-            <element signature="e#258#1037#0" expanded="false" />
-            <element signature="e#1084#1459#0" expanded="false" />
-            <element signature="e#2199#2382#0" expanded="false" />
-            <element signature="e#2423#3263#0" expanded="false" />
-            <element signature="e#3321#3893#0" expanded="false" />
-            <element signature="e#3942#4706#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Misc_Functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="89" column="58" lean-forward="false" selection-start-line="89" selection-start-column="58" selection-end-line="89" selection-end-column="58" />
-          <folding>
-            <element signature="e#188#1144#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Names.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="74" column="66" lean-forward="false" selection-start-line="74" selection-start-column="66" selection-end-line="74" selection-end-column="66" />
-          <folding>
-            <element signature="e#58#82#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="43" column="68" lean-forward="false" selection-start-line="43" selection-start-column="68" selection-end-line="43" selection-end-column="68" />
-          <folding>
-            <element signature="e#120#129#0" expanded="true" />
-            <element signature="e#3163#3589#0" expanded="false" />
-            <element signature="e#3623#3706#0" expanded="false" />
-            <element signature="e#3748#3826#0" expanded="false" />
-            <element signature="e#5563#5860#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Concurrency_Handlers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="98" column="78" lean-forward="false" selection-start-line="98" selection-start-column="64" selection-end-line="98" selection-end-column="78" />
-          <folding>
-            <element signature="e#99#109#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1328,36 +1159,150 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
           <caret line="221" column="71" lean-forward="false" selection-start-line="221" selection-start-column="71" selection-end-line="221" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Names.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1176">
+          <caret line="58" column="22" lean-forward="false" selection-start-line="58" selection-start-column="22" selection-end-line="58" selection-end-column="22" />
           <folding>
-            <element signature="e#2186#2748#0" expanded="false" />
-            <element signature="e#2793#3574#0" expanded="false" />
-            <element signature="e#3620#4001#0" expanded="false" />
-            <element signature="e#5777#6151#0" expanded="false" />
+            <element signature="e#58#82#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Misc_Functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="903">
+          <caret line="69" column="37" lean-forward="false" selection-start-line="69" selection-start-column="33" selection-end-line="69" selection-end-column="37" />
+          <folding>
+            <element signature="e#188#1144#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Concurrency_Handlers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="19" column="61" lean-forward="false" selection-start-line="19" selection-start-column="57" selection-end-line="19" selection-end-column="61" />
+          <folding>
+            <element signature="e#99#109#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Main_Module.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1449">
+          <caret line="72" column="12" lean-forward="false" selection-start-line="72" selection-start-column="12" selection-end-line="72" selection-end-column="12" />
+          <folding>
+            <element signature="e#51#78#0" expanded="true" />
+            <element signature="e#4431#5336#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Tools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1302">
+          <caret line="140" column="50" lean-forward="false" selection-start-line="140" selection-start-column="50" selection-end-line="140" selection-end-column="50" />
+          <folding>
+            <element signature="e#93#112#0" expanded="true" />
+            <element signature="e#258#1037#0" expanded="false" />
+            <element signature="e#2162#2504#0" expanded="false" />
+            <element signature="e#2553#3317#0" expanded="false" />
+            <element signature="e#2622#2687#0" expanded="false" />
+            <element signature="e#3691#3874#0" expanded="false" />
+            <element signature="e#3915#5076#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3318">
+          <caret line="183" column="29" lean-forward="false" selection-start-line="183" selection-start-column="29" selection-end-line="183" selection-end-column="29" />
+          <folding>
+            <element signature="e#120#129#0" expanded="true" />
+            <element signature="e#3163#3589#0" expanded="false" />
+            <element signature="e#3623#3706#0" expanded="false" />
+            <element signature="e#3748#3826#0" expanded="false" />
+            <element signature="e#5633#5930#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="31" column="49" lean-forward="false" selection-start-line="31" selection-start-column="49" selection-end-line="31" selection-end-column="49" />
+          <folding>
+            <element signature="e#78#87#0" expanded="true" />
+            <element signature="e#4099#6769#0" expanded="false" />
+            <element signature="e#6851#7171#0" expanded="false" />
+            <element signature="e#8352#8958#0" expanded="false" />
+            <element signature="e#9000#10995#0" expanded="false" />
+            <element signature="e#11033#11322#0" expanded="false" />
+            <element signature="e#11387#12851#0" expanded="false" />
+            <element signature="e#12949#13514#0" expanded="false" />
+            <element signature="e#13560#14707#0" expanded="false" />
+            <element signature="e#14750#15856#0" expanded="false" />
+            <element signature="e#15919#16050#0" expanded="false" />
+            <element signature="e#16084#16252#0" expanded="false" />
+            <element signature="e#16296#22504#0" expanded="false" />
+            <element signature="e#17300#17586#0" expanded="false" />
+            <element signature="e#17626#18844#0" expanded="false" />
+            <element signature="e#18892#19668#0" expanded="false" />
+            <element signature="e#19710#20585#0" expanded="false" />
+            <element signature="e#20627#21851#0" expanded="false" />
+            <element signature="e#22125#22207#0" expanded="false" />
+            <element signature="e#22248#22504#0" expanded="false" />
+            <element signature="e#22553#23932#0" expanded="false" />
+            <element signature="e#23975#24568#0" expanded="false" />
+            <element signature="e#24609#25469#0" expanded="false" />
+            <element signature="e#25633#30721#0" expanded="false" />
+            <element signature="e#26257#26413#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/LabJackPython.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="945">
+          <caret line="53" column="11" lean-forward="false" selection-start-line="53" selection-start-column="11" selection-end-line="53" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Qt_Exp_Controls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2310">
-          <caret line="641" column="0" lean-forward="true" selection-start-line="641" selection-start-column="0" selection-end-line="641" selection-end-column="0" />
+        <state relative-caret-position="105">
+          <caret line="5" column="19" lean-forward="true" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
           <folding>
-            <element signature="e#68#77#0" expanded="true" />
-            <element signature="e#416#3846#0" expanded="false" />
-            <element signature="e#4709#4970#0" expanded="false" />
-            <element signature="e#5006#5671#0" expanded="false" />
-            <element signature="e#5712#6322#0" expanded="false" />
-            <element signature="e#6362#6623#0" expanded="false" />
-            <element signature="e#8793#14745#0" expanded="false" />
-            <element signature="e#11392#12118#0" expanded="false" />
-            <element signature="e#12173#12875#0" expanded="false" />
-            <element signature="e#14789#19536#0" expanded="false" />
-            <element signature="e#19580#22327#0" expanded="false" />
-            <element signature="e#20261#20677#0" expanded="false" />
-            <element signature="e#20718#20969#0" expanded="false" />
-            <element signature="e#21339#21514#0" expanded="false" />
-            <element signature="e#22368#25350#0" expanded="false" />
-            <element signature="e#25391#27636#0" expanded="false" />
+            <element signature="e#432#3985#0" expanded="false" />
+            <element signature="e#6154#6764#0" expanded="false" />
+            <element signature="e#7110#7371#0" expanded="false" />
+            <element signature="e#9739#21615#0" expanded="false" />
+            <element signature="e#9838#10126#0" expanded="false" />
+            <element signature="e#10162#12582#0" expanded="false" />
+            <element signature="e#12642#13804#0" expanded="false" />
+            <element signature="e#13859#14561#0" expanded="false" />
+            <element signature="e#14601#16470#0" expanded="false" />
+            <element signature="e#16515#17632#0" expanded="false" />
+            <element signature="e#17696#18887#0" expanded="false" />
+            <element signature="e#18936#19447#0" expanded="false" />
+            <element signature="e#19488#20413#0" expanded="false" />
+            <element signature="e#20462#21615#0" expanded="false" />
+            <element signature="e#21659#26406#0" expanded="false" />
+            <element signature="e#26450#29197#0" expanded="false" />
+            <element signature="e#27131#27547#0" expanded="false" />
+            <element signature="e#27588#27839#0" expanded="false" />
+            <element signature="e#28209#28384#0" expanded="false" />
+            <element signature="e#29238#32870#0" expanded="false" />
+            <element signature="e#29347#29615#0" expanded="false" />
+            <element signature="e#29653#31177#0" expanded="false" />
+            <element signature="e#32782#32870#0" expanded="false" />
+            <element signature="e#32911#35156#0" expanded="false" />
           </folding>
         </state>
       </provider>

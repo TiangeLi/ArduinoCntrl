@@ -149,7 +149,10 @@ class ArdDataContainer(object):
         self.time_on_ms = time_on_ms
         self.time_off_ms = time_off_ms
         self.types = types
-        self.pin = pin
+        if types == tone:
+            self.pin = 10
+        else:
+            self.pin = pin
         self.freq = freq
         self.phase_shift = phase_shift
         self.duty_cycle = duty_cycle
@@ -177,8 +180,8 @@ class LabJackData(object):
 
     def load_blank(self):
         """Blank Config"""
-        self.ch_num = []
-        self.scan_freq = 0
+        self.ch_num = [8, 12, 13]
+        self.scan_freq = 6250
 
     def load_example(self):
         """Preset Example Config"""

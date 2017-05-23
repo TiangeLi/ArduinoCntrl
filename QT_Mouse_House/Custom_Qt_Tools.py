@@ -40,6 +40,23 @@ class GUI_ArdBar(qg.QGraphicsRectItem):
         self.setToolTip(tooltip)
         self.setFlag(qg.QGraphicsItem.ItemIsSelectable, enabled=True)
         self.data = data
+        self.visual_warning_stage = 0
+
+    def visual_warning(self, times_to_flash=6):
+        """Flashes a visual warning to indicate to users that some error exists"""
+        if self.visual_warning_stage == times_to_flash:
+            if self.isSelected():
+                self.setBrush(blue)
+            else:
+                self.setBrush(yellow)
+            self.visual_warning_stage = 0
+            return
+        if self.visual_warning_stage % 2 == 0:
+            self.setBrush(red)
+        else:
+            self.setBrush(yellow)
+        self.visual_warning_stage += 1
+        qc.QTimer.singleShot(150, lambda t=times_to_flash: self.visual_warning(t))
 
 
 class GUI_Message(qg.QMessageBox):
@@ -54,13 +71,35 @@ class GUI_Message(qg.QMessageBox):
         self.exec_()
 
 
-class GUI_IntOnlyEntry(qg.QLineEdit):
+class GUI_EntryWithWarning(qg.QLineEdit):
+    """An entry with a visual warning"""
+    def __init__(self):
+        qg.QLineEdit.__init__(self)
+        self.visual_warning_stage = 0
+
+    def visual_warning(self, times_to_flash=3):
+        """Flashes a visual warning indicating to users that entry is invalid"""
+        r = 'background-color: rgb(255, 0, 0)'
+        w = 'background-color: rgb(255, 255, 255)'
+        if self.visual_warning_stage == times_to_flash:
+            self.setStyleSheet(w)
+            self.visual_warning_stage = 0
+            return
+        if self.visual_warning_stage % 2 == 0:
+            self.setStyleSheet(r)
+        else:
+            self.setStyleSheet(w)
+        self.visual_warning_stage += 1
+        qc.QTimer.singleShot(150, lambda t=times_to_flash: self.visual_warning(t))
+
+
+class GUI_IntOnlyEntry(GUI_EntryWithWarning):
     """An entry that takes only integers"""
     def __init__(self, max_digits=None, default_txt=''):
-        qg.QLineEdit.__init__(self)
+        GUI_EntryWithWarning.__init__(self)
         self.max_digis = max_digits
         self.last_valid_data = default_txt
-        self.visual_warning_stage = 0
+        self.min, self.max = None, None
         self.initialize()
 
     def initialize(self):
@@ -88,48 +127,21 @@ class GUI_IntOnlyEntry(qg.QLineEdit):
                 # if not, we revert to entry before it was invalid
                 pos = self.cursorPosition() - 1
             else:
-                # else we update the last valid data
+                # if valid integer, we update the last valid data
                 self.last_valid_data = text
                 pos = self.cursorPosition()
+                # We check if our valid integer is beyond the min/max bounds we set
+                if self.min and int(text) < self.min:
+                    self.last_valid_data = str(self.min)
+                elif self.max and int(text) > self.max:
+                    self.last_valid_data = str(self.max)
         self.setText(self.last_valid_data)
         self.setCursorPosition(pos)
 
-    def visual_warning(self, times_to_flash=3):
-        """Flashes a visual warning indicating to users that entry is invalid"""
-        r = 'background-color: rgb(255, 0, 0)'
-        w = 'background-color: rgb(255, 255, 255)'
-        if self.visual_warning_stage == times_to_flash:
-            self.setStyleSheet(w)
-            self.visual_warning_stage = 0
-            return
-        if self.visual_warning_stage % 2 == 0:
-            self.setStyleSheet(r)
-        else:
-            self.setStyleSheet(w)
-        self.visual_warning_stage += 1
-        qc.QTimer.singleShot(150, lambda t=times_to_flash: self.visual_warning(t))
-
-
-class GUI_EntryWithWarning(qg.QLineEdit):
-    """An entry with a visual warning"""
-    def __init__(self):
-        qg.QLineEdit.__init__(self)
-        self.visual_warning_stage = 0
-
-    def visual_warning(self, times_to_flash=3):
-        """Flashes a visual warning indicating to users that entry is invalid"""
-        r = 'background-color: rgb(255, 0, 0)'
-        w = 'background-color: rgb(255, 255, 255)'
-        if self.visual_warning_stage == times_to_flash:
-            self.setStyleSheet(w)
-            self.visual_warning_stage = 0
-            return
-        if self.visual_warning_stage % 2 == 0:
-            self.setStyleSheet(r)
-        else:
-            self.setStyleSheet(w)
-        self.visual_warning_stage += 1
-        qc.QTimer.singleShot(150, lambda t=times_to_flash: self.visual_warning(t))
+    def set_min_max_value(self, minimum, maximum):
+        """Sets the minimum and maximum values of the entry"""
+        self.min = minimum
+        self.max = maximum
 
 
 class GUI_SinglePlot(pg.PlotWidget):

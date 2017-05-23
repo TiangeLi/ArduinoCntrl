@@ -9,7 +9,7 @@ from Misc_Functions import *
 from Custom_Qt_Tools import *
 from copy import deepcopy
 from Dirs_Settings import ArdDataContainer
-from Custom_Qt_Widgets import GUI_LiveScrollingGraph, GUI_LJDataReport
+from Custom_Qt_Widgets import GUI_LiveScrollingGraph, GUI_LJDataReport, GUI_StatusBars
 import PyQt4.QtGui as qg
 import PyQt4.QtCore as qc
 
@@ -31,6 +31,7 @@ class GUI_ExpControls(qg.QWidget):
         self.device_presets_widget = GUI_DevicePresets(self.dirs, self.gui_progbar,
                                                        self.lj_config_widget,
                                                        self.time_config_widget)
+        self.status_bars = GUI_StatusBars()
         # Layout
         self.setup_tabs()
         self.grid = qg.QGridLayout()
@@ -53,8 +54,9 @@ class GUI_ExpControls(qg.QWidget):
 
     def add_to_tab_main(self):
         """Add Widgets to Main Tab"""
-        self.tab_grid_main.addWidget(self.lj_graph_widget, 0, 0)
-        self.tab_grid_main.addWidget(self.lj_table_widget, 1, 0)
+        self.tab_grid_main.addWidget(self.lj_graph_widget, 0, 0, 1, 5)
+        self.tab_grid_main.addWidget(self.status_bars, 1, 0, 1, 3)
+        self.tab_grid_main.addWidget(self.lj_table_widget, 1, 3, 1, 2)
 
     def add_to_tab_config(self):
         """Add widgets to Config Tab"""
@@ -132,13 +134,19 @@ class GUI_LabJackConfig(qg.QWidget):
         freq = self.dirs.settings.lj_last_used.scan_freq
         self.scan_freq_entry = GUI_IntOnlyEntry(max_digits=5, default_txt=str(freq))
         self.scan_freq_entry.setText(str(freq))
+        # Max Freq Label
+        self.max_freq_label = qg.QLabel('')
+        self.max_freq_label.setAlignment(qc.Qt.AlignCenter)
+        self.max_freq_label.setFrameStyle(qg.QFrame.Sunken | qg.QFrame.StyledPanel)
+        self.set_max_freq_label()
         # Buttons
         confirm_btn = qg.QPushButton('Confirm')
         confirm_btn.clicked.connect(self.save_scan_freq)
         # Layout
         grid.addWidget(qg.QLabel('Scan Frequency:'), 0, 0, 1, 4)
-        grid.addWidget(self.scan_freq_entry, 1, 0, 1, 4)
-        grid.addWidget(confirm_btn, 1, 4)
+        grid.addWidget(self.max_freq_label, 1, 0, 1, 5)
+        grid.addWidget(self.scan_freq_entry, 2, 0, 1, 4)
+        grid.addWidget(confirm_btn, 2, 4)
         return frame
 
     def init_checkboxes(self):
@@ -155,6 +163,13 @@ class GUI_LabJackConfig(qg.QWidget):
         [self.checkboxes[i].clicked.connect(self.save_channels) for i in list(range(self.num_ch))]
         return frame
 
+    def set_max_freq_label(self):
+        """Shows user the maximum scan freq allowed"""
+        num_ch = len(self.dirs.settings.lj_last_used.ch_num)
+        msg = 'Max Freq = 50000 / [{}] Channels = [{}] Hz' \
+              ''.format(num_ch, int(50000 / num_ch))
+        self.max_freq_label.setText(msg)
+
     def set_summ_label(self):
         """Sets the summary label to reflect most updated LJ settings"""
         ch = self.dirs.settings.lj_last_used.ch_num
@@ -164,7 +179,10 @@ class GUI_LabJackConfig(qg.QWidget):
     def save_scan_freq(self):
         """Sets the scan frequency"""
         scan_freq = self.scan_freq_entry.text().strip()
-        if scan_freq == '':
+        max_freq = int(50000 / len(self.dirs.settings.lj_last_used.ch_num))
+        if scan_freq == '' \
+                or int(scan_freq) > max_freq \
+                or int(scan_freq) == 0:
             self.scan_freq_entry.visual_warning()
             return
         self.dirs.settings.lj_last_used.scan_freq = int(deepcopy(scan_freq))
@@ -177,6 +195,7 @@ class GUI_LabJackConfig(qg.QWidget):
         self.set_summ_label()
         self.enable_disable_chkboxes()
         self.grapher.reset_plots()
+        self.set_max_freq_label()
 
     def enable_disable_chkboxes(self):
         """Enable or disable check boxes depending on number of boxes checked"""
@@ -243,11 +262,16 @@ class GUI_ArdConfig(qg.QWidget):
         for index, label in enumerate(static_labels):
             # Create Entries
             if label not in ['Type', 'Pin']:
-                self.entries[label] = GUI_IntOnlyEntry()
+                self.entries[label] = GUI_IntOnlyEntry(max_digits=6)
                 self.entries[label].setEnabled(False)  # Initialize to Disabled
             # Create Column Labels
             static_labels[index] = qg.QLabel(label)
             static_labels[index].setAlignment(qc.Qt.AlignCenter)
+        # Some special restrictions on phase shift and duty cycles
+        self.entries['Phase Shift'].setMaxLength(3)
+        self.entries['Phase Shift'].set_min_max_value(0, 360)
+        self.entries['Duty Cycle'].setMaxLength(2)
+        self.entries['Duty Cycle'].set_min_max_value(1, 99)
         # Add to Grid
         for index, label in enumerate(static_labels):
             grid.addWidget(label, 0, index)
@@ -271,14 +295,20 @@ class GUI_ArdConfig(qg.QWidget):
             self.types_label.setText('')
             self.enable_disable_entries(types=None)
         else:
+            # First we check if our pin selection is a selected arduino progbar
+            progbar_selected = self.gui_progbar.scene.selectedItems()
+            if not (len(progbar_selected) == 1 and selection == int(progbar_selected[0].data.pin)):
+                self.gui_progbar.reset_selection()
+            # Then we set the labels and enable or disable necessary entries
+            self.pins_dropdown.setCurrentIndex(self.pins_dropdown.findText(str(selection)))
             if selection == tone_pin:
-                self.types_label.setText(tone.capitalize())
+                self.types_label.setText(tone)
                 self.enable_disable_entries(types=tone)
             elif selection in output_pins:
-                self.types_label.setText(output.capitalize())
+                self.types_label.setText(output)
                 self.enable_disable_entries(types=output)
             elif selection in pwm_pins:
-                self.types_label.setText(pwm.upper())
+                self.types_label.setText(pwm)
                 self.enable_disable_entries(types=pwm)
 
     def enable_disable_entries(self, types):
@@ -302,11 +332,78 @@ class GUI_ArdConfig(qg.QWidget):
 
     def add_new_config(self):
         """Adds a new visual and backend config for arduino settings based on user input"""
-        if not self.check_entries_not_empty():
+        if not self.check_entries_valid():
             return
         new_config = ArdDataContainer(*self.get_entry_input())
-        self.dirs.settings.ard_last_used.configs.append(new_config)
-        self.gui_progbar.set_dynamic_background()
+        # Adds the new config and reloads the progbar
+        #   First we check if any conflicts exist
+        conflicts = self.check_new_config_conflicts(new_config)
+        # If we have selected exactly one progbar, then we make adjustments to it
+        # BUT: We make adjustments if and only if there are no conflicts or the conflict is with the selected bar
+        if len(self.gui_progbar.scene.selectedItems()) == 1 \
+                and ((len(conflicts) == 1 and conflicts[0] == self.gui_progbar.scene.selectedItems()[0].data)
+                     or len(conflicts) == 0):
+            # We change the old config and overwrite it to the new config
+            selected_item_data = self.gui_progbar.scene.selectedItems()[0].data
+            index = self.dirs.settings.ard_last_used.configs.index(selected_item_data)
+            self.dirs.settings.ard_last_used.configs[index] = new_config
+            # Set the background
+            self.gui_progbar.set_dynamic_background()
+            # We then reselect the item so the user knows which bar they adjusted
+            for bar in self.gui_progbar.ard_stim_bars():
+                if bar.data == new_config:
+                    bar.setSelected(True)
+            self.gui_progbar.setFocus()
+        # If no conflicts, we add the new config
+        elif len(conflicts) == 0:
+            self.dirs.settings.ard_last_used.configs.append(new_config)
+            self.gui_progbar.set_dynamic_background()
+        # Otherwise we send a warning to the user
+        else:
+            [item.visual_warning() for item in self.gui_progbar.ard_stim_bars()
+             for config in conflicts if item.data == config]
+
+    def check_entries_valid(self):
+        """Checks that user inputs are appropriate inputs"""
+        # Are entries empty?
+        if not self.check_entries_not_empty():
+            return False
+        # Is the segment endtime greater than the segment start time?
+        elif int(self.entries['End Time'].text()) <= int(self.entries['Start Time'].text()):
+            self.entries['End Time'].visual_warning()
+            self.entries['Start Time'].visual_warning()
+            return False
+        # Are tone frequencies at least 50Hz?
+        elif self.types_label.text() == tone and int(self.entries['Freq'].text()) < 50:
+            self.entries['Freq'].visual_warning()
+            GUI_Message('Tone Frequencies must be at least 50Hz;\n\nUse PWM pins for Low Frequencies')
+            return False
+        # Are PWM frequencies at most 100Hz?
+        elif self.types_label.text() == pwm and int(self.entries['Freq'].text()) > 100:
+            self.entries['Freq'].visual_warning()
+            GUI_Message('PWM Frequencies must be at most 100Hz;\n\nUse Pin 10 (Tone) for High Frequencies')
+            return False
+        else:
+            return True
+
+    def check_new_config_conflicts(self, new_config):
+        """Checks if a new user config conflicts with previous entries"""
+        conflicts = []
+        configs = self.dirs.settings.ard_last_used.configs
+        # Is new_config.pin already being used in a pre-existing config?
+        configs = [config for config in configs if new_config.pin == config.pin]
+        # If new_config.pin is already being used, does the new_config intersect with any previous configs?
+        if len(configs) != 0:
+            new_start, new_stop = new_config.time_on_ms, new_config.time_off_ms
+            time_segments = [(config.time_on_ms, config.time_off_ms) for config in configs]
+            conflicts = [configs[time_segments.index(segment)] for segment in time_segments
+                         # New timepoints should not be within previous segments
+                         if segment[0] < new_start < segment[1]
+                         or segment[0] < new_stop < segment[1]
+                         # New segments should not be within or encompass previous segments
+                         or (segment[0] <= new_start and segment[1] >= new_stop)
+                         or (segment[0] >= new_start and segment[1] <= new_stop)]
+        return conflicts
 
     def check_entries_not_empty(self):
         """Checks that entries are not empty before pulling input from them"""
@@ -323,20 +420,48 @@ class GUI_ArdConfig(qg.QWidget):
     def get_entry_input(self):
         """Gets user input from fields and returns specific parameters depending on type specified"""
         # First we get the output of all fields
-        types = self.types_label.text().lower()
+        types = self.types_label.text()
         pin = int(self.pins_dropdown.currentText())
-        time_on_ms = float(self.entries['Start Time'].text()) * 1000
-        time_off_ms = float(self.entries['End Time'].text()) * 1000
-        freq = self.entries['Freq'].text()
-        phase_shift = self.entries['Phase Shift'].text()
-        duty_cycle = self.entries['Duty Cycle'].text()
+        time_on_ms = int(self.entries['Start Time'].text().strip()) * 1000
+        time_off_ms = int(self.entries['End Time'].text().strip()) * 1000
+        freq = self.entries['Freq'].text().strip()
+        phase_shift = self.entries['Phase Shift'].text().strip()
+        duty_cycle = self.entries['Duty Cycle'].text().strip()
         # Then we distribute necessary information depending on types requested
         if types == tone:
-            return time_on_ms, time_off_ms, types, None, freq
+            return time_on_ms, time_off_ms, types, 10, freq
         elif types == output:
             return time_on_ms, time_off_ms, types, pin
         elif types == pwm:
             return time_on_ms, time_off_ms, types, pin, freq, phase_shift, duty_cycle
+
+    def load_from_ard_bar(self, data):
+        """Gets data from an implemented arduino bar in gui_progbar"""
+        # Parse data
+        pin, types, freq, phase_shift, duty_cycle, time_on, time_off = ('',) * 7
+        if data:
+            types = data.types
+            time_on = str(int(data.time_on_ms / 1000))
+            time_off = str(int(data.time_off_ms / 1000))
+            if data.types == tone:
+                pin = '10'
+                freq = str(data.freq)
+            elif data.types in [output, pwm]:
+                pin = str(data.pin)
+            if data.types == pwm:
+                freq = str(data.freq)
+                phase_shift = str(data.phase_shift)
+                duty_cycle = str(data.duty_cycle)
+        # Set Widgets
+        self.pins_dropdown.setCurrentIndex(self.pins_dropdown.findText(pin))
+        self.types_label.setText(types)
+        self.entries['Start Time'].setText(time_on)
+        self.entries['End Time'].setText(time_off)
+        self.entries['Freq'].setText(freq)
+        self.entries['Phase Shift'].setText(phase_shift)
+        self.entries['Duty Cycle'].setText(duty_cycle)
+        # Enable/Disable widgets
+        self.enable_disable_entries(types)
 
 
 class GUI_DevicePresets(qg.QWidget):
@@ -571,6 +696,15 @@ class GUI_TimeConfig(qg.QWidget):
             ms = 5000
         else:
             ms = time_convert(hhmmss=hhmmss)
+        # Is the time in the entries lower than the times configured in the prog bars?
+        if any([(ms < config.time_off_ms) for config in self.dirs.settings.ard_last_used.configs]):
+            ms = max([ms] + [config.time_off_ms for config in self.dirs.settings.ard_last_used.configs])
+            hhmmss = time_convert(ms=ms)
+            msg = 'Total time cannot be less than [{}:{}:{}] ' \
+                  'because one of the arduino output endpoints exceeds this value.\n\n' \
+                  'Reconfigure arduino outputs to ' \
+                  'reduce total time.'.format(hhmmss[0], hhmmss[1], hhmmss[2])
+            GUI_Message(msg)
         # Setting empty entries
         for index, time in enumerate(time_convert(ms=ms)):
             self.entries[index].setText(str(time))
