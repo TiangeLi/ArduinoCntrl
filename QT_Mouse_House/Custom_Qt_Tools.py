@@ -8,6 +8,8 @@ import PyQt4.QtGui as qg
 import PyQt4.QtCore as qc
 import pyqtgraph as pg
 import numpy as np
+from Misc_Functions import take_spread
+from datetime import datetime
 
 
 class GUI_SimpleGroup(qg.QGraphicsItemGroup):
@@ -151,21 +153,22 @@ class GUI_SinglePlot(pg.PlotWidget):
         self.color = color
         self.setMouseEnabled(x=False, y=False)
         self.setMenuEnabled(False)
-        self.showAxis('left', False)
+        self.showAxis('left', True)
         self.showAxis('bottom', False)
+        self.setLimits(minYRange=2)
         self.setBackgroundBrush(white)
         self.init_plotter()
+        self.k = datetime.now()
 
     def init_plotter(self):
         """Initialize the graphing object"""
         self.data = np.zeros(shape=500)
         self.curve = self.getPlotItem().plot(self.data, pen=self.color)
-        self.update_timer = qc.QTimer(self)
-        self.update_timer.timeout.connect(self.graph_update)
-        self.update_timer.start(50)
+        self.curve.setData(self.data)
 
-    def graph_update(self):
+    def graph_update(self, new_pt):
         """Updates the graph once"""
         self.data[:-1] = self.data[1:]
-        self.data[-1] = np.random.normal()
+        self.data[-1] = new_pt
         self.curve.setData(self.data)
+        self.k = datetime.now()

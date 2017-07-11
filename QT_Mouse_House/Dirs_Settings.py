@@ -43,9 +43,15 @@ class Directories(object):
             return []
         # if we did create the dir, then we look for files in there.
         else:
-            files = os.listdir(self.date_stamped_dir)
-            file_names = [file.split('[')[1].split(']')[0] for file in files]
-            return file_names
+            # Just in case we deleted the dir in between trials
+            try:
+                files = os.listdir(self.date_stamped_dir)
+            except FileNotFoundError:
+                self.created_date_stamped_dir = False
+                return []  # Obviously since the dir doesn't exist, there are no file names to send
+            else:
+                file_names = [file.split('[')[1].split(']')[0] for file in files]
+                return file_names
 
     def load(self):
         """Load from Settings.msh"""
@@ -91,7 +97,7 @@ class Settings(object):
         self.last_used_save_dir = ''  # Last Used Save Directory
         self.num_cmrs = 0  # Number of Live Feed Cameras to Use
         # Last Used Settings
-        self.fp_last_used = PhotometryData()
+        self.fp_last_used = PhotometryMetaData()
         self.lj_last_used = LabJackData()
         self.ard_last_used = ArduinoData()
         # User Configured Presets
@@ -99,7 +105,7 @@ class Settings(object):
         self.ard_presets = {}
 
     def ttl_time(self):
-        """Returns total experiment time"""
+        """Returns total experiment time in milliseconds"""
         return self.ard_last_used.total_time_ms
 
     def set_ttl_time(self, ms):
@@ -158,7 +164,7 @@ class ArdDataContainer(object):
         self.duty_cycle = duty_cycle
 
 
-class PhotometryData(object):
+class PhotometryMetaData(object):
     """Structure for Photometry Config"""
     def __init__(self):
         self.ch_num = []

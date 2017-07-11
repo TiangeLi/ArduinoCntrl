@@ -92,6 +92,11 @@ class GUI_ExpControls(qg.QWidget):
                 widget.setEnabled(False)
             else:
                 widget.setEnabled(True)
+        # Other changes
+        if exp_running:
+            self.lj_graph_widget.frame.setTitle('LabJack Live Stream (Low Frequency Scanning) - [Recording to File]')
+        if not exp_running:
+            self.lj_graph_widget.frame.setTitle('LabJack Live Stream (Low Frequency Scanning) - [Not Recording to File]')
 
 
 class GUI_LabJackConfig(qg.QWidget):
@@ -100,7 +105,9 @@ class GUI_LabJackConfig(qg.QWidget):
         qg.QWidget.__init__(self)
         self.num_ch = 14
         self.dirs = dirs
+        self.lj_proc_updated = False
         self.grapher = grapher
+        self.proc_handler_queue = PROC_HANDLER_QUEUE
         self.grid = qg.QGridLayout()
         self.setLayout(self.grid)
         # Setup and Layout
@@ -116,7 +123,7 @@ class GUI_LabJackConfig(qg.QWidget):
         grid.addWidget(self.init_summary_label(), 0, 0)
         grid.addWidget(self.init_entry(), 1, 0)
         grid.addWidget(self.init_checkboxes(), 2, 0)
-        self.load_from_preset()
+        self.reload_gui_info(True)
 
     def init_summary_label(self):
         """Sets up a label for summarizing labjack settings"""
@@ -185,17 +192,39 @@ class GUI_LabJackConfig(qg.QWidget):
                 or int(scan_freq) == 0:
             self.scan_freq_entry.visual_warning()
             return
-        self.dirs.settings.lj_last_used.scan_freq = int(deepcopy(scan_freq))
-        self.set_summ_label()
+        self.update_lj_last_used(scan_freq=int(deepcopy(scan_freq)), reset_gui_elements=False)
+
+    def update_lj_last_used(self, ch_num=None, scan_freq=None, send_to_proc_handler=True, reset_gui_elements=False):
+        """Update dirs.settings.lj_last_used. Also notify proc_handler to update lj_proc settings"""
+        self.grapher.plots_are_reset = False
+        if not ch_num:
+            ch_num = deepcopy(self.dirs.settings.lj_last_used.ch_num)
+        if not scan_freq:
+            scan_freq = deepcopy(self.dirs.settings.lj_last_used.scan_freq)
+        # first notify proc_handler to update lj_proc settings
+        if not self.lj_proc_updated:
+            # Send Message
+            if send_to_proc_handler:
+                self.proc_handler_queue.put_nowait('{}{}|{}'.format(LJ_CONFIG, ch_num, scan_freq))
+            # check back every 5 ms until lj_proc has been updated
+            qc.QTimer.singleShot(5, lambda: self.update_lj_last_used(ch_num, scan_freq, False, reset_gui_elements))
+        # once proc_handler has updated lj_procs, we update the GUI
+        elif self.lj_proc_updated:
+            self.dirs.settings.lj_last_used.ch_num = deepcopy(ch_num)
+            self.dirs.settings.lj_last_used.scan_freq = deepcopy(scan_freq)
+            self.reload_gui_info(reset_gui_elements)
+            self.lj_proc_updated = False
+            self.grapher.update_graphs()
 
     def save_channels(self):
         """Saves channels selected based on boxes checked"""
         selected = [i for i in range(self.num_ch) if self.checkboxes[i].isChecked()]
-        self.dirs.settings.lj_last_used.ch_num = deepcopy(selected)
-        self.set_summ_label()
-        self.enable_disable_chkboxes()
-        self.grapher.reset_plots()
-        self.set_max_freq_label()
+        max_freq = int(50000 / len(selected))
+        freq = self.dirs.settings.lj_last_used.scan_freq
+        if freq > max_freq:
+            freq = max_freq
+            self.scan_freq_entry.setText(str(freq))
+        self.update_lj_last_used(ch_num=selected, scan_freq=freq, reset_gui_elements=False)
 
     def enable_disable_chkboxes(self):
         """Enable or disable check boxes depending on number of boxes checked"""
@@ -211,12 +240,14 @@ class GUI_LabJackConfig(qg.QWidget):
         elif len(selected) == 1:
             [self.checkboxes[i].setEnabled(False) for i in range(self.num_ch) if self.checkboxes[i].isChecked()]
 
-    def load_from_preset(self):
+    def reload_gui_info(self, reset_gui_elements):
         """Changes label, entry, boxes checked based on settings file"""
+        if reset_gui_elements:
+            self.scan_freq_entry.setText(str(self.dirs.settings.lj_last_used.scan_freq))
+            self.set_channels()
         self.set_summ_label()
-        self.scan_freq_entry.setText(str(self.dirs.settings.lj_last_used.scan_freq))
-        self.set_channels()
         self.enable_disable_chkboxes()
+        self.set_max_freq_label()
         self.grapher.reset_plots()
 
     def set_channels(self):
@@ -529,8 +560,9 @@ class GUI_DevicePresets(qg.QWidget):
             self.gui_progbar.set_dynamic_background()
             self.time_widget.set_text_in_entries()
         elif device == labjack:
-            self.dirs.settings.lj_last_used = deepcopy(self.dirs.settings.lj_presets[option])
-            self.lj_widget.load_from_preset()
+            ch_num = self.dirs.settings.lj_presets[option].ch_num
+            scan_freq = self.dirs.settings.lj_presets[option].scan_freq
+            self.lj_widget.update_lj_last_used(ch_num=ch_num, scan_freq=scan_freq, reset_gui_elements=True)
 
     def save_preset(self, device):
         """Saves user settings to a hardcopy preset"""
@@ -569,7 +601,6 @@ class GUI_StartStopBtns(qg.QWidget):
         qg.QWidget.__init__(self)
         self.dirs = dirs
         # Synchronization
-        self.exp_start_event = EXP_START_EVENT
         self.proc_handler_queue = PROC_HANDLER_QUEUE
         # GUI Objects
         self.grid = qg.QGridLayout()

@@ -21,22 +21,25 @@ TTL_TIME_HEADER = '<ttl_time>'
 # General Device Headers
 DEVICE_CHECK_CONN = '<chk_conn>'
 FAILED_INIT_HEADER = '<fail_init>'
+
+
 # Camera Headers
 CAMERA_READY = '<cmr_rdy>'
 CMR_REC_FALSE = '<cmr_rec_f>'
 CMR_ERROR_EXIT = '<cmr_err_exit>'
-
-
 # Camera Types
 FireFly_Camera = 'FireFly Camera'
 Mini_Microscope = 'Mini Microscope'
-# Camera Related Items
-cmr_error_img = r'support_files/cam_error_exit.bmp'
 
 
 # General Device Names
+camera = 'CAMERA'
 arduino = 'ARDUINO'
 labjack = 'LABJACK'
+# Message Headers
+LJMSG = '<lj_msg>'
+ARDMSG = '<ard_msg>'
+CMRMSG = '<cmr_msg>'
 
 
 # Arduino Parameters
@@ -59,6 +62,18 @@ default_phaseshift = 0
 default_dutycycle = 50
 
 
+# LabJack Headers
+LJ_ERROR_EXIT = '<lj_err_exit>'
+LJ_READY = '<lj_ready>'
+LJ_REC_FALSE = '<lj_rec_false>'
+LJ_CONFIG = '<lj_config>'
+# Other settings
+lj_color_scheme = [(51, 204, 153), (51, 179, 204),
+                   (153, 51, 204), (216, 100, 239),
+                   (179, 204, 51), (204, 153, 51),
+                   (204, 77, 51), (102, 204, 51)]
+
+
 # GUI Pointers
 # Exp. Configs
 hh = 'hh'
@@ -72,6 +87,8 @@ FORBIDDEN_CHARS = ['<', '>', '*', '|', '?', '"', '/', ':', '\\']
 MASTER_DUMP_QUEUE = mp.Queue()
 PROC_HANDLER_QUEUE = mp.Queue()
 EXP_START_EVENT = mp.Event()
+# Pipe names
+LJ_PIPE_MAIN_NAME = '<lj_pipe_main_name>'
 
 # Quick pointers to Qt specific objects
 # Key Sequences

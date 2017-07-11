@@ -9,7 +9,7 @@ import multiprocessing as mp
 
 class StoppableThread(tr.Thread):
     """Thread class with stop() method"""
-    def __init__(self, callable_fn, args):
+    def __init__(self, callable_fn=None, args=None):
         super(StoppableThread, self).__init__()
         self.daemon = True
         # Thread periodically checks the self._stop flag
@@ -55,3 +55,10 @@ class StoppableProcess(mp.Process):
         """Overrides default run(). Call using start() for new process"""
         while not self.stopped():
             self.callable_fn(self.args)
+
+
+class NamedObjectContainer(object):
+    """Provides a quick class to attach names to unnamed objects"""
+    def __init__(self, obj, name):
+        self.obj = obj
+        self.name = name

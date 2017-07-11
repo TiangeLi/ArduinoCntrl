@@ -2,7 +2,6 @@
 
 """All Point Grey Firefly Classes and Functions"""
 
-from __future__ import print_function
 import sys
 import time
 import imageio
@@ -96,7 +95,7 @@ class Camera(StoppableProcess):
             self.connected = False
 
     def msg_polling(self):
-        """Run on separate thread. Polls pipe for messages"""
+        """Run on separate thread. Polls cmr_pipe for messages"""
         while self.connected:
             msg = ''  # Reset msg so we don't perform instructions multiple times
             time.sleep(1.0/1000.0)
@@ -115,8 +114,10 @@ class Camera(StoppableProcess):
                 self.hard_stopped_rec = True
             elif msg.startswith(TTL_TIME_HEADER):
                 self.ttl_time = float(msg.replace(TTL_TIME_HEADER, '', 1))
+                self.cmr_pipe.send(TTL_TIME_HEADER)
             elif msg.startswith(DIR_TO_USE_HEADER):
                 self.save_dir = (msg.replace(DIR_TO_USE_HEADER, '', 1))
+                self.cmr_pipe.send(DIR_TO_USE_HEADER)
             elif msg == EXIT_HEADER:
                 self.stop()
 
@@ -131,6 +132,7 @@ class Camera(StoppableProcess):
                 time.sleep(1.0/1000.0)
             else:
                 self.update_shared_array(data, temp_array)
+                self.img_to_gui_sync_event.set()
 
     def update_shared_array(self, data, temp_array):
         """Updates the shared array between camera and GUI with a new image"""
@@ -160,10 +162,12 @@ class Camera(StoppableProcess):
         polling.start()
         # Main Camera Loop
         while self.connected:
-            if not self.img_to_gui_sync_event.is_set():
-                self.get_frame()
-                self.img_to_gui_sync_event.set()
-            time.sleep(1.0/1000.0)
+            # We get images from the camera regardless if the GUI is ready to receive
+            # We cannot make the image acquisition locked to GUI responsiveness
+            # Or we might miss frames (especially bad when actually recording data!)
+            self.get_frame()
+            # If we stop, we must close devices and threads
+            # then inform proc_handler, before we fully exit the process.
             if self.stopped():
                 self.connected = False
                 self.close()
@@ -177,21 +181,29 @@ class Camera(StoppableProcess):
     def get_frame(self):
         """Acquires 1 Image per call."""
         # Get a Single Frame
-        if not self.recording:
+        # Since we are not recording, it is okay to lock image acquisition to GUI synchronization events
+        # Even if the GUI becomes unresponsive and we miss frames, it's not a problem since we aren't recording
+        if not self.recording and not self.img_to_gui_sync_event.is_set():
             try:
                 data = self.get_img_method()
-                self.frame_buffer.put_nowait(data)
             except self.camera_error:
                 self.report_cmr_error()
+            else:
+                self.frame_buffer.put_nowait(data)
         # Gets a Single Frame and Appends to a Video File
+        # Since we are now recording, we cannot lock image acquisition to GUI sync events
+        # We will get frames and append to file regardless of GUI sync
+        # But we will still send fresh frames to the GUI when it requests them
         elif self.recording:
             if self.curr_frame <= self.ttl_num_frames:
                 try:
                     data = self.record_vid_method()
-                    self.frame_buffer.put_nowait(data)
                     self.curr_frame += 1
                 except self.camera_error:
                     self.report_cmr_error()
+                else:
+                    if not self.img_to_gui_sync_event.is_set():
+                        self.frame_buffer.put_nowait(data)
             else:
                 self.finish_record()
 
@@ -199,10 +211,6 @@ class Camera(StoppableProcess):
         """If the camera produces an error, notify proc handler such that it no longer attempts communication"""
         print('Camera [{} #{}] Closed due to API Error'.format(self.cmr_type, self.cmr_id))
         # We display a prominent error msg in the image display field
-        # We don't do this in the send_frames thread in case that thread exits before displaying this image
-        error_img = imageio.imread(cmr_error_img)
-        temp_array = np.empty(self.image_size, dtype=np.uint32)
-        self.update_shared_array(error_img, temp_array)
         # We also need to let proc_handler know this camera is kaput
         self.proc_handler_queue.put_nowait('{}{}'.format(CMR_ERROR_EXIT, self.stream_ind))
         # Make sure any recordings in progress are properly closed first
@@ -217,10 +225,8 @@ class Camera(StoppableProcess):
             file_fmt = '.avi'
         elif self.cmr_type == Mini_Microscope:
             file_fmt = '.mkv'
-        save_name = '{}\\{}_[{}]_[{}#{}]{}'.format(self.save_dir,
-                                                   format_daytime(option='time', use_as_save=True),
-                                                   self.save_file_name,
-                                                   self.cmr_type, self.cmr_id, file_fmt)
+        save_name = '{}\\{}_[{}#{}]{}'.format(self.save_dir, self.save_file_name,
+                                              self.cmr_type, self.cmr_id, file_fmt)
         self.ttl_num_frames = int(self.ttl_time * 30) // 1000
         if self.cmr_type == FireFly_Camera:
             save_name = save_name.encode()
@@ -233,6 +239,7 @@ class Camera(StoppableProcess):
         # Ready to Record
         self.cmr_pipe.send(CAMERA_READY)  # Let Proc_Handler know we are ready
         self.exp_start_event.wait()  # Wait for Proc_Handler to setup other processes
+        print(self.name, datetime.now())
         self.recording = True  # We are ready to record. The main loop will now enter recording
 
     def finish_record(self):
@@ -269,4 +276,5 @@ class Camera(StoppableProcess):
             elif self.cmr_type == Mini_Microscope:
                 self.xi_camera.close()
         except self.camera_error:
+            # TODO implement error notifications
             pass

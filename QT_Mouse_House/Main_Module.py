@@ -57,11 +57,14 @@ class GUI_Master(qg.QWidget):
 
     def setup_proc_handler(self):
         """Passes necessary objects to a new ProcessHandler instance"""
-        cameras = self.cameras.cameras
-        main_pipe_ends = []
-        for main_pipe_end, cmr_pipe_end in self.cameras.msg_pipes:
-            main_pipe_ends.append(main_pipe_end)
-        self.proc_handler = ProcessHandler(self.dirs, cameras, main_pipe_ends)
+        # Pass Camera Pipes
+        cmr_pipe_mains = []
+        for cmr_pipe_main, cmr_pipe_cmr in self.cameras.msg_pipes:
+            cmr_pipe_mains.append(cmr_pipe_main)
+        # Pass Labjack Pipe
+        lj_pipe_main, lj_pipe_lj = self.exp_cntrls.lj_graph_widget.msg_pipes
+        # Initialize proc_handler
+        self.proc_handler = ProcessHandler(self.dirs, cmr_pipe_mains, lj_pipe_main)
         self.proc_handler.start()
 
     def render_widgets(self):
@@ -104,6 +107,13 @@ class GUI_Master(qg.QWidget):
                 self.exp_cntrls.enable_disable_widgets(False)
             elif msg.startswith(FAILED_INIT_HEADER):
                 print(msg)
+            elif msg == LJ_CONFIG:
+                self.exp_cntrls.lj_config_widget.lj_proc_updated = True
+            elif msg.startswith(CMR_ERROR_EXIT):
+                cmr_ind = int(msg.replace(CMR_ERROR_EXIT, '', 1))
+                self.cameras.display_error_notif(cmr_ind)
+            elif msg == LJ_ERROR_EXIT:
+                self.exp_cntrls.lj_graph_widget.display_error_notif()
             elif msg == EXIT_HEADER:
                 self.ready_to_exit = True
                 self.close()

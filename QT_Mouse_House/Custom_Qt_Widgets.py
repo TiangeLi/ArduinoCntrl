@@ -6,16 +6,21 @@ import os
 import sys
 import math
 from Names import *
+from more_itertools import chunked
 from operator import itemgetter
 from Misc_Classes import *
 from Misc_Functions import *
 from Custom_Qt_Tools import *
+import LJ_Procs as lp
+from u6 import U6
+from LabJackPython import LabJackException, LowlevelErrorException
 import Camera_Procs as cp
 import flycapture2a as fc
 import pyximea as xi
 import PyQt4.QtGui as qg
 import PyQt4.QtCore as qc
 from copy import deepcopy
+from LJ_Procs import find_packets_per_req, find_samples_per_pack
 
 
 class GUI_ProgressBar(qg.QGraphicsView):
@@ -351,6 +356,8 @@ class GUI_CameraDisplay(qg.QWidget):
 
     def initialize(self):
         """Cleans up old processes and sets up cameras"""
+        # todo: since we have a clean_up() method, we should implement a way to automatically
+        # todo: connect a camera when it has been plugged in, without restarting.
         self.clean_up()
         self.detect_cameras()
         self.create_data_containers()
@@ -418,10 +425,11 @@ class GUI_CameraDisplay(qg.QWidget):
         for index, (m_array, n) in enumerate(self.arrays):
             self.msg_pipes.append(mp.Pipe())
             self.sync_events.append(mp.Event())
+            [event.clear() for event in self.sync_events]
             cmr_type, cmr_id = self.cameras[index][0], self.cameras[index][1]
-            main_pipe_end, cmr_pipe_end = self.msg_pipes[index]
+            cmr_pipe_main, cmr_pipe_cmr = self.msg_pipes[index]
             self.camera_procs.append(cp.Camera(self.dirs, index, m_array, self.image_size, self.sync_events[index],
-                                               cmr_pipe_end, cmr_type, cmr_id))
+                                               cmr_pipe_cmr, cmr_type, cmr_id))
             self.camera_procs[index].name = 'cmr_stream_proc_#{} - [type {} id {}]'.format(index,
                                                                                            self.cameras[index][0],
                                                                                            self.cameras[index][1])
@@ -466,6 +474,15 @@ class GUI_CameraDisplay(qg.QWidget):
                 self.labels[index].setPixmap(qg.QPixmap.fromImage(self.images[index]))
                 self.sync_events[index].clear()
 
+    def display_error_notif(self, cmr_ind):
+        """Shows an error if the camera at cmr_ind is unresponsive"""
+        self.labels[cmr_ind].setText('Camera closed due to API Error')
+        self.labels[cmr_ind].setAlignment(qc.Qt.AlignCenter)
+        self.labels[cmr_ind].setFrameStyle(qg.QFrame.Sunken | qg.QFrame.Panel)
+
+
+        #todo: implement push button to attempt to reconnect to errored devices.
+
 
 class GUI_LiveScrollingGraph(qg.QWidget):
     """Plots graphs; number depends on number of LJ channels enabled"""
@@ -474,29 +491,155 @@ class GUI_LiveScrollingGraph(qg.QWidget):
         self.dirs = dirs
         self.grid = qg.QGridLayout()
         self.setLayout(self.grid)
-        self.color_scheme = [(51, 204, 153), (51, 179, 204), (153, 51, 204), (216, 100, 239),
-                             (179, 204, 51), (204, 153, 51), (204, 77, 51), (102, 204, 51)]
-        self.ch_num = []
-        frame = qg.QGroupBox('LabJack Live Stream')
+        self.proc_handler_queue = PROC_HANDLER_QUEUE
+        # Display Configs
+        self.color_scheme = lj_color_scheme
+        self.frame = qg.QGroupBox('LabJack Live Stream (Low Frequency Scanning) - [Not Recording to File]')
         self.inner_grid = qg.QGridLayout()
-        frame.setLayout(self.inner_grid)
-        self.grid.addWidget(frame)
+        self.frame.setLayout(self.inner_grid)
+        self.grid.addWidget(self.frame)
+        # Data Containers
+        self.ch_num = []
+        self.array_shape = (8, 1200)  # Max 8 Channels; Max 1200 Samples per Request (25 * 48)
+        self.mp_array = None
+        self.np_array = None
+        self.plots_are_reset = False
+        self.lj_proc = None
+        self.sync_event = None
+        self.msg_pipes = None
+        # Setup
+        self.initialize()
+
+    def initialize(self):
+        """Clean up old processes and sets up labjack"""
+        # todo: since we have a clean_up() method, we should implement a way to automatically
+        # todo: connect a labjack when it has been plugged in, without restarting.
+        self.clean_up()
+        self.create_data_containers()
+        self.create_process()
+        self.update_graphs()
+        self.lj_proc.start()
+
+    def clean_up(self):
+        """Terminate previous LabJack processes"""
+        if self.lj_proc:
+            self.lj_proc.stop()
+            self.lj_proc.join()
+
+    @staticmethod
+    def detect_labjack():
+        """Detects available LabJacks to connect to"""
+        # todo: implement this on LabJackProcess instead
+        # todo: otherwise device is not detectable by child processes
+        # also will allow setting up an automated detection method
+        try:
+            temp = U6()
+            temp.close()
+            return True
+        except (LabJackException, LowlevelErrorException):
+            return False
+
+    def create_data_containers(self):
+        """Generates shared data buffers"""
+        self.mp_array = mp.Array('f', int(np.prod(self.array_shape)), lock=mp.Lock())
+        self.np_array = np.frombuffer(self.mp_array.get_obj(), dtype='f').reshape(self.array_shape)
+        self.np_array[:] = None
+
+    def create_process(self):
+        """Generates separate process for LabJack"""
+        self.msg_pipes = mp.Pipe()
+        self.sync_event = mp.Event()
+        self.sync_event.clear()
+        lj_pipe_main, lj_pipe_lj = self.msg_pipes
+        self.lj_proc = lp.LabJackProcess(self.dirs, lj_pipe_lj, self.mp_array,
+                                         self.sync_event, self.array_shape)
+        self.lj_proc.name = 'lj_stream_proc'
+
+    def update_graphs(self):
+        """Get data from shared mp array and appends to graph if we are ready to do so"""
+        if self.sync_event.is_set():
+            if self.plots_are_reset:
+                self.arrays_plots = {self.plots[ch]:
+                                     chunked([n for n in self.np_array[i] if not np.isnan(n)], 50)
+                                     for i, ch in enumerate(self.ch_num)
+                                     if not np.isnan(self.np_array[i][0])}
+                self.add_point_to_graph()
+        else:
+            qc.QTimer.singleShot(5, self.update_graphs)
+
+        #todo: make sure sync_event set/not_set does not affect write rate on lj_procs
+        # todo: sync event set/not set should ONLY affect speed of lj sending to display, not lj write to file.
+
+    def add_point_to_graph(self):
+        """From mp_array, get data, append to graph"""
+        time_to_wait = self.ms_per_pt
+        callable_fn = self.add_point_to_graph
+        clear_sync_event = False
+        if self.arrays_plots:
+            for plot in self.arrays_plots:
+                try:
+                    plot.graph_update(np.mean(next(self.arrays_plots[plot])))
+                except StopIteration:
+                    clear_sync_event = True
+                    time_to_wait = 2
+                    callable_fn = self.update_graphs
+        if clear_sync_event:
+            self.sync_event.clear()
+        qc.QTimer.singleShot(time_to_wait, callable_fn)
 
     def create_plots(self):
         """Creates number of plots equal to number of LJ channels enabled"""
         self.ch_num = deepcopy(self.dirs.settings.lj_last_used.ch_num)
-        self.labels = {i: qg.QLabel(str(i)) for i in self.ch_num}
-        self.plots = {i: GUI_SinglePlot(self.color_scheme[self.ch_num.index(i)]) for i in self.ch_num}
+        self.labels = {ch: qg.QLabel(str(ch)) for ch in self.ch_num}
+        self.plots = {ch: GUI_SinglePlot(self.color_scheme[self.ch_num.index(ch)]) for ch in self.ch_num}
         [self.inner_grid.addWidget(self.labels[i], i, 0) for i in self.ch_num]
         [self.inner_grid.addWidget(self.plots[i], i, 1) for i in self.ch_num]
+        # Get update rate
+        scan_freq = self.dirs.settings.lj_last_used.scan_freq
+        n_ch = len(self.ch_num)
+        args = (scan_freq, n_ch)
+        smpls_per_req = find_packets_per_req(*args) * find_samples_per_pack(*args)
+        reqs_per_sec = scan_freq * n_ch / smpls_per_req
+        ms_per_update = int(np.floor(1000.0 / reqs_per_sec))
+        pts_per_update = 8 / n_ch
+        self.ms_per_pt = ms_per_update / pts_per_update
 
     def reset_plots(self):
         """Reset plots to display updated labjack channels"""
-        for ch in self.ch_num:
-            self.labels[ch].close()
-            self.plots[ch].update_timer.stop()
-            self.plots[ch].close()
+        self.clear_grid()
         self.create_plots()
+        self.plots_are_reset = True
+        # todo: implement msg from proc_handler such that if try to reset plot (e.g. via lj_config)
+        # todo: without a functional labjack, reset_plots will attempt to reinit a new lj process first
+
+        # todo: implement proc -> gui msgs
+        # todo: implement camera reset/reconnect after failure
+        # todo: implement post exp report table
+
+    def display_error_notif(self):
+        """Displays an error message if labjack cannot be contacted"""
+        self.clear_grid()
+        label = qg.QLabel('LabJack closed due to API Error')
+        label.setAlignment(qc.Qt.AlignCenter)
+        label.setFrameStyle(qg.QFrame.Sunken | qg.QFrame.Panel)
+        btn = qg.QPushButton('Disconnect and Reconnect the Labjack, then Click Here')
+        btn.clicked.connect(self.reconnect_labjack)
+        self.inner_grid.addWidget(label, 0, 0)
+        self.inner_grid.addWidget(btn, 1, 0)
+
+    def reconnect_labjack(self):
+        """Attempts to Reconnect to LabJack after a device failure"""
+        self.initialize()
+        lj_pipe_main, lj_pipe_lj = self.msg_pipes
+        send_pipe = NamedObjectContainer(obj=lj_pipe_main, name=LJ_PIPE_MAIN_NAME)
+        self.clear_grid()
+        self.reset_plots()
+        self.proc_handler_queue.put_nowait(send_pipe)
+
+    def clear_grid(self):
+        """Removes current widgets on the grid for reinitialization"""
+        for i in reversed(range(self.inner_grid.count())):
+            self.inner_grid.itemAt(i).widget().setParent(None)
 
 
 class GUI_LJDataReport(qg.QWidget):

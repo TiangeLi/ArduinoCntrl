@@ -4,7 +4,7 @@
 
 
 # Imports
-import random
+import math
 import numpy as np
 from datetime import datetime
 
@@ -103,3 +103,10 @@ def check_binary(num, register):
         if num & i > 0:
             store.append(dicts[i])
     return store
+
+
+# List Functions
+def take_spread(sequence, num_to_take):
+    """From a sequence, take num_to_take number of evenly spaced elements"""
+    length = float(len(sequence))
+    return [sequence[int(math.ceil(i * length / num_to_take))] for i in range(num_to_take)]

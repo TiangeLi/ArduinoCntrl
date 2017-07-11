@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7986eef5-b708-4e99-87e5-b06475972a6b" name="Default" comment="removed old files. backup before implement labjack">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/QT_Mouse_House/support_files/cam_error_exit.bmp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/QT_Mouse_House/LJ_Procs.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/LabJackPython.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/Modbus.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/skymote.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/u12.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/u3.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/u6.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/ue9.py" />
+    <list default="true" id="7986eef5-b708-4e99-87e5-b06475972a6b" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/LabJackPython.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/Modbus.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/skymote.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/u12.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/u3.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/u6.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/ue9.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/QT_Mouse_House/support_files/cam_error_exit.bmp" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ArduinoCntrl.iml" afterPath="$PROJECT_DIR$/.idea/ArduinoCntrl.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Camera_Procs.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Camera_Procs.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Concurrency_Handlers.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Concurrency_Handlers.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Tools.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Tools.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/LJ_Procs.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/LJ_Procs.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Main_Module.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Main_Module.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Misc_Classes.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Misc_Classes.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Misc_Functions.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Misc_Functions.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Names.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Names.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QT_Mouse_House/Qt_Exp_Controls.py" afterPath="$PROJECT_DIR$/QT_Mouse_House/Qt_Exp_Controls.py" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,7 +38,8 @@
     <SUITE FILE_PATH="coverage/ArduinoCntrl$Mouse_House.coverage" NAME="Mouse House Coverage Results" MODIFIED="1492101559544" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Past Versions/Tkinter GUI" />
     <SUITE FILE_PATH="coverage/ArduinoCntrl$temp.coverage" NAME="temp Coverage Results" MODIFIED="1492033586054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/QT_Mouse_House" />
     <SUITE FILE_PATH="coverage/ArduinoCntrl$text.coverage" NAME="text Coverage Results" MODIFIED="1495207726584" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/QT_Mouse_House" />
-    <SUITE FILE_PATH="coverage/ArduinoCntrl$Main_Module.coverage" NAME="Main_Module Coverage Results" MODIFIED="1495566574248" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/QT_Mouse_House" />
+    <SUITE FILE_PATH="coverage/ArduinoCntrl$LJ_Procs.coverage" NAME="LJ_Procs Coverage Results" MODIFIED="1495737350578" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/QT_Mouse_House" />
+    <SUITE FILE_PATH="coverage/ArduinoCntrl$Main_Module.coverage" NAME="Main_Module Coverage Results" MODIFIED="1499441016311" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/QT_Mouse_House" />
     <SUITE FILE_PATH="coverage/ArduinoCntrl$Main_Module_Old.coverage" NAME="Main_Module_Old Coverage Results" MODIFIED="1491838250901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/QT_Mouse_House" />
     <SUITE FILE_PATH="coverage/ArduinoCntrl$test.coverage" NAME="test Coverage Results" MODIFIED="1489680964307" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/QT_Mouse_House" />
   </component>
@@ -42,11 +55,10 @@
       <file leaf-file-name="Main_Module.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Main_Module.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1449">
-              <caret line="72" column="12" lean-forward="false" selection-start-line="72" selection-start-column="12" selection-end-line="72" selection-end-column="12" />
+            <state relative-caret-position="-21">
+              <caret line="113" column="56" lean-forward="false" selection-start-line="113" selection-start-column="56" selection-end-line="113" selection-end-column="56" />
               <folding>
-                <element signature="e#51#78#0" expanded="true" />
-                <element signature="e#4431#5336#0" expanded="false" />
+                <element signature="e#4953#5858#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -55,110 +67,31 @@
       <file leaf-file-name="Qt_Exp_Controls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Qt_Exp_Controls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="13" column="25" lean-forward="false" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
+            <state relative-caret-position="230">
+              <caret line="649" column="17" lean-forward="false" selection-start-line="649" selection-start-column="8" selection-end-line="649" selection-end-column="17" />
               <folding>
                 <element signature="e#68#77#0" expanded="true" />
-                <element signature="e#432#3985#0" expanded="false" />
-                <element signature="e#6154#6764#0" expanded="false" />
-                <element signature="e#7110#7371#0" expanded="false" />
-                <element signature="e#9739#21615#0" expanded="false" />
-                <element signature="e#9838#10126#0" expanded="false" />
-                <element signature="e#10162#12582#0" expanded="false" />
-                <element signature="e#12642#13804#0" expanded="false" />
-                <element signature="e#13859#14561#0" expanded="false" />
-                <element signature="e#14601#16470#0" expanded="false" />
-                <element signature="e#16515#17632#0" expanded="false" />
-                <element signature="e#17696#18887#0" expanded="false" />
-                <element signature="e#18936#19447#0" expanded="false" />
-                <element signature="e#19488#20413#0" expanded="false" />
-                <element signature="e#20462#21615#0" expanded="false" />
-                <element signature="e#21659#26406#0" expanded="false" />
-                <element signature="e#26450#29197#0" expanded="false" />
-                <element signature="e#27131#27547#0" expanded="false" />
-                <element signature="e#27588#27839#0" expanded="false" />
-                <element signature="e#28209#28384#0" expanded="false" />
-                <element signature="e#29238#32870#0" expanded="false" />
-                <element signature="e#29347#29615#0" expanded="false" />
-                <element signature="e#29653#31177#0" expanded="false" />
-                <element signature="e#32782#32870#0" expanded="false" />
-                <element signature="e#32911#35156#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LJ_Procs.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/QT_Mouse_House/LJ_Procs.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="5" column="82" lean-forward="false" selection-start-line="5" selection-start-column="82" selection-end-line="5" selection-end-column="82" />
-              <folding>
-                <element signature="e#62#93#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Modbus.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/Modbus.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="233" column="6" lean-forward="false" selection-start-line="233" selection-start-column="6" selection-end-line="233" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Custom_Qt_Widgets.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="31" column="49" lean-forward="false" selection-start-line="31" selection-start-column="49" selection-end-line="31" selection-end-column="49" />
-              <folding>
-                <element signature="e#78#87#0" expanded="true" />
-                <element signature="e#4099#6769#0" expanded="false" />
-                <element signature="e#6851#7171#0" expanded="false" />
-                <element signature="e#8352#8958#0" expanded="false" />
-                <element signature="e#9000#10995#0" expanded="false" />
-                <element signature="e#11033#11322#0" expanded="false" />
-                <element signature="e#11387#12851#0" expanded="false" />
-                <element signature="e#12949#13514#0" expanded="false" />
-                <element signature="e#13560#14707#0" expanded="false" />
-                <element signature="e#14750#15856#0" expanded="false" />
-                <element signature="e#15919#16050#0" expanded="false" />
-                <element signature="e#16084#16252#0" expanded="false" />
-                <element signature="e#16296#22504#0" expanded="false" />
-                <element signature="e#17300#17586#0" expanded="false" />
-                <element signature="e#17626#18844#0" expanded="false" />
-                <element signature="e#18892#19668#0" expanded="false" />
-                <element signature="e#19710#20585#0" expanded="false" />
-                <element signature="e#20627#21851#0" expanded="false" />
-                <element signature="e#22125#22207#0" expanded="false" />
-                <element signature="e#22248#22504#0" expanded="false" />
-                <element signature="e#22553#23932#0" expanded="false" />
-                <element signature="e#23975#24568#0" expanded="false" />
-                <element signature="e#24609#25469#0" expanded="false" />
-                <element signature="e#25633#30721#0" expanded="false" />
-                <element signature="e#26257#26413#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Custom_Qt_Tools.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Tools.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1302">
-              <caret line="140" column="50" lean-forward="false" selection-start-line="140" selection-start-column="50" selection-end-line="140" selection-end-column="50" />
-              <folding>
-                <element signature="e#93#112#0" expanded="true" />
-                <element signature="e#258#1037#0" expanded="false" />
-                <element signature="e#2162#2504#0" expanded="false" />
-                <element signature="e#2553#3317#0" expanded="false" />
-                <element signature="e#2622#2687#0" expanded="false" />
-                <element signature="e#3691#3874#0" expanded="false" />
-                <element signature="e#3915#5076#0" expanded="false" />
+                <element signature="e#4782#5213#0" expanded="false" />
+                <element signature="e#5257#5518#0" expanded="false" />
+                <element signature="e#5554#6522#0" expanded="false" />
+                <element signature="e#6563#7173#0" expanded="false" />
+                <element signature="e#10078#10828#0" expanded="false" />
+                <element signature="e#11281#11574#0" expanded="false" />
+                <element signature="e#11614#23490#0" expanded="false" />
+                <element signature="e#16476#18345#0" expanded="false" />
+                <element signature="e#18390#19507#0" expanded="false" />
+                <element signature="e#19571#20762#0" expanded="false" />
+                <element signature="e#20811#21322#0" expanded="false" />
+                <element signature="e#21363#22288#0" expanded="false" />
+                <element signature="e#22337#23490#0" expanded="false" />
+                <element signature="e#29065#29481#0" expanded="false" />
+                <element signature="e#29522#29773#0" expanded="false" />
+                <element signature="e#30143#30318#0" expanded="false" />
+                <element signature="e#31172#34804#0" expanded="false" />
+                <element signature="e#31281#31549#0" expanded="false" />
+                <element signature="e#31587#33111#0" expanded="false" />
+                <element signature="e#34716#34804#0" expanded="false" />
+                <element signature="e#34845#37090#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -167,10 +100,92 @@
       <file leaf-file-name="Concurrency_Handlers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Concurrency_Handlers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="19" column="61" lean-forward="false" selection-start-line="19" selection-start-column="57" selection-end-line="19" selection-end-column="61" />
+            <state relative-caret-position="-194">
+              <caret line="60" column="52" lean-forward="true" selection-start-line="60" selection-start-column="52" selection-end-line="60" selection-end-column="52" />
               <folding>
                 <element signature="e#99#109#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Custom_Qt_Widgets.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="366" column="18" lean-forward="false" selection-start-line="366" selection-start-column="13" selection-end-line="366" selection-end-column="18" />
+              <folding>
+                <element signature="e#78#87#0" expanded="true" />
+                <element signature="e#653#16459#0" expanded="false" />
+                <element signature="e#4306#6976#0" expanded="false" />
+                <element signature="e#7058#7378#0" expanded="false" />
+                <element signature="e#8559#9165#0" expanded="false" />
+                <element signature="e#9207#11202#0" expanded="false" />
+                <element signature="e#11240#11529#0" expanded="false" />
+                <element signature="e#13156#13721#0" expanded="false" />
+                <element signature="e#13767#14914#0" expanded="false" />
+                <element signature="e#14957#16063#0" expanded="false" />
+                <element signature="e#16126#16257#0" expanded="false" />
+                <element signature="e#16291#16459#0" expanded="false" />
+                <element signature="e#21068#22292#0" expanded="false" />
+                <element signature="e#27657#28571#0" expanded="false" />
+                <element signature="e#29687#30014#0" expanded="false" />
+                <element signature="e#30050#30234#0" expanded="false" />
+                <element signature="e#30911#31771#0" expanded="false" />
+                <element signature="e#31935#37023#0" expanded="false" />
+                <element signature="e#32559#32715#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LJ_Procs.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/QT_Mouse_House/LJ_Procs.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1239">
+              <caret line="300" column="96" lean-forward="true" selection-start-line="300" selection-start-column="96" selection-end-line="300" selection-end-column="96" />
+              <folding>
+                <element signature="e#62#72#0" expanded="true" />
+                <element signature="e#480#868#0" expanded="false" />
+                <element signature="e#923#1215#0" expanded="false" />
+                <element signature="e#1246#4549#0" expanded="false" />
+                <element signature="e#1639#4549#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Custom_Qt_Tools.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Tools.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1911">
+              <caret line="169" column="36" lean-forward="false" selection-start-line="169" selection-start-column="36" selection-end-line="169" selection-end-column="36" />
+              <folding>
+                <element signature="e#93#112#0" expanded="true" />
+                <element signature="e#327#1106#0" expanded="false" />
+                <element signature="e#2231#2573#0" expanded="false" />
+                <element signature="e#2622#3386#0" expanded="false" />
+                <element signature="e#2691#2756#0" expanded="false" />
+                <element signature="e#3760#3943#0" expanded="false" />
+                <element signature="e#3984#5145#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Camera_Procs.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Camera_Procs.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1176">
+              <caret line="100" column="24" lean-forward="false" selection-start-line="100" selection-start-column="23" selection-end-line="100" selection-end-column="24" />
+              <folding>
+                <element signature="e#2148#2710#0" expanded="false" />
+                <element signature="e#2755#3536#0" expanded="false" />
+                <element signature="e#3582#3963#0" expanded="false" />
+                <element signature="e#6314#6499#0" expanded="false" />
+                <element signature="e#11266#11979#0" expanded="false" />
+                <element signature="e#12025#12196#0" expanded="false" />
+                <element signature="e#12227#12609#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -179,26 +194,12 @@
       <file leaf-file-name="Misc_Functions.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Misc_Functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="903">
-              <caret line="69" column="37" lean-forward="false" selection-start-line="69" selection-start-column="33" selection-end-line="69" selection-end-column="37" />
+            <state relative-caret-position="987">
+              <caret line="111" column="30" lean-forward="false" selection-start-line="111" selection-start-column="30" selection-end-line="111" selection-end-column="30" />
               <folding>
-                <element signature="e#188#1144#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Dirs_Settings.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3318">
-              <caret line="183" column="29" lean-forward="false" selection-start-line="183" selection-start-column="29" selection-end-line="183" selection-end-column="29" />
-              <folding>
-                <element signature="e#120#129#0" expanded="true" />
-                <element signature="e#3163#3589#0" expanded="false" />
-                <element signature="e#3623#3706#0" expanded="false" />
-                <element signature="e#3748#3826#0" expanded="false" />
-                <element signature="e#5633#5930#0" expanded="false" />
+                <element signature="e#186#1142#0" expanded="false" />
+                <element signature="e#1221#2349#0" expanded="false" />
+                <element signature="e#3320#3732#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -207,11 +208,9 @@
       <file leaf-file-name="Names.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Names.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1176">
-              <caret line="58" column="22" lean-forward="false" selection-start-line="58" selection-start-column="22" selection-end-line="58" selection-end-column="22" />
-              <folding>
-                <element signature="e#58#82#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1848">
+              <caret line="90" column="40" lean-forward="false" selection-start-line="90" selection-start-column="40" selection-end-line="90" selection-end-column="40" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -227,36 +226,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>num_cha</find>
-      <find>lj_widget</find>
-      <find>load_from_preset</find>
-      <find>8</find>
-      <find>14</find>
-      <find>load_</find>
-      <find>shit</find>
-      <find>return</find>
-      <find>set_summ</find>
-      <find>qlin</find>
-      <find>qlineedit</find>
-      <find>optiona</find>
-      <find>optional</find>
-      <find>get_exp</find>
-      <find>save_</find>
-      <find>save_dir</find>
-      <find>save_file</find>
-      <find>run_exp</find>
-      <find>date</find>
-      <find>date_st</find>
-      <find>date_stamped</find>
-      <find>panel</find>
-      <find>ard_wid</find>
-      <find>dropdown</find>
-      <find>phase_shift</find>
-      <find>self.save_file</find>
-      <find>lower</find>
-      <find>capitalize</find>
-      <find>None</find>
-      <find>lowleb</find>
+      <find>ttl_time =</find>
+      <find>ttl_time</find>
+      <find>error_no</find>
+      <find>exp_start_e</find>
+      <find>self._handle</find>
+      <find>exp_start</find>
+      <find>si</find>
+      <find>singlesho</find>
+      <find>qc.QTimer.singleShot(5,</find>
+      <find>12</find>
+      <find>1200</find>
+      <find>25</find>
+      <find>find_sampl</find>
+      <find>samplesperpack</find>
+      <find>self.update_graph</find>
+      <find>self.k</find>
+      <find>datetime.now()</find>
+      <find>self.lj_wi</find>
+      <find>update_lj</find>
+      <find>update_lj_las</find>
+      <find>reload</find>
+      <find>lj_proc_updated</find>
+      <find>sync_eve</find>
+      <find>lj_is_</find>
+      <find>print</find>
+      <find>update_graphs</find>
+      <find>chunked</find>
+      <find>start</find>
+      <find>start_exp</find>
+      <find>run_experi</find>
     </findStrings>
     <replaceStrings>
       <replace>self.exp_start_time</replace>
@@ -278,24 +277,25 @@
         <option value="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets_Old.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/Misc_Functions_Old.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/Common_Names.py" />
-        <option value="$PROJECT_DIR$/QT_Mouse_House/Misc_Classes.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/PT_Grey_Camera.py" />
-        <option value="$PROJECT_DIR$/QT_Mouse_House/temp.py" />
-        <option value="$PROJECT_DIR$/QT_Mouse_House/Misc_Functions.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/Exp_Controls.py" />
         <option value="$PROJECT_DIR$/Past Versions/Tkinter GUI/Mouse House.py" />
         <option value="$PROJECT_DIR$/Past Versions/Tkinter GUI/DeviceGUIs.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/Qt_Popup_Configs.py" />
-        <option value="$PROJECT_DIR$/QT_Mouse_House/Concurrency_Handlers.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/text.py" />
+        <option value="$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings.py" />
+        <option value="$PROJECT_DIR$/QT_Mouse_House/Misc_Functions.py" />
+        <option value="$PROJECT_DIR$/QT_Mouse_House/LabJackPython.py" />
+        <option value="$PROJECT_DIR$/QT_Mouse_House/Main_Module.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/Camera_Procs.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/Names.py" />
+        <option value="$PROJECT_DIR$/QT_Mouse_House/Misc_Classes.py" />
+        <option value="$PROJECT_DIR$/QT_Mouse_House/temp.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Tools.py" />
-        <option value="$PROJECT_DIR$/QT_Mouse_House/Main_Module.py" />
-        <option value="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py" />
-        <option value="$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/Qt_Exp_Controls.py" />
+        <option value="$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py" />
         <option value="$PROJECT_DIR$/QT_Mouse_House/LJ_Procs.py" />
+        <option value="$PROJECT_DIR$/QT_Mouse_House/Concurrency_Handlers.py" />
       </list>
     </option>
   </component>
@@ -324,16 +324,10 @@
           <State>
             <id>Python</id>
           </State>
-          <State>
-            <id>RegExp</id>
-          </State>
-          <State>
-            <id>TypeScript</id>
-          </State>
         </expanded-state>
         <selected-state>
           <State>
-            <id>JavaScript</id>
+            <id>PyUnboundLocalVariableInspection</id>
           </State>
         </selected-state>
       </profile-state>
@@ -393,25 +387,6 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="Main_Module_Old" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/QT_Mouse_House" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="ArduinoCntrl" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/QT_Mouse_House/Main_Module_Old.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
     <configuration default="false" name="temp" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -464,6 +439,25 @@
       <module name="ArduinoCntrl" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/QT_Mouse_House/text.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="LJ_Procs" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/QT_Mouse_House" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="ArduinoCntrl" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/QT_Mouse_House/LJ_Procs.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -653,18 +647,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.Main_Module" />
-      <item index="1" class="java.lang.String" itemvalue="Python.Main_Module_Old" />
-      <item index="2" class="java.lang.String" itemvalue="Python.temp" />
-      <item index="3" class="java.lang.String" itemvalue="Python.Mouse House" />
-      <item index="4" class="java.lang.String" itemvalue="Python.text" />
+      <item index="1" class="java.lang.String" itemvalue="Python.temp" />
+      <item index="2" class="java.lang.String" itemvalue="Python.Mouse House" />
+      <item index="3" class="java.lang.String" itemvalue="Python.text" />
+      <item index="4" class="java.lang.String" itemvalue="Python.LJ_Procs" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.Main_Module" />
-        <item index="1" class="java.lang.String" itemvalue="Python.text" />
-        <item index="2" class="java.lang.String" itemvalue="Python.Mouse House" />
-        <item index="3" class="java.lang.String" itemvalue="Python.temp" />
-        <item index="4" class="java.lang.String" itemvalue="Python.Main_Module_Old" />
+        <item index="1" class="java.lang.String" itemvalue="Python.LJ_Procs" />
+        <item index="2" class="java.lang.String" itemvalue="Python.text" />
+        <item index="3" class="java.lang.String" itemvalue="Python.Mouse House" />
+        <item index="4" class="java.lang.String" itemvalue="Python.temp" />
       </list>
     </recent_temporary>
     <configuration default="true" type="tests" factoryName="Attests">
@@ -758,10 +752,17 @@
       <option name="project" value="LOCAL" />
       <updated>1495566281138</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="removed old files. backup before implement labjack">
+      <created>1495566880896</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1495566880896</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
-  <component name="TodoView" selected-index="4">
+  <component name="TodoView">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -774,24 +775,25 @@
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299923" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15628415" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17923497" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299923" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32807216" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44699454" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32786885" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30054644" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17923497" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32807216" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10822999" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973147" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2931229" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32786885" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -822,63 +824,17 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="25" />
+      <option name="time" value="40" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Misc_Functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="80" column="0" lean-forward="false" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-          <folding>
-            <element signature="e#188#1144#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1536">
-          <caret line="99" column="45" lean-forward="false" selection-start-line="99" selection-start-column="45" selection-end-line="99" selection-end-column="45" />
-          <folding>
-            <element signature="e#120#129#0" expanded="true" />
-            <element signature="e#3163#3589#0" expanded="false" />
-            <element signature="e#3623#3706#0" expanded="false" />
-            <element signature="e#3748#3826#0" expanded="false" />
-            <element signature="e#5633#5930#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Misc_Functions_Old.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="25" column="59" lean-forward="false" selection-start-line="25" selection-start-column="59" selection-end-line="25" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Main_Module_Old.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1584">
-          <caret line="102" column="44" lean-forward="false" selection-start-line="102" selection-start-column="44" selection-end-line="102" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets_Old.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1328">
-          <caret line="159" column="0" lean-forward="false" selection-start-line="159" selection-start-column="0" selection-end-line="159" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Main_Module.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="384">
           <caret line="26" column="31" lean-forward="false" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
           <folding>
-            <element signature="e#51#78#0" expanded="true" />
-            <element signature="e#4431#5336#0" expanded="false" />
+            <element signature="e#4953#5858#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -889,30 +845,24 @@
           <caret line="73" column="38" lean-forward="false" selection-start-line="73" selection-start-column="38" selection-end-line="73" selection-end-column="38" />
           <folding>
             <element signature="e#78#87#0" expanded="true" />
-            <element signature="e#4099#6769#0" expanded="false" />
-            <element signature="e#6851#7171#0" expanded="false" />
-            <element signature="e#8352#8958#0" expanded="false" />
-            <element signature="e#9000#10995#0" expanded="false" />
-            <element signature="e#11033#11322#0" expanded="false" />
-            <element signature="e#11387#12851#0" expanded="false" />
-            <element signature="e#12949#13514#0" expanded="false" />
-            <element signature="e#13560#14707#0" expanded="false" />
-            <element signature="e#14750#15856#0" expanded="false" />
-            <element signature="e#15919#16050#0" expanded="false" />
-            <element signature="e#16084#16252#0" expanded="false" />
-            <element signature="e#16296#22504#0" expanded="false" />
-            <element signature="e#17300#17586#0" expanded="false" />
-            <element signature="e#17626#18844#0" expanded="false" />
-            <element signature="e#18892#19668#0" expanded="false" />
-            <element signature="e#19710#20585#0" expanded="false" />
-            <element signature="e#20627#21851#0" expanded="false" />
-            <element signature="e#22125#22207#0" expanded="false" />
-            <element signature="e#22248#22504#0" expanded="false" />
-            <element signature="e#22553#23932#0" expanded="false" />
-            <element signature="e#23975#24568#0" expanded="false" />
-            <element signature="e#24609#25469#0" expanded="false" />
-            <element signature="e#25633#30721#0" expanded="false" />
-            <element signature="e#26257#26413#0" expanded="false" />
+            <element signature="e#653#16459#0" expanded="false" />
+            <element signature="e#4306#6976#0" expanded="false" />
+            <element signature="e#7058#7378#0" expanded="false" />
+            <element signature="e#8559#9165#0" expanded="false" />
+            <element signature="e#9207#11202#0" expanded="false" />
+            <element signature="e#11240#11529#0" expanded="false" />
+            <element signature="e#13156#13721#0" expanded="false" />
+            <element signature="e#13767#14914#0" expanded="false" />
+            <element signature="e#14957#16063#0" expanded="false" />
+            <element signature="e#16126#16257#0" expanded="false" />
+            <element signature="e#16291#16459#0" expanded="false" />
+            <element signature="e#21068#22292#0" expanded="false" />
+            <element signature="e#27657#28571#0" expanded="false" />
+            <element signature="e#29687#30014#0" expanded="false" />
+            <element signature="e#30050#30234#0" expanded="false" />
+            <element signature="e#30911#31771#0" expanded="false" />
+            <element signature="e#31935#37023#0" expanded="false" />
+            <element signature="e#32559#32715#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -923,12 +873,12 @@
           <caret line="15" column="25" lean-forward="false" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
           <folding>
             <element signature="e#93#112#0" expanded="true" />
-            <element signature="e#258#1037#0" expanded="false" />
-            <element signature="e#2162#2504#0" expanded="false" />
-            <element signature="e#2553#3317#0" expanded="false" />
-            <element signature="e#2622#2687#0" expanded="false" />
-            <element signature="e#3691#3874#0" expanded="false" />
-            <element signature="e#3915#5076#0" expanded="false" />
+            <element signature="e#327#1106#0" expanded="false" />
+            <element signature="e#2231#2573#0" expanded="false" />
+            <element signature="e#2622#3386#0" expanded="false" />
+            <element signature="e#2691#2756#0" expanded="false" />
+            <element signature="e#3760#3943#0" expanded="false" />
+            <element signature="e#3984#5145#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -938,7 +888,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#188#1144#0" expanded="false" />
+            <element signature="e#186#1142#0" expanded="false" />
+            <element signature="e#1221#2349#0" expanded="false" />
+            <element signature="e#3320#3732#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -947,13 +899,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="21" column="17" lean-forward="false" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
-          <folding>
-            <element signature="e#120#129#0" expanded="true" />
-            <element signature="e#3163#3589#0" expanded="false" />
-            <element signature="e#3623#3706#0" expanded="false" />
-            <element signature="e#3748#3826#0" expanded="false" />
-            <element signature="e#5633#5930#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -962,8 +907,7 @@
         <state relative-caret-position="1890">
           <caret line="126" column="19" lean-forward="false" selection-start-line="126" selection-start-column="19" selection-end-line="126" selection-end-column="19" />
           <folding>
-            <element signature="e#51#78#0" expanded="true" />
-            <element signature="e#4431#5336#0" expanded="false" />
+            <element signature="e#4953#5858#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -974,30 +918,24 @@
           <caret line="829" column="69" lean-forward="false" selection-start-line="829" selection-start-column="69" selection-end-line="829" selection-end-column="69" />
           <folding>
             <element signature="e#78#87#0" expanded="true" />
-            <element signature="e#4099#6769#0" expanded="false" />
-            <element signature="e#6851#7171#0" expanded="false" />
-            <element signature="e#8352#8958#0" expanded="false" />
-            <element signature="e#9000#10995#0" expanded="false" />
-            <element signature="e#11033#11322#0" expanded="false" />
-            <element signature="e#11387#12851#0" expanded="false" />
-            <element signature="e#12949#13514#0" expanded="false" />
-            <element signature="e#13560#14707#0" expanded="false" />
-            <element signature="e#14750#15856#0" expanded="false" />
-            <element signature="e#15919#16050#0" expanded="false" />
-            <element signature="e#16084#16252#0" expanded="false" />
-            <element signature="e#16296#22504#0" expanded="false" />
-            <element signature="e#17300#17586#0" expanded="false" />
-            <element signature="e#17626#18844#0" expanded="false" />
-            <element signature="e#18892#19668#0" expanded="false" />
-            <element signature="e#19710#20585#0" expanded="false" />
-            <element signature="e#20627#21851#0" expanded="false" />
-            <element signature="e#22125#22207#0" expanded="false" />
-            <element signature="e#22248#22504#0" expanded="false" />
-            <element signature="e#22553#23932#0" expanded="false" />
-            <element signature="e#23975#24568#0" expanded="false" />
-            <element signature="e#24609#25469#0" expanded="false" />
-            <element signature="e#25633#30721#0" expanded="false" />
-            <element signature="e#26257#26413#0" expanded="false" />
+            <element signature="e#653#16459#0" expanded="false" />
+            <element signature="e#4306#6976#0" expanded="false" />
+            <element signature="e#7058#7378#0" expanded="false" />
+            <element signature="e#8559#9165#0" expanded="false" />
+            <element signature="e#9207#11202#0" expanded="false" />
+            <element signature="e#11240#11529#0" expanded="false" />
+            <element signature="e#13156#13721#0" expanded="false" />
+            <element signature="e#13767#14914#0" expanded="false" />
+            <element signature="e#14957#16063#0" expanded="false" />
+            <element signature="e#16126#16257#0" expanded="false" />
+            <element signature="e#16291#16459#0" expanded="false" />
+            <element signature="e#21068#22292#0" expanded="false" />
+            <element signature="e#27657#28571#0" expanded="false" />
+            <element signature="e#29687#30014#0" expanded="false" />
+            <element signature="e#30050#30234#0" expanded="false" />
+            <element signature="e#30911#31771#0" expanded="false" />
+            <element signature="e#31935#37023#0" expanded="false" />
+            <element signature="e#32559#32715#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1013,29 +951,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings_Old.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="102" column="0" lean-forward="false" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings_Old.py" />
     <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Common_Names.py" />
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Misc_Functions_Old.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1281">
-          <caret line="106" column="45" lean-forward="false" selection-start-line="106" selection-start-column="45" selection-end-line="106" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Misc_Functions_Old.py" />
     <entry file="file://$USER_HOME$/Anaconda2/Lib/multiprocessing/process.py" />
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Main_Module_Old.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="882">
-          <caret line="45" column="39" lean-forward="false" selection-start-line="45" selection-start-column="39" selection-end-line="45" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Main_Module_Old.py" />
     <entry file="file://$PROJECT_DIR$/Past Versions/Tkinter GUI/Devices.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="147">
@@ -1043,24 +963,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets_Old.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="41" column="8" lean-forward="false" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets_Old.py" />
     <entry file="file://$PROJECT_DIR$/../flycapture2/setup.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="609">
           <caret line="70" column="43" lean-forward="false" selection-start-line="70" selection-start-column="43" selection-end-line="70" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/temp.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="11" column="31" lean-forward="false" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
         </state>
       </provider>
     </entry>
@@ -1093,13 +1000,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Misc_Classes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="14" column="24" lean-forward="false" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.PyCharm2017.1/system/python_stubs/1302300086/PyQt4/QtGui/QGraphicsItem.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="484">
@@ -1129,13 +1029,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/text.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-42">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/text.py" />
     <entry file="file://$USER_HOME$/.PyCharm2017.1/system/python_stubs/1302300086/PyQt4/QtGui/QLabel.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
@@ -1143,174 +1037,201 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Camera_Procs.py">
+    <entry file="file://$USER_HOME$/Desktop/LabJackPython.py" />
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/Modbus.py" />
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/LabJackPython.py" />
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="221" column="71" lean-forward="false" selection-start-line="221" selection-start-column="71" selection-end-line="221" selection-end-column="71" />
+        <state relative-caret-position="343">
+          <caret line="188" column="23" lean-forward="false" selection-start-line="188" selection-start-column="23" selection-end-line="188" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Names.py">
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/LabJackPython.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1176">
-          <caret line="58" column="22" lean-forward="false" selection-start-line="58" selection-start-column="22" selection-end-line="58" selection-end-column="22" />
-          <folding>
-            <element signature="e#58#82#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="208">
+          <caret line="811" column="70" lean-forward="false" selection-start-line="811" selection-start-column="70" selection-end-line="811" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/u6.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="106">
+          <caret line="673" column="8" lean-forward="false" selection-start-line="673" selection-start-column="8" selection-end-line="673" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/multiprocessing/connection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-156">
+          <caret line="347" column="6" lean-forward="false" selection-start-line="347" selection-start-column="6" selection-end-line="347" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons/multiprocessing/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1051">
+          <caret line="80" column="4" lean-forward="false" selection-start-line="80" selection-start-column="4" selection-end-line="80" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Misc_Functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="903">
-          <caret line="69" column="37" lean-forward="false" selection-start-line="69" selection-start-column="33" selection-end-line="69" selection-end-column="37" />
+        <state relative-caret-position="987">
+          <caret line="111" column="30" lean-forward="false" selection-start-line="111" selection-start-column="30" selection-end-line="111" selection-end-column="30" />
           <folding>
-            <element signature="e#188#1144#0" expanded="false" />
+            <element signature="e#186#1142#0" expanded="false" />
+            <element signature="e#1221#2349#0" expanded="false" />
+            <element signature="e#3320#3732#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Concurrency_Handlers.py">
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Camera_Procs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="19" column="61" lean-forward="false" selection-start-line="19" selection-start-column="57" selection-end-line="19" selection-end-column="61" />
+        <state relative-caret-position="1176">
+          <caret line="100" column="24" lean-forward="false" selection-start-line="100" selection-start-column="23" selection-end-line="100" selection-end-column="24" />
           <folding>
-            <element signature="e#99#109#0" expanded="true" />
+            <element signature="e#2148#2710#0" expanded="false" />
+            <element signature="e#2755#3536#0" expanded="false" />
+            <element signature="e#3582#3963#0" expanded="false" />
+            <element signature="e#6314#6499#0" expanded="false" />
+            <element signature="e#11266#11979#0" expanded="false" />
+            <element signature="e#12025#12196#0" expanded="false" />
+            <element signature="e#12227#12609#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/temp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="786" column="0" lean-forward="false" selection-start-line="786" selection-start-column="0" selection-end-line="786" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Tools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1911">
+          <caret line="169" column="36" lean-forward="false" selection-start-line="169" selection-start-column="36" selection-end-line="169" selection-end-column="36" />
+          <folding>
+            <element signature="e#93#112#0" expanded="true" />
+            <element signature="e#327#1106#0" expanded="false" />
+            <element signature="e#2231#2573#0" expanded="false" />
+            <element signature="e#2622#3386#0" expanded="false" />
+            <element signature="e#2691#2756#0" expanded="false" />
+            <element signature="e#3760#3943#0" expanded="false" />
+            <element signature="e#3984#5145#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Main_Module.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1449">
-          <caret line="72" column="12" lean-forward="false" selection-start-line="72" selection-start-column="12" selection-end-line="72" selection-end-column="12" />
+        <state relative-caret-position="-21">
+          <caret line="113" column="56" lean-forward="false" selection-start-line="113" selection-start-column="56" selection-end-line="113" selection-end-column="56" />
           <folding>
-            <element signature="e#51#78#0" expanded="true" />
-            <element signature="e#4431#5336#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Tools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1302">
-          <caret line="140" column="50" lean-forward="false" selection-start-line="140" selection-start-column="50" selection-end-line="140" selection-end-column="50" />
-          <folding>
-            <element signature="e#93#112#0" expanded="true" />
-            <element signature="e#258#1037#0" expanded="false" />
-            <element signature="e#2162#2504#0" expanded="false" />
-            <element signature="e#2553#3317#0" expanded="false" />
-            <element signature="e#2622#2687#0" expanded="false" />
-            <element signature="e#3691#3874#0" expanded="false" />
-            <element signature="e#3915#5076#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Dirs_Settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3318">
-          <caret line="183" column="29" lean-forward="false" selection-start-line="183" selection-start-column="29" selection-end-line="183" selection-end-column="29" />
-          <folding>
-            <element signature="e#120#129#0" expanded="true" />
-            <element signature="e#3163#3589#0" expanded="false" />
-            <element signature="e#3623#3706#0" expanded="false" />
-            <element signature="e#3748#3826#0" expanded="false" />
-            <element signature="e#5633#5930#0" expanded="false" />
+            <element signature="e#4953#5858#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Custom_Qt_Widgets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="31" column="49" lean-forward="false" selection-start-line="31" selection-start-column="49" selection-end-line="31" selection-end-column="49" />
+        <state relative-caret-position="270">
+          <caret line="366" column="18" lean-forward="false" selection-start-line="366" selection-start-column="13" selection-end-line="366" selection-end-column="18" />
           <folding>
             <element signature="e#78#87#0" expanded="true" />
-            <element signature="e#4099#6769#0" expanded="false" />
-            <element signature="e#6851#7171#0" expanded="false" />
-            <element signature="e#8352#8958#0" expanded="false" />
-            <element signature="e#9000#10995#0" expanded="false" />
-            <element signature="e#11033#11322#0" expanded="false" />
-            <element signature="e#11387#12851#0" expanded="false" />
-            <element signature="e#12949#13514#0" expanded="false" />
-            <element signature="e#13560#14707#0" expanded="false" />
-            <element signature="e#14750#15856#0" expanded="false" />
-            <element signature="e#15919#16050#0" expanded="false" />
-            <element signature="e#16084#16252#0" expanded="false" />
-            <element signature="e#16296#22504#0" expanded="false" />
-            <element signature="e#17300#17586#0" expanded="false" />
-            <element signature="e#17626#18844#0" expanded="false" />
-            <element signature="e#18892#19668#0" expanded="false" />
-            <element signature="e#19710#20585#0" expanded="false" />
-            <element signature="e#20627#21851#0" expanded="false" />
-            <element signature="e#22125#22207#0" expanded="false" />
-            <element signature="e#22248#22504#0" expanded="false" />
-            <element signature="e#22553#23932#0" expanded="false" />
-            <element signature="e#23975#24568#0" expanded="false" />
-            <element signature="e#24609#25469#0" expanded="false" />
-            <element signature="e#25633#30721#0" expanded="false" />
-            <element signature="e#26257#26413#0" expanded="false" />
+            <element signature="e#653#16459#0" expanded="false" />
+            <element signature="e#4306#6976#0" expanded="false" />
+            <element signature="e#7058#7378#0" expanded="false" />
+            <element signature="e#8559#9165#0" expanded="false" />
+            <element signature="e#9207#11202#0" expanded="false" />
+            <element signature="e#11240#11529#0" expanded="false" />
+            <element signature="e#13156#13721#0" expanded="false" />
+            <element signature="e#13767#14914#0" expanded="false" />
+            <element signature="e#14957#16063#0" expanded="false" />
+            <element signature="e#16126#16257#0" expanded="false" />
+            <element signature="e#16291#16459#0" expanded="false" />
+            <element signature="e#21068#22292#0" expanded="false" />
+            <element signature="e#27657#28571#0" expanded="false" />
+            <element signature="e#29687#30014#0" expanded="false" />
+            <element signature="e#30050#30234#0" expanded="false" />
+            <element signature="e#30911#31771#0" expanded="false" />
+            <element signature="e#31935#37023#0" expanded="false" />
+            <element signature="e#32559#32715#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/LabJackPython.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="945">
-          <caret line="53" column="11" lean-forward="false" selection-start-line="53" selection-start-column="11" selection-end-line="53" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Qt_Exp_Controls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="13" column="25" lean-forward="false" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
+        <state relative-caret-position="230">
+          <caret line="649" column="17" lean-forward="false" selection-start-line="649" selection-start-column="8" selection-end-line="649" selection-end-column="17" />
           <folding>
             <element signature="e#68#77#0" expanded="true" />
-            <element signature="e#432#3985#0" expanded="false" />
-            <element signature="e#6154#6764#0" expanded="false" />
-            <element signature="e#7110#7371#0" expanded="false" />
-            <element signature="e#9739#21615#0" expanded="false" />
-            <element signature="e#9838#10126#0" expanded="false" />
-            <element signature="e#10162#12582#0" expanded="false" />
-            <element signature="e#12642#13804#0" expanded="false" />
-            <element signature="e#13859#14561#0" expanded="false" />
-            <element signature="e#14601#16470#0" expanded="false" />
-            <element signature="e#16515#17632#0" expanded="false" />
-            <element signature="e#17696#18887#0" expanded="false" />
-            <element signature="e#18936#19447#0" expanded="false" />
-            <element signature="e#19488#20413#0" expanded="false" />
-            <element signature="e#20462#21615#0" expanded="false" />
-            <element signature="e#21659#26406#0" expanded="false" />
-            <element signature="e#26450#29197#0" expanded="false" />
-            <element signature="e#27131#27547#0" expanded="false" />
-            <element signature="e#27588#27839#0" expanded="false" />
-            <element signature="e#28209#28384#0" expanded="false" />
-            <element signature="e#29238#32870#0" expanded="false" />
-            <element signature="e#29347#29615#0" expanded="false" />
-            <element signature="e#29653#31177#0" expanded="false" />
-            <element signature="e#32782#32870#0" expanded="false" />
-            <element signature="e#32911#35156#0" expanded="false" />
+            <element signature="e#4782#5213#0" expanded="false" />
+            <element signature="e#5257#5518#0" expanded="false" />
+            <element signature="e#5554#6522#0" expanded="false" />
+            <element signature="e#6563#7173#0" expanded="false" />
+            <element signature="e#10078#10828#0" expanded="false" />
+            <element signature="e#11281#11574#0" expanded="false" />
+            <element signature="e#11614#23490#0" expanded="false" />
+            <element signature="e#16476#18345#0" expanded="false" />
+            <element signature="e#18390#19507#0" expanded="false" />
+            <element signature="e#19571#20762#0" expanded="false" />
+            <element signature="e#20811#21322#0" expanded="false" />
+            <element signature="e#21363#22288#0" expanded="false" />
+            <element signature="e#22337#23490#0" expanded="false" />
+            <element signature="e#29065#29481#0" expanded="false" />
+            <element signature="e#29522#29773#0" expanded="false" />
+            <element signature="e#30143#30318#0" expanded="false" />
+            <element signature="e#31172#34804#0" expanded="false" />
+            <element signature="e#31281#31549#0" expanded="false" />
+            <element signature="e#31587#33111#0" expanded="false" />
+            <element signature="e#34716#34804#0" expanded="false" />
+            <element signature="e#34845#37090#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Names.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1848">
+          <caret line="90" column="40" lean-forward="false" selection-start-line="90" selection-start-column="40" selection-end-line="90" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Misc_Classes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="530">
+          <caret line="59" column="6" lean-forward="false" selection-start-line="59" selection-start-column="6" selection-end-line="59" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/Concurrency_Handlers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-194">
+          <caret line="60" column="52" lean-forward="true" selection-start-line="60" selection-start-column="52" selection-end-line="60" selection-end-column="52" />
+          <folding>
+            <element signature="e#99#109#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/QT_Mouse_House/LJ_Procs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="5" column="82" lean-forward="false" selection-start-line="5" selection-start-column="82" selection-end-line="5" selection-end-column="82" />
+        <state relative-caret-position="-1239">
+          <caret line="300" column="96" lean-forward="true" selection-start-line="300" selection-start-column="96" selection-end-line="300" selection-end-column="96" />
           <folding>
-            <element signature="e#62#93#0" expanded="true" />
+            <element signature="e#62#72#0" expanded="true" />
+            <element signature="e#480#868#0" expanded="false" />
+            <element signature="e#923#1215#0" expanded="false" />
+            <element signature="e#1246#4549#0" expanded="false" />
+            <element signature="e#1639#4549#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QT_Mouse_House/LabJack_Modules/Modbus.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="233" column="6" lean-forward="false" selection-start-line="233" selection-start-column="6" selection-end-line="233" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
