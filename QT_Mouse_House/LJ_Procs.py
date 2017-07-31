@@ -13,7 +13,7 @@ import threading as tr
 from struct import pack
 import LabJackPython as lj
 from itertools import zip_longest
-from Misc_Classes import StoppableProcess
+from Misc_Classes import StoppableProcess, NamedObjectContainer
 from datetime import datetime
 if sys.version[0] == '2':
     import Queue as Queue
@@ -304,7 +304,14 @@ class LabJackProcess(StoppableProcess):
         temp_array[:] = None
         while self.connected:
             try:
+                # Remember: LabJack data gets sent into the stream queue wrapped in a NamedObjectContainer
+                # data.name indicates if it has already been CONVERTED to readable data or not.
+                # data.obj is the raw or converted data.
                 data = self.data_buffer.get_nowait()
+                if data.name != CONVERTED:
+                    data = self.lj.processStreamData(data.obj['result'])
+                else:
+                    data = data.obj
             except Queue.Empty:
                 time.sleep(1.0/1000.0)
             else:
@@ -358,14 +365,14 @@ class LabJackProcess(StoppableProcess):
     def get_data(self):
         """Sends 1 request to LJ. numSamples = samplesPerPackt * packetsPerRequest"""
         # Get a single request without recording to file
-        if not self.recording and not self.data_to_gui_sync_event.is_set():
+        if not self.recording:  # and not self.data_to_gui_sync_event.is_set():
             try:
                 data = next(self.lj.streamData(convert=False))
-                data = self.lj.processStreamData(data['result'])
             except self.lj_error:
                 self.report_lj_error()
             else:
-                self.data_buffer.put_nowait(data)
+                if not self.data_to_gui_sync_event.is_set():
+                    self.data_buffer.put_nowait(NamedObjectContainer(obj=data, name=None))
         # Get a request with appending to file
         elif self.recording:
             if self.curr_request < self.ttl_num_requests:
@@ -394,7 +401,7 @@ class LabJackProcess(StoppableProcess):
                 else:
                     data = self.lj.processStreamData(msg['result'])
                     if not self.data_to_gui_sync_event.is_set():
-                        self.data_buffer.put_nowait(data)
+                        self.data_buffer.put_nowait(NamedObjectContainer(obj=data, name=CONVERTED))
                     for row, _ in enumerate(data['AIN{}'.format(self.ch_num[0])]):
                         for channel in self.ch_num:
                             ch = 'AIN{}'.format(channel)

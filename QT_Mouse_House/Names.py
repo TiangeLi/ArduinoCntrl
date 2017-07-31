@@ -101,3 +101,6 @@ blue = qg.QColor(0, 0, 255)
 red = qg.QColor(255, 0, 0)
 # Text Metrics
 qt_text_metrics = qg.QFontMetrics(qg.QApplication.font())
+
+# Misc. Names
+CONVERTED = '<cnvrt>'
