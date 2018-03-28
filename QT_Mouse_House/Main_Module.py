@@ -116,7 +116,9 @@ class GUI_Master(qg.QWidget):
                 self.exp_cntrls.lj_graph_widget.display_error_notif()
             elif msg == EXIT_HEADER:
                 self.ready_to_exit = True
+                print('preclose')
                 self.close()
+                print('post close')
 
     def set_window_size(self):
         """Generates sizing parameters for main window"""
@@ -147,17 +149,21 @@ class GUI_Master(qg.QWidget):
 
     def closeEvent(self, QCloseEvent):
         """Reimplements self.closeEvent to exit iff experiment not running. Call using self.close()"""
+        print('inside event')
         QCloseEvent.ignore()
         if self.exp_is_running:
             GUI_Message(msg='Cannot Close While Experiment is Running!')
         elif self.ready_to_exit:
+            print('actually exiting now')
             # We wait for all devices to safely exit; the only process remaining should be proc_handler
             # This way we are certain device processes are not daemonically killed but are exiting naturally
             while not len(mp.active_children()) <= 1:
                 time.sleep(10.0/1000)
             super(GUI_Master, self).closeEvent(QCloseEvent)
         else:
+            print('sending to proc handler')
             self.proc_handler_queue.put_nowait(EXIT_HEADER)
+        print('done event')
 
 
 # Actual Program Runs Below #

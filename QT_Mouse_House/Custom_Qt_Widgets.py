@@ -401,8 +401,8 @@ class GUI_CameraDisplay(qg.QWidget):
                 cam.close()
                 self.cameras.append((Mini_Microscope, i))
                 num_attempts -= 1
-            except xi.ximea.XI_Error:
-                pass
+            except (xi.XI_Error, xi.ximea.XI_Error):
+                print('xi error', i)
         # Reinstate Error Messages
         sys.stderr = stderr
         devnull.close()

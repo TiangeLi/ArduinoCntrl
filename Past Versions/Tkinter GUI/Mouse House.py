@@ -5,17 +5,21 @@ Included:
 - Pmw.py, PmwBlt.py, PmwColor.py, setup.py (for building windows .exe)
 """
 import ast
-import Pmw
-from pprint import pprint
 from operator import itemgetter
-from PIL.ImageTk import Image, PhotoImage
+from pprint import pprint
 
+import Pmw
+import multiprocessing
 # Import own files
+from GUIElements import *
+from MiscFunctions import *
+from PIL.ImageTk import Image, PhotoImage
+import Queue
+import time
 from Devices import *
 from DeviceGUIs import *
-from GUIElements import *
+
 from DirsSettings import *
-from MiscFunctions import *
 
 ################################################################
 # To do list:

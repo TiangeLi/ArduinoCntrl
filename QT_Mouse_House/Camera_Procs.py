@@ -125,18 +125,27 @@ class Camera(StoppableProcess):
         """Run on Separate thread. Sends new frames to shared mp_array of GUI from internal buffer"""
         self.frame_buffer = Queue.Queue()
         temp_array = np.empty(self.image_size, dtype=np.uint32)
+        self.k = qc.QTime()
+        self.k.start()
         while self.connected:
+            data = self.frame_buffer.get()
+           # print(self.frame_buffer.qsize())
+            self.update_shared_array(data, temp_array)
+            self.img_to_gui_sync_event.set()
+            """
             try:
+                print(self.frame_buffer.qsize())
                 data = self.frame_buffer.get_nowait()
             except Queue.Empty:
                 time.sleep(1.0/1000.0)
             else:
                 self.update_shared_array(data, temp_array)
-                self.img_to_gui_sync_event.set()
+                self.img_to_gui_sync_event.set()"""
 
     def update_shared_array(self, data, temp_array):
         """Updates the shared array between camera and GUI with a new image"""
-        data = scipy.misc.imresize(data, self.image_size)
+        #data = scipy.misc.imresize(data, self.image_size)
+        data = data[:240, :320]
         temp_array[:, :] = data
         temp_array[:, :] = (temp_array << 8) + data  # Blue Channel + Green Channel
         temp_array[:, :] = (temp_array << 8) + data  # Blue/Green Channels + Red Channel
@@ -161,11 +170,15 @@ class Camera(StoppableProcess):
         send_frames.start()
         polling.start()
         # Main Camera Loop
+        k = qc.QTime()
+        k.start()
         while self.connected:
             # We get images from the camera regardless if the GUI is ready to receive
             # We cannot make the image acquisition locked to GUI responsiveness
             # Or we might miss frames (especially bad when actually recording data!)
+            k.restart()
             self.get_frame()
+            print(k.elapsed())
             # If we stop, we must close devices and threads
             # then inform proc_handler, before we fully exit the process.
             if self.stopped():
@@ -183,17 +196,22 @@ class Camera(StoppableProcess):
         # Get a Single Frame
         # Since we are not recording, it is okay to lock image acquisition to GUI synchronization events
         # Even if the GUI becomes unresponsive and we miss frames, it's not a problem since we aren't recording
+        k = qc.QTime()
         if not self.recording and not self.img_to_gui_sync_event.is_set():
             try:
+                k.start()
                 data = self.get_img_method()
             except self.camera_error:
                 self.report_cmr_error()
             else:
                 self.frame_buffer.put_nowait(data)
+                time.sleep(5.0/1000.0)
         # Gets a Single Frame and Appends to a Video File
         # Since we are now recording, we cannot lock image acquisition to GUI sync events
         # We will get frames and append to file regardless of GUI sync
         # But we will still send fresh frames to the GUI when it requests them
+        #elif not self.recording and self.img_to_gui_sync_event.is_set():
+           # time.sleep(5.0/1000.0)
         elif self.recording:
             if self.curr_frame <= self.ttl_num_frames:
                 try:
@@ -204,6 +222,7 @@ class Camera(StoppableProcess):
                 else:
                     if not self.img_to_gui_sync_event.is_set():
                         self.frame_buffer.put_nowait(data)
+                        time.sleep(5.0/1000.0)
             else:
                 self.finish_record()
 
